@@ -1,6 +1,5 @@
 package com.github.ricksbrown.cowsay;
 
-import static com.github.ricksbrown.cowsay.CowsayCli.showCmdLineHelp;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.cli.CommandLine;
@@ -14,7 +13,7 @@ public class Cowsay {
 	/**
 	 * @param args the command line arguments
 	 */
-	public static void main(String[] args) {
+	public static void main(final String[] args) {
 		try {
 			CommandLine commandLine = CowsayCli.parseCmdArgs(args);
 			if (commandLine.hasOption("h")) {

@@ -11,6 +11,7 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
 /**
+ * Handles parsing of command line arguments.
  *
  * @author Rick Brown
  */
