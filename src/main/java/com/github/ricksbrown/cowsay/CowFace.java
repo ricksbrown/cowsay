@@ -55,7 +55,7 @@ public class CowFace {
 	 * @param mode A mode key, "b" for Borg, "d" for dead, "g" for greedy etc
 	 * @return The CowArgs for the given mode or null if not found
 	 */
-	protected CowFace getCowArgsByMode(final String mode) {
+	protected static CowFace getByMode(final String mode) {
 		if (mode != null) {
 			return cowModes.get(mode);
 		}

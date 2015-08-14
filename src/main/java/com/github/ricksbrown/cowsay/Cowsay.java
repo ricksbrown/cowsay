@@ -10,6 +10,10 @@ import org.apache.commons.lang3.StringUtils;
  * @author Rick Brown
  */
 public class Cowsay {
+	private static final String[] modes;
+	static {
+		modes = new String[]{"b", "d", "g", "p", "s", "t", "w", "y"};
+	}
 	/**
 	 * @param args the command line arguments
 	 */
@@ -17,25 +21,35 @@ public class Cowsay {
 		try {
 			CommandLine commandLine = CowsayCli.parseCmdArgs(args);
 			if (commandLine.hasOption("h")) {
-				showCmdLineHelp();
+				CowsayCli.showCmdLineHelp();
 			}
 			else {
 				String cowfileSpec = Cowloader.DEFAULT_COW;
-				CowFace cowFace = new CowFace();
+				CowFace cowFace = null;
 				if (commandLine.hasOption("W")) {
 					Message.setWordwrap(commandLine.getOptionValue("W"));
 				}
 				else if (commandLine.hasOption("n")) {
 					Message.setWordwrap("0");
 				}
-				if (commandLine.hasOption("f")) {
-					cowfileSpec = commandLine.getOptionValue("f");
+				for (String mode : modes) {
+					if (commandLine.hasOption(mode)) {
+						cowFace = CowFace.getByMode(mode);
+						break;
+					}
 				}
-				if (commandLine.hasOption("e")) {
-					cowFace.setEyes(commandLine.getOptionValue("e"));
-				}
-				if (commandLine.hasOption("T")) {
-					cowFace.setEyes(commandLine.getOptionValue("T"));
+				if (cowFace == null) {
+					// if we are in here no modes were set
+					cowFace = new CowFace();
+					if (commandLine.hasOption("f")) {
+						cowfileSpec = commandLine.getOptionValue("f");
+					}
+					if (commandLine.hasOption("e")) {
+						cowFace.setEyes(commandLine.getOptionValue("e"));
+					}
+					if (commandLine.hasOption("T")) {
+						cowFace.setEyes(commandLine.getOptionValue("T"));
+					}
 				}
 
 				String cowTemplate = Cowloader.load(cowfileSpec);
@@ -53,7 +67,4 @@ public class Cowsay {
 			Logger.getLogger(Cowsay.class.getName()).log(Level.SEVERE, null, ex);
 		}
 	}
-
-
-
 }
