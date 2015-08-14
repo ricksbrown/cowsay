@@ -1,5 +1,6 @@
 package com.github.ricksbrown.cowsay;
 
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.cli.CommandLine;
@@ -10,15 +11,12 @@ import org.apache.commons.lang3.StringUtils;
  * @author Rick Brown
  */
 public class Cowsay {
-	private static final String[] modes;
-	static {
-		modes = new String[]{"b", "d", "g", "p", "s", "t", "w", "y"};
-	}
 	/**
 	 * @param args the command line arguments
 	 */
 	public static void main(final String[] args) {
 		try {
+			Set<String> modes = CowFace.cowModes.keySet();
 			CommandLine commandLine = CowsayCli.parseCmdArgs(args);
 			if (commandLine.hasOption("h")) {
 				CowsayCli.showCmdLineHelp();
