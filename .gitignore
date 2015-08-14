@@ -6,3 +6,5 @@ pom.xml.next
 release.properties
 dependency-reduced-pom.xml
 buildNumber.properties
+nbactions.xml
+src/main/resources/cows/
