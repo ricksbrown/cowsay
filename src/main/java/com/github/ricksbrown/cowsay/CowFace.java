@@ -8,7 +8,7 @@ import java.util.Map;
  * @author Rick Brown
  */
 public class CowFace {
-	public static final Map<String, CowFace> cowModes = new HashMap<>();
+	public static final Map<String, CowFace> cowModes = new HashMap<String, CowFace>();
 
 	private static final String DEFAULT_EYES = "oo";
 	private static final String DEFAULT_TONGUE = "  ";

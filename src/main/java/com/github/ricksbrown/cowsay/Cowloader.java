@@ -148,7 +148,7 @@ public class Cowloader {
 			}
 		}
 
-		Set<String> result = new HashSet<>();
+		Set<String> result = new HashSet<String>();
 		if (bundled != null) {
 			for (String cowfile : bundled) {
 				result.add(cowfile.replaceAll(cowfileExtRe, ""));
