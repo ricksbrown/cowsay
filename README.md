@@ -23,6 +23,7 @@ Example:
 
 ```java
 String[] args = new String[]{"Hello", "-f", "tux"};
+
 String result = Cowsay.say(args);
 ```
 
