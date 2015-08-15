@@ -1,5 +1,6 @@
 # Cowsay
-Java port of the original cowsay by Tony Monroe. Moo!
+Java port of the original cowsay by Tony Monroe.
+Moo!
 
 ```
  ______
@@ -22,7 +23,7 @@ Use the main methods `Cowsay.say` and `Cowsay.think`.
 Example:
 
 ```java
-String[] args = new String[]{"Hello", "-f", "tux"};
+String[] args = new String[]{"Moo!", "-f", "tux"};
 String result = Cowsay.say(args);
 ```
 
@@ -51,7 +52,7 @@ Example:
 ```
 
 ## As a Maven plugin
-TODO: get this into maven central
+TODO: get this into maven central - the world needs it!
 
 Example:
 
@@ -69,6 +70,7 @@ Example:
 			</goals>
 			<configuration>
 				<message>Moo!</message>
+				<think>true</think><!-- cowthink -->
 				<mode>b</mode><!-- Borg mode -->
 			</configuration>
 		</execution>
@@ -80,3 +82,10 @@ Example:
 1. `git clone --recursive https://github.com/RickSBrown/cowsay.git`
 2. `cd cowsay`
 3. `mvn install`
+
+# Contributing
+Pull requests welcome (as long as they incorporate a "Moo" somewhere)!
+
+This project will no doubt be incorporated into many important applications and critical (e.g. life support) systems.
+
+For this reason all contributions should include unit tests.
