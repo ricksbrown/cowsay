@@ -23,7 +23,6 @@ Example:
 
 ```java
 String[] args = new String[]{"Hello", "-f", "tux"};
-
 String result = Cowsay.say(args);
 ```
 
@@ -31,8 +30,10 @@ String result = Cowsay.say(args);
 
 Example:
 
-`java -jar cowsay.jar Moo!`
-`java -jar cowsay.jar -f tux Moo!`
+```
+java -jar cowsay.jar Moo!
+java -jar cowsay.jar -f tux Moo!
+```
 
 ## As an Ant task
 
