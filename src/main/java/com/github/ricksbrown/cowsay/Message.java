@@ -10,23 +10,23 @@ public class Message {
 	private static final String SAY_TOKEN = "\\\\";
 	private static final String THINK_TOKEN = "o";
 	public static final byte DEFAULT_WRAP = 40;
-	private static int wordwrap = -1;
+	private int wordwrap = -1;
 
-	private final String thoughts;
 	private final String message;
+	private final boolean isThought;
 
 	public Message (final String message, final boolean isThought) {
-		this.thoughts = isThought ? THINK_TOKEN : SAY_TOKEN;
-		this.message = formatMessage(message);
+		this.isThought = isThought;
+		this.message = message;
 	}
 
 
 	public String getMessage() {
-		return this.message;
+		return formatMessage(this.message);
 	}
 
 	public String getThoughts() {
-		return this.thoughts;
+		return this.isThought ? THINK_TOKEN : SAY_TOKEN;
 	}
 
 	private String formatMessage(final String message) {
@@ -40,17 +40,22 @@ public class Message {
 				result = message;
 			}
 			int longestLine = getLongestLineLen(result);
-			result = Bubble.formatSpeech(result, longestLine);
+			if (!isThought) {
+				result = Bubble.formatSpeech(result, longestLine);
+			}
+			else {
+				result = Bubble.formatThought(result, longestLine);
+			}
 			return result;
 		}
 		return "";
 	}
 
-	public static void setWordwrap(final String wordwrap) {
+	public void setWordwrap(final String wordwrap) {
 		try {
 			int ww = Integer.parseInt(wordwrap);
 			if (ww >= 0) {
-				Message.wordwrap = ww;
+				this.wordwrap = ww;
 			}
 		}
 		catch(Throwable ignore) {
@@ -58,9 +63,9 @@ public class Message {
 		}
 	}
 
-	public static int getWordwrap() {
-		if (Message.wordwrap >= 0) {
-			return Message.wordwrap;
+	public int getWordwrap() {
+		if (this.wordwrap >= 0) {
+			return this.wordwrap;
 		}
 		return DEFAULT_WRAP;
 	}

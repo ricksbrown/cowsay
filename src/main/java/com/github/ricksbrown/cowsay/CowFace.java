@@ -92,10 +92,10 @@ public class CowFace {
 
 	static {
 		cowModes.put("b", new CowFace("=="));
-		cowModes.put("d", new CowFace("xx", " U"));
-		cowModes.put("g", new CowFace("$$"));
+		cowModes.put("d", new CowFace("xx", "U "));
+		cowModes.put("g", new CowFace("\\$\\$"));
 		cowModes.put("p", new CowFace("@@"));
-		cowModes.put("s", new CowFace("**", " U"));
+		cowModes.put("s", new CowFace("**", "U "));
 		cowModes.put("t", new CowFace("--"));
 		cowModes.put("w", new CowFace("OO"));
 		cowModes.put("y", new CowFace(".."));

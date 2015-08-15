@@ -39,6 +39,7 @@ public class Cowsay {
 	private static String sayOrThink(final String[] args, final boolean think) {
 		try {
 			Set<String> modes = CowFace.cowModes.keySet();
+			String wordwrap = null;
 			CommandLine commandLine = CowsayCli.parseCmdArgs(args);
 			if (commandLine.hasOption("h")) {
 				CowsayCli.showCmdLineHelp();
@@ -53,10 +54,10 @@ public class Cowsay {
 				String cowfileSpec = null;
 				CowFace cowFace = null;
 				if (commandLine.hasOption("W")) {
-					Message.setWordwrap(commandLine.getOptionValue("W"));
+					wordwrap = commandLine.getOptionValue("W");
 				}
 				else if (commandLine.hasOption("n")) {
-					Message.setWordwrap("0");
+					wordwrap = "0";
 				}
 				for (String mode : modes) {
 					if (commandLine.hasOption(mode)) {
@@ -74,7 +75,7 @@ public class Cowsay {
 						cowFace.setEyes(commandLine.getOptionValue("e"));
 					}
 					if (commandLine.hasOption("T")) {
-						cowFace.setEyes(commandLine.getOptionValue("T"));
+						cowFace.setTongue(commandLine.getOptionValue("T"));
 					}
 				}
 				if (cowfileSpec == null) {
@@ -86,7 +87,11 @@ public class Cowsay {
 					String moosages[] = commandLine.getArgs();
 					String moosage = StringUtils.join(moosages);
 					if (moosage != null && moosage.length() > 0) {
-						String cow = CowFormatter.formatCow(cowTemplate, cowFace, new Message(moosage, think));
+						Message message = new Message(moosage, think);
+						if (wordwrap != null) {
+							message.setWordwrap(wordwrap);
+						}
+						String cow = CowFormatter.formatCow(cowTemplate, cowFace, message);
 						return cow;
 					}
 				}
