@@ -2,6 +2,7 @@ package com.github.ricksbrown.cowsay;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Contains the variables used to build a cow face.
@@ -82,6 +83,11 @@ public class CowFace {
 				this.tongue = tongue;
 			}
 		}
+	}
+
+	public static final boolean isKnownMode(final String mode) {
+		Set<String> modes = cowModes.keySet();
+		return modes.contains(mode);
 	}
 
 	static {

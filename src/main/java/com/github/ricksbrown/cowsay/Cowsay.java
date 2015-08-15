@@ -16,17 +16,19 @@ public class Cowsay {
 	/**
 	 * cowsay
 	 * @param args the command line arguments
+	 * @return What the cow said.
 	 */
-	public static void say(final String[] args) {
-		sayOrThink(args, false);
+	public static String say(final String[] args) {
+		return sayOrThink(args, false);
 	}
 
 	/**
 	 * cowthink
 	 * @param args the command line arguments
+	 * @return What the cow thought.
 	 */
-	public static void think(final String[] args) {
-		sayOrThink(args, true);
+	public static String think(final String[] args) {
+		return sayOrThink(args, true);
 	}
 
 	/**
@@ -34,7 +36,7 @@ public class Cowsay {
 	 * @param args the command line arguments
 	 * @param think if true will think instead of say
 	 */
-	private static void sayOrThink(final String[] args, final boolean think) {
+	private static String sayOrThink(final String[] args, final boolean think) {
 		try {
 			Set<String> modes = CowFace.cowModes.keySet();
 			CommandLine commandLine = CowsayCli.parseCmdArgs(args);
@@ -44,9 +46,7 @@ public class Cowsay {
 			else if (commandLine.hasOption("l")) {
 				String[] files = Cowloader.listAllCowfiles();
 				if (files != null) {
-					for (String file : files) {
-						System.out.println(file);
-					}
+					return StringUtils.join(files, System.getProperty("line.separator"));
 				}
 			}
 			else {
@@ -87,7 +87,7 @@ public class Cowsay {
 					String moosage = StringUtils.join(moosages);
 					if (moosage != null && moosage.length() > 0) {
 						String cow = CowFormatter.formatCow(cowTemplate, cowFace, new Message(moosage, think));
-						System.out.println(cow);
+						return cow;
 					}
 				}
 			}
@@ -95,12 +95,16 @@ public class Cowsay {
 		catch (CowParseException ex) {
 			Logger.getLogger(Cowsay.class.getName()).log(Level.SEVERE, null, ex);
 		}
+		return "";
 	}
 
 	/**
 	 * @param args the command line arguments
 	 */
 	public static void main(final String[] args) {
-		say(args);
+		String cowsay = say(args);
+		if (cowsay != null && cowsay.length() > 0) {
+			System.out.println(cowsay);
+		}
 	}
 }
