@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Not used in automated tests but you can run an Ant build and see how it goes.
+-->
+<project basedir="." default="build" name="CowSayTest">
+	<target name="build">
+		<taskdef name="cowsay"
+			classname="com.github.ricksbrown.cowsay.ant.CowsayTask"
+			classpath="../../../target/Cowsay-1.0.0-SNAPSHOT.jar"/>
+
+		<cowsay message="Moo!"/>
+		<cowsay message="Moo!" think="true"/><!-- cowthink -->
+		<cowsay message="Moo!" mode="b"/><!-- Borg mode -->
+		<cowsay message="Long live linux!" cowfile="tux"/><!-- Tux -->
+	</target> 
+</project>

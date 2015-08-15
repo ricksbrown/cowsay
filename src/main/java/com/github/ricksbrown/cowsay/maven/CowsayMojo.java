@@ -6,6 +6,8 @@ import org.apache.maven.plugin.MojoExecutionException;
 /**
  * Maven plugin that performs the critical task of running cowsay in your build.
  * @author Rick Brown
+ * @goal moo
+ * @phase compile
  */
 public class CowsayMojo extends AbstractMojo {
 
@@ -53,10 +55,8 @@ public class CowsayMojo extends AbstractMojo {
 	private boolean think;
 
 	@Override
-	public void execute() throws MojoExecutionException
-	{
-		try
-		{
+	public void execute() throws MojoExecutionException {
+		try {
 			CowExecutor executor = new CowExecutor();
 			executor.setMessage(message);
 			executor.setMode(mode);
@@ -69,8 +69,7 @@ public class CowsayMojo extends AbstractMojo {
 			String moo = executor.execute();
 			System.out.println(moo);  // Probably need to allow for option to set a property
 		}
-		catch(IllegalStateException ex)
-		{
+		catch(IllegalStateException ex) {
 			throw new MojoExecutionException(ex.getMessage(), ex);
 		}
 	}

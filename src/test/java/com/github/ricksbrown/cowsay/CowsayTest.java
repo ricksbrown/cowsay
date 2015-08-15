@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.github.ricksbrown.cowsay;
 
 import java.io.IOException;
@@ -22,7 +17,7 @@ import org.junit.Test;
 
 /**
  *
- * @author prrbcl
+ * @author Rick Brown
  */
 public class CowsayTest {
 
@@ -106,8 +101,8 @@ public class CowsayTest {
 	 */
 	@Test
 	public void testSayWithNamedFile() {
-		System.out.println("cowsay -f Tux Hello");
-		String[] args = new String[]{"Hello", "-f", "Tux"};
+		System.out.println("cowsay -f tux Hello");
+		String[] args = new String[]{"Hello", "-f", "tux"};
 		String expResult = loadExpected("cowsayTux.txt");
 		String result = Cowsay.say(args);
 		Assert.assertEquals(expResult, result);

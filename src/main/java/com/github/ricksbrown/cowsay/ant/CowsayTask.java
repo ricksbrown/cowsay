@@ -8,11 +8,13 @@ import org.apache.tools.ant.Task;
  * This class implements an Ant task to run cowsay.
  *
  * Usage:
+ * <pre>
 	<taskdef name="cowsay"
 		classname="com.github.ricksbrown.cowsay.ant.CowsayTask"
 		classpath="cowsay.jar"/>
 
 	<cowsay message="Moo!"/>
+	</pre>
  *
  * @author Rick Brown
  */
@@ -78,10 +80,8 @@ public class CowsayTask  extends Task {
 	 * @throws BuildException
 	 */
 	@Override
-	public void execute() throws BuildException
-	{
-		try
-		{
+	public void execute() throws BuildException {
+		try {
 			String moo = executor.execute();
 			if (this.property != null && this.property.length() > 0) {
 				getProject().setProperty(this.property, moo);
@@ -90,8 +90,7 @@ public class CowsayTask  extends Task {
 				System.out.println(moo);
 			}
 		}
-		catch(IllegalStateException ex)
-		{
+		catch(IllegalStateException ex) {
 			throw new BuildException(ex.getMessage(), ex);
 		}
 	}
