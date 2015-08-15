@@ -34,6 +34,28 @@
 					</execution>
 				</executions>
 			</plugin>
+			<plugin>
+			<artifactId>maven-antrun-plugin</artifactId>
+			<version>1.8</version>
+			<executions>
+				<execution>
+					<phase>generate-resources</phase>
+					<configuration>
+						<target>
+							<fileset id="cow-fileset" dir="src/main/resources/cows" />
+							<pathconvert targetos="unix" pathsep=","
+								property="cowfile-list" refid="cow-fileset">
+								<map from="${basedir}/src/main/resources/cows/" to="" />
+							</pathconvert>
+							<echo file="src/main/resources/cowfile-list.csv">${cowfile-list}</echo>
+						</target>
+					</configuration>
+					<goals>
+						<goal>run</goal>
+					</goals>
+				</execution>
+			</executions>
+		</plugin>
 		</plugins>
 	</build>
 	<dependencies>

@@ -7,22 +7,50 @@ import org.apache.commons.cli.CommandLine;
 import org.apache.commons.lang3.StringUtils;
 
 /**
- *
+ * Java port of the original cowsay commandline utility.
+ * Call `say` for cowsay or `think` for cowthink.
  * @author Rick Brown
  */
 public class Cowsay {
+
 	/**
+	 * cowsay
 	 * @param args the command line arguments
 	 */
-	public static void main(final String[] args) {
+	public static void say(final String[] args) {
+		sayOrThink(args, false);
+	}
+
+	/**
+	 * cowthink
+	 * @param args the command line arguments
+	 */
+	public static void think(final String[] args) {
+		sayOrThink(args, true);
+	}
+
+	/**
+	 *
+	 * @param args the command line arguments
+	 * @param think if true will think instead of say
+	 */
+	private static void sayOrThink(final String[] args, final boolean think) {
 		try {
 			Set<String> modes = CowFace.cowModes.keySet();
 			CommandLine commandLine = CowsayCli.parseCmdArgs(args);
 			if (commandLine.hasOption("h")) {
 				CowsayCli.showCmdLineHelp();
 			}
+			else if (commandLine.hasOption("l")) {
+				String[] files = Cowloader.listAllCowfiles();
+				if (files != null) {
+					for (String file : files) {
+						System.out.println(file);
+					}
+				}
+			}
 			else {
-				String cowfileSpec = Cowloader.DEFAULT_COW;
+				String cowfileSpec = null;
 				CowFace cowFace = null;
 				if (commandLine.hasOption("W")) {
 					Message.setWordwrap(commandLine.getOptionValue("W"));
@@ -49,13 +77,16 @@ public class Cowsay {
 						cowFace.setEyes(commandLine.getOptionValue("T"));
 					}
 				}
+				if (cowfileSpec == null) {
+					cowfileSpec = Cowloader.DEFAULT_COW;
+				}
 
 				String cowTemplate = Cowloader.load(cowfileSpec);
 				if (cowTemplate != null) {
 					String moosages[] = commandLine.getArgs();
 					String moosage = StringUtils.join(moosages);
 					if (moosage != null && moosage.length() > 0) {
-						String cow = CowFormatter.formatCow(cowTemplate, cowFace, new Message(moosage, false));
+						String cow = CowFormatter.formatCow(cowTemplate, cowFace, new Message(moosage, think));
 						System.out.println(cow);
 					}
 				}
@@ -64,5 +95,12 @@ public class Cowsay {
 		catch (CowParseException ex) {
 			Logger.getLogger(Cowsay.class.getName()).log(Level.SEVERE, null, ex);
 		}
+	}
+
+	/**
+	 * @param args the command line arguments
+	 */
+	public static void main(final String[] args) {
+		say(args);
 	}
 }

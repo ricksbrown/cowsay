@@ -8,3 +8,4 @@ dependency-reduced-pom.xml
 buildNumber.properties
 nbactions.xml
 src/main/resources/cows/
+src/main/resources/cowfile-list.csv

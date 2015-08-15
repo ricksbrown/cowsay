@@ -34,6 +34,7 @@ public class Bubble {
 		else {
 			sb.append(bubble.formatSingle(lines[0]));
 		}
+		sb.append(bubble.buildBottom(longestLine));
 		return sb.toString();
 	}
 
@@ -87,12 +88,12 @@ public class Bubble {
 
 		public String buildTop(final int longestLine) {
 			String result = StringUtils.repeat('_', longestLine + 2);
-			return result + newLine;
+			return " " + result + newLine;
 		}
 
 		public String buildBottom(final int longestLine) {
 			String result = StringUtils.repeat('-', longestLine + 2);
-			return result;
+			return " " + result;
 		}
 
 		public String formatSingle(final String line) {

@@ -8,19 +8,24 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
  * Loads a cow either from:
  *	a provided relative path,
+ *  a provided absolute path,
  *	or a named cowfile found on the COWPATH environment variable,
- *	or a numed cowfile found in the bundled cowfiles
+ *	or a named cowfile found in the bundled cowfiles
  *	or the default cowfile
  * @author Rick Brown
  */
 public class Cowloader {
-	public static final String DEFAULT_COW = "default.cow";
+	public static final String COWFILE_EXT = ".cow";
+	public static final String DEFAULT_COW = "default";
 
 	public static final String load() {
 		return load((String) null);
@@ -33,8 +38,11 @@ public class Cowloader {
 	 * @return
 	 */
 	public static String load(final String cowFileSpec) {
-		String _cowFileSpec = (cowFileSpec != null) ? cowFileSpec : DEFAULT_COW;
-		if (_cowFileSpec != null) {
+		String _cowFileSpec = (cowFileSpec != null) ? cowFileSpec.trim() : DEFAULT_COW;
+		if (_cowFileSpec != null && _cowFileSpec.length() > 0) {
+			if (!_cowFileSpec.endsWith(COWFILE_EXT)) {
+				_cowFileSpec += COWFILE_EXT;
+			}
 			InputStream cowInputStream;
 			if (_cowFileSpec.indexOf(File.separatorChar) >= 0) {
 				cowInputStream = getCowFromCwd(_cowFileSpec);
@@ -86,6 +94,11 @@ public class Cowloader {
 				return cowFileToCowInputStream(cowFile);
 			}
 		}
+		// maybe it's an absolute path?
+		File cowFile = new File(relativePath);
+		if (cowFile.exists()) {
+			return cowFileToCowInputStream(cowFile);
+		}
 		return null;
 	}
 
@@ -103,6 +116,62 @@ public class Cowloader {
 			}
 		}
 		return getCowFromResources(cowName);
+	}
+
+	public static String[] listAllCowfiles() {
+		String[] resultAsArray;
+		String[] bundled = null;
+		String cowfileExtRe = "\\" + COWFILE_EXT + "$";
+		InputStream bundleStream = Cowloader.class.getResourceAsStream("/cowfile-list.csv");
+		if (bundleStream != null) {
+			BufferedReader reader = new BufferedReader(new InputStreamReader(bundleStream));
+			StringBuilder sb = new StringBuilder();
+			try {
+				String line;
+				while ((line = reader.readLine()) != null) {
+					sb.append(line);
+				}
+				reader.close();
+				String bundleList = sb.toString();
+				bundled = bundleList.split(",");
+			}
+			catch (IOException ex) {
+				Logger.getLogger(Cowloader.class.getName()).log(Level.WARNING, null, ex);
+			}
+			finally {
+				try {
+					bundleStream.close();
+				}
+				catch (IOException ex) {
+					Logger.getLogger(Cowloader.class.getName()).log(Level.SEVERE, null, ex);
+				}
+			}
+		}
+
+		Set<String> result = new HashSet<>();
+		if (bundled != null) {
+			for (String cowfile : bundled) {
+				result.add(cowfile.replaceAll(cowfileExtRe, ""));
+			}
+		}
+		String cowPath = System.getenv("COWPATH");
+		if (cowPath != null) {
+			String[] paths = cowPath.split(File.pathSeparator);
+			if (paths != null) {
+				for (String path : paths) {
+					File[] cowfiles = getCowFiles(path);
+					if (cowfiles != null) {
+						for (File cowfile : cowfiles) {
+							result.add(cowfile.getName().replaceAll(cowfileExtRe, ""));
+						}
+					}
+				}
+			}
+		}
+		resultAsArray = result.toArray(new String[result.size()]);
+		Arrays.sort(resultAsArray);
+		return resultAsArray;
+
 	}
 
 	private static InputStream cowFileToCowInputStream(final File cowFile) {
