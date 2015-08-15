@@ -7,6 +7,7 @@ import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.HelpFormatter;
+import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
@@ -42,6 +43,16 @@ public class CowsayCli {
 			"If the cowfile spec contains '" + File.separatorChar + "' then it will be interpreted " +
 			"as a path relative to the current directory.  Otherwise, cowsay " +
 			"will search the path specified in the COWPATH environment variable");
+
+		for (Option option : options.getOptions()) {
+			option.setRequired(false);
+		}
+	}
+
+	protected static void addCowthinkOption() {
+		if (!options.hasOption(null)) {
+			options.addOption(null, "cowthink", false, "the cow will think instead of speak");
+		}
 	}
 
 	public static CommandLine parseCmdArgs(final String[] argv) {

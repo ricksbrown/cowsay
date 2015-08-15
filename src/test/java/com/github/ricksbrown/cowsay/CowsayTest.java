@@ -21,19 +21,19 @@ import org.junit.Test;
  */
 public class CowsayTest {
 
-	private static Map<String, String> modeMap;
+	public static Map<String, String> modeMap;
 
 	@BeforeClass
 	public static void setUpClass() {
 		modeMap = new HashMap<String, String>();
-		modeMap.put("-b", "cowsayBorg.txt");
-		modeMap.put("-d", "cowsayDead.txt");
-		modeMap.put("-g", "cowsayGreedy.txt");
-		modeMap.put("-p", "cowsayParanoid.txt");
-		modeMap.put("-s", "cowsayStoned.txt");
-		modeMap.put("-t", "cowsayTired.txt");
-		modeMap.put("-w", "cowsayWired.txt");
-		modeMap.put("-y", "cowsayYoung.txt");
+		modeMap.put("b", "cowsayBorg.txt");
+		modeMap.put("d", "cowsayDead.txt");
+		modeMap.put("g", "cowsayGreedy.txt");
+		modeMap.put("p", "cowsayParanoid.txt");
+		modeMap.put("s", "cowsayStoned.txt");
+		modeMap.put("t", "cowsayTired.txt");
+		modeMap.put("w", "cowsayWired.txt");
+		modeMap.put("y", "cowsayYoung.txt");
 	}
 
 	@AfterClass
@@ -56,6 +56,19 @@ public class CowsayTest {
 		System.out.println("cowsay Hello");
 		String[] args = new String[]{"Hello"};
 		String expResult = loadExpected("cowsayHello.txt");
+		String result = Cowsay.say(args);
+		Assert.assertEquals(expResult, result);
+	}
+
+	/**
+	 * Test non-standard cowthink arg.
+	 */
+	@Test
+	public void testCowthinkArg() {
+		System.out.println("cowsay Hello --cowthink");
+		String[] args = new String[]{"Hello", "--cowthink"};
+		String expResult = loadExpected("cowthinkHello.txt");
+		CowsayCli.addCowthinkOption();
 		String result = Cowsay.say(args);
 		Assert.assertEquals(expResult, result);
 	}
@@ -115,8 +128,8 @@ public class CowsayTest {
 	public void testSayModes() {
 		Set<String> modes = modeMap.keySet();
 		for (String key : modes) {
-			String[] args = new String[]{"Hello", key};
-			System.out.println("cowsay Hello " + key);
+			String[] args = new String[]{"Hello", '-' + key};
+			System.out.println("cowsay Hello -" + key);
 			String expResult = loadExpected(modeMap.get(key));
 			String result = Cowsay.say(args);
 			Assert.assertEquals(expResult, result);
@@ -195,7 +208,7 @@ public class CowsayTest {
 		Assert.assertEquals(expResult, result);
 	}
 
-	private static String loadExpected(final String name) {
+	public static String loadExpected(final String name) {
 		try {
 			InputStream expected = CowsayTest.class.getResourceAsStream("/" + name);
 			return IOUtils.toString(expected, "UTF-8");

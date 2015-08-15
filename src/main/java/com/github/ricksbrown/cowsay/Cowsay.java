@@ -38,6 +38,7 @@ public class Cowsay {
 	 */
 	private static String sayOrThink(final String[] args, final boolean think) {
 		try {
+			boolean isThought = think;
 			Set<String> modes = CowFace.cowModes.keySet();
 			String wordwrap = null;
 			CommandLine commandLine = CowsayCli.parseCmdArgs(args);
@@ -53,18 +54,21 @@ public class Cowsay {
 			else {
 				String cowfileSpec = null;
 				CowFace cowFace = null;
+
 				if (commandLine.hasOption("W")) {
 					wordwrap = commandLine.getOptionValue("W");
 				}
 				else if (commandLine.hasOption("n")) {
 					wordwrap = "0";
 				}
+
 				for (String mode : modes) {
 					if (commandLine.hasOption(mode)) {
 						cowFace = CowFace.getByMode(mode);
 						break;
 					}
 				}
+
 				if (cowFace == null) {
 					// if we are in here no modes were set
 					cowFace = new CowFace();
@@ -78,6 +82,11 @@ public class Cowsay {
 						cowFace.setTongue(commandLine.getOptionValue("T"));
 					}
 				}
+
+				if (commandLine.hasOption("cowthink")) {
+					isThought = true;
+				}
+
 				if (cowfileSpec == null) {
 					cowfileSpec = Cowloader.DEFAULT_COW;
 				}
@@ -87,7 +96,7 @@ public class Cowsay {
 					String moosages[] = commandLine.getArgs();
 					String moosage = StringUtils.join(moosages);
 					if (moosage != null && moosage.length() > 0) {
-						Message message = new Message(moosage, think);
+						Message message = new Message(moosage, isThought);
 						if (wordwrap != null) {
 							message.setWordwrap(wordwrap);
 						}
@@ -107,6 +116,7 @@ public class Cowsay {
 	 * @param args the command line arguments
 	 */
 	public static void main(final String[] args) {
+		CowsayCli.addCowthinkOption();
 		String cowsay = say(args);
 		if (cowsay != null && cowsay.length() > 0) {
 			System.out.println(cowsay);

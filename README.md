@@ -34,6 +34,7 @@ Example:
 ```
 java -jar cowsay.jar "Moo!"
 java -jar cowsay.jar -f tux "Moo!"
+java -jar cowsay.jar "Moo!" --cowthink
 ```
 
 ## As an Ant task

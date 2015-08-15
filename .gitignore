@@ -10,3 +10,4 @@ nbactions.xml
 src/main/resources/cows/
 src/main/resources/cowfile-list.csv
 /nb-configuration.xml
+/nbactions-release-profile.xml
