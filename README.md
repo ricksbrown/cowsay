@@ -27,13 +27,13 @@ String[] args = new String[]{"Moo!", "-f", "tux"};
 String result = Cowsay.say(args);
 ```
 
-## As a self executing jar
+## As an executable jar
 
 Example:
 
 ```
-java -jar cowsay.jar Moo!
-java -jar cowsay.jar -f tux Moo!
+java -jar cowsay.jar "Moo!"
+java -jar cowsay.jar -f tux "Moo!"
 ```
 
 ## As an Ant task
@@ -84,7 +84,7 @@ Example:
 3. `mvn install`
 
 # Contributing
-Pull requests welcome (as long as they incorporate a "Moo" somewhere)!
+Pull requests welcome (as long as they incorporate a "moo" somewhere)!
 
 This project will no doubt be incorporated into many important applications and critical (e.g. life support) systems.
 
