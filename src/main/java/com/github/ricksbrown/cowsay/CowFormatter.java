@@ -37,10 +37,10 @@ public class CowFormatter {
 
 	public static String formatCow(final String cow, final CowFace face, final Message message) throws CowParseException {
 		String result = extractCowTemplate(cow);
-		result = result.replaceAll("\\$eyes", face.getEyes());
-		result = result.replaceAll("\\\\\\\\", "\\\\");
-		result = result.replaceAll("\\$tongue", face.getTongue());
-		result = result.replaceAll("\\$thoughts", message.getThoughts());
+		result = result.replaceAll("\\\\\\\\", "\\\\");  // do this first
+		result = result.replace("$tongue", face.getTongue());
+		result = result.replace("$thoughts", message.getThoughts());
+		result = result.replace("$eyes", face.getEyes());
 		result = result.replaceAll("EOC\\s*$", "");
 		result = message.getMessage() + result;
 		return result;

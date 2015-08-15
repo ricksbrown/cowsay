@@ -149,6 +149,30 @@ public class CowsayTest {
 	}
 
 	/**
+	 * Test of say method, of class Cowsay with custom eyes.
+	 */
+	@Test
+	public void testSayEyesDollars() {
+		System.out.println("cowsay -e $$");
+		String[] args = new String[]{"Hello", "-e", "$$"};
+		String expResult = loadExpected("cowsayGreedy.txt");
+		String result = Cowsay.say(args);
+		Assert.assertEquals(expResult, result);
+	}
+
+	/**
+	 * Test of say method, of class Cowsay with custom eyes.
+	 */
+	@Test
+	public void testSayEyesBackslash() {
+		System.out.println("cowsay -e \\\\");
+		String[] args = new String[]{"Hello", "-e", "\\\\"};
+		String expResult = loadExpected("cowsayEyesBackslash.txt");
+		String result = Cowsay.say(args);
+		Assert.assertEquals(expResult, result);
+	}
+
+	/**
 	 * Test of say method, of class Cowsay with custom tongue.
 	 */
 	@Test

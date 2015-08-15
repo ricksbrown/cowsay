@@ -7,7 +7,7 @@ import org.apache.commons.lang3.text.WordUtils;
  * @author Rick Brown
  */
 public class Message {
-	private static final String SAY_TOKEN = "\\\\";
+	private static final String SAY_TOKEN = "\\";
 	private static final String THINK_TOKEN = "o";
 	public static final byte DEFAULT_WRAP = 40;
 	private int wordwrap = -1;

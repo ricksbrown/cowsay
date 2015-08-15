@@ -137,9 +137,9 @@ public class CowExecutorTest {
 		instance.setMessage("Hello");
 		Set<String> modes = modeMap.keySet();
 		for (String key : modes) {
+			System.out.println("setMode " + key);
 			String expResult = CowsayTest.loadExpected(modeMap.get(key));
 			instance.setMode(key);
-			System.out.println("setMode " + key);
 			String result = instance.execute();
 			Assert.assertEquals(expResult, result);
 		}
