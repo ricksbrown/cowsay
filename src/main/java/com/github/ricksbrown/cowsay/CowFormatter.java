@@ -37,12 +37,15 @@ public class CowFormatter {
 
 	public static String formatCow(final String cow, final CowFace face, final Message message) throws CowParseException {
 		String result = extractCowTemplate(cow);
+		String tongue = face.getTongue();
+		String eyes = face.getEyes();
 		result = result.replaceAll("\\\\\\\\", "\\\\");  // do this first
 		result = result.replace("\\@", "@");
-		result = result.replace("$tongue", face.getTongue());
+		result = result.replace("${tongue}", tongue);
+		result = result.replace("$tongue", tongue);
 		result = result.replace("$thoughts", message.getThoughts());
-		result = result.replace("${eyes}", face.getEyes());  // sheep - doesn't help that i know zero perl
-		result = result.replace("$eyes", face.getEyes());
+		result = result.replace("${eyes}", eyes);  // sheep - doesn't help that i know zero perl
+		result = result.replace("$eyes", eyes);
 		result = result.replaceAll("EOC\\s*$", "");
 		result = message.getMessage() + result;
 		return result;
