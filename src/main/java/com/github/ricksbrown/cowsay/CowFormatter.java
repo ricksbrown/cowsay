@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
  */
 public class CowFormatter {
 
-	private static final Pattern COWSTART_RE = Pattern.compile(".*\\$the_cow\\s*=\\s*<<\"?EOC\"?;", Pattern.DOTALL);
+	private static final Pattern COWSTART_RE = Pattern.compile(".*\\$the_cow\\s*=\\s*<<\"?EOC\"?;?", Pattern.DOTALL);
 	/*
 
 	$the_cow = <<"EOC";
@@ -38,8 +38,10 @@ public class CowFormatter {
 	public static String formatCow(final String cow, final CowFace face, final Message message) throws CowParseException {
 		String result = extractCowTemplate(cow);
 		result = result.replaceAll("\\\\\\\\", "\\\\");  // do this first
+		result = result.replace("\\@", "@");
 		result = result.replace("$tongue", face.getTongue());
 		result = result.replace("$thoughts", message.getThoughts());
+		result = result.replace("${eyes}", face.getEyes());  // sheep - doesn't help that i know zero perl
 		result = result.replace("$eyes", face.getEyes());
 		result = result.replaceAll("EOC\\s*$", "");
 		result = message.getMessage() + result;

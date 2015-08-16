@@ -151,7 +151,9 @@ public class Cowloader {
 		Set<String> result = new HashSet<String>();
 		if (bundled != null) {
 			for (String cowfile : bundled) {
-				result.add(cowfile.replaceAll(cowfileExtRe, ""));
+				if (cowfile.endsWith(COWFILE_EXT)) {  // mech-and-cow for example is not a cowfile and should be excluded
+					result.add(cowfile.replaceAll(cowfileExtRe, ""));
+				}
 			}
 		}
 		String cowPath = System.getenv("COWPATH");

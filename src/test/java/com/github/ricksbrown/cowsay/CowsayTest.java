@@ -232,6 +232,22 @@ public class CowsayTest {
 		Assert.assertEquals(expResult, result);
 	}
 
+	/**
+	 * Test parsing all known cowfiles.
+	 */
+	@Test
+	public void testAllCowfiles() {
+		String[] cowfiles = Cowloader.listAllCowfiles();
+		Assert.assertNotEquals(0, cowfiles.length);
+		for (String cowfile : cowfiles) {
+			System.out.println("cowsay Hello -f " + cowfile);
+			String[] args = new String[]{"Hello", "-f", cowfile};
+			String result = Cowsay.say(args);
+			Assert.assertNotEquals("", result);
+			System.out.println(result);  // woohoo!
+		}
+	}
+
 	public static String loadExpected(final String name) {
 		try {
 			InputStream expected = CowsayTest.class.getResourceAsStream("/" + name);
