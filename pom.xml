@@ -8,6 +8,39 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
+	
+	<description>
+		Java port of the original cowsay by Tony Monroe.
+		Moo!
+	</description>
+
+	<licenses>
+		<license>
+			<name>GPLv3</name>
+			<url>http://www.gnu.org/licenses/gpl-3.0.txt</url>
+			<distribution>manual</distribution>
+			<comments>GNU General Public License</comments>
+		</license>
+	</licenses>
+
+	<scm>
+		<url>https://github.com/ricksbrown/cowsay</url>
+		<connection>scm:git:git://github.com/ricksbrown/cowsay.git</connection>
+		<developerConnection>scm:git:git@github.com:github.com/ricksbrown/cowsay.git</developerConnection>
+	</scm>
+
+	<developers>
+		<developer>
+			<id>ricksbrown</id>
+			<name>Rick Brown</name>
+			<email>ricksbrown73@gmail.com</email>
+			<roles>
+				<role>Project Owner</role>
+				<role>Developer</role>
+			</roles>
+		</developer>
+	</developers>
+	
 	<build>
 		<plugins>
 			<plugin>
