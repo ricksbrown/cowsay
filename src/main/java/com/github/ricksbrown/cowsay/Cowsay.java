@@ -8,6 +8,8 @@ import org.apache.commons.lang3.StringUtils;
 
 /**
  * Java port of the original cowsay commandline utility.
+ * There are three entry points to this class:
+ * The `main` method will call either cowsay or cowthink depending on the --cowthink flag.
  * Call `say` for cowsay or `think` for cowthink.
  * @author Rick Brown
  */
@@ -32,9 +34,9 @@ public class Cowsay {
 	}
 
 	/**
-	 *
+	 * Do some cowsaying or cowthinking.
 	 * @param args the command line arguments
-	 * @param think if true will think instead of say
+	 * @param think if true will think instead of say (the --cowthink flag can also invoke thinking)
 	 */
 	private static String sayOrThink(final String[] args, final boolean think) {
 		try {
@@ -113,6 +115,7 @@ public class Cowsay {
 	}
 
 	/**
+	 * Will cowsay (or cowthink if the --cowthink flag is set)
 	 * @param args the command line arguments
 	 */
 	public static void main(final String[] args) {
