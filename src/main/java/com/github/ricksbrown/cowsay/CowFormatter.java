@@ -44,6 +44,7 @@ public class CowFormatter {
 		String eyes = face.getEyes();
 		result = result.replaceAll("\\\\\\\\", "\\\\");  // do this first
 		result = result.replace("\\@", "@");
+		result = result.replace("\\$", "$");
 		result = result.replace("${tongue}", tongue);
 		result = result.replace("$tongue", tongue);
 		result = result.replace("$thoughts", message.getThoughts());
