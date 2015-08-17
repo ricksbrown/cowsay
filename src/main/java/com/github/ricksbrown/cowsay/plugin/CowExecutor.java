@@ -2,11 +2,13 @@ package com.github.ricksbrown.cowsay.plugin;
 
 import com.github.ricksbrown.cowsay.CowFace;
 import com.github.ricksbrown.cowsay.Cowsay;
+import com.github.ricksbrown.cowsay.CowsayCli;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * This class acts as a convenient facade to the cowsay methods that accept arrays of arguments.
+ * This is useful for Maven, Ant and possibly other plugin types.
  * @author Rick Brown
  */
 public class CowExecutor {
@@ -18,6 +20,7 @@ public class CowExecutor {
 	private String tongue = null;
 	private String wrap = null;
 	private String cowfile = null;
+	private String lang = null;
 
 	/**
 	 * @param eyes Custom eyes.
@@ -82,35 +85,59 @@ public class CowExecutor {
 	}
 
 	/**
+	 * Set the i18n language.
+	 * @param lang The language to use.
+	 */
+	public void setLang(String lang) {
+		this.lang = lang;
+	}
+
+	/**
 	 * Build an args array that can be passed to cowsay.
 	 * @return commandline args
 	 */
 	String[] buildArgs() {
 		String result[] = new String[0];
 		List<String> args = new ArrayList<String>();
+		if (lang != null && lang.length() > 0) {
+			args.add(flagify(CowsayCli.Opt.LANG.toString()));
+		}
 		if (wrap != null) {
-			args.add("-W");
+			args.add(flagify(CowsayCli.Opt.WRAP_AT.toString()));
 			args.add(wrap);
 		}
 		if (mode != null && CowFace.isKnownMode(mode)) {
-			args.add('-' + mode);
+			args.add(flagify(mode));
 		}
 		else {
 			if (eyes != null) {
-				args.add("-e");
+				args.add(flagify(CowsayCli.Opt.EYES.toString()));
 				args.add(eyes);
 			}
 			if (tongue != null) {
-				args.add("-T");
+				args.add(flagify(CowsayCli.Opt.TONGUE.toString()));
 				args.add(tongue);
 			}
 			if (cowfile != null) {
-				args.add("-f");
+				args.add(flagify(CowsayCli.Opt.COWFILE.toString()));
 				args.add(cowfile);
 			}
 		}
 		args.add(message);
 		return args.toArray(result);
+	}
+
+	/**
+	 * Adds the '-' or '--' to a flag name ready to be passed as a commandline arg.
+	 *
+	 * @param flag A flag name (e.g. "b" or "lang")
+	 * @return The flag with leading dash, (e.g. "-b" or "--lang")
+	 */
+	private String flagify(final String flag) {
+		if (flag.length() > 1) {
+			return "--" + flag;
+		}
+		return '-' + flag;
 	}
 
 	/**

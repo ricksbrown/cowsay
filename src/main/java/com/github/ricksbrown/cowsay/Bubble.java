@@ -19,6 +19,13 @@ public class Bubble {
 		thoughtBubble.setMulti('(', ')', '(', ')', '(', ')');
 	}
 
+	/**
+	 * Draws a complete bubble around a line-wrapped message.
+	 * @param bubble The BubbleWrap to use (e.g. speechBubble or thoughtBubble)
+	 * @param message The message to wrap, it should already be line-wrapped if appropriate.
+	 * @param longestLine The length of the longest line in the message.
+	 * @return The message, wrapped in a bubble.
+	 */
 	private static String formatBubble(final BubbleWrap bubble, final String message, final int longestLine) {
 		String newLine = System.getProperty("line.separator");
 		String[] lines = message.split(newLine);
@@ -39,7 +46,7 @@ public class Bubble {
 	}
 
 	/**
-	 *
+	 * Wraps the message in a speech bubble.
 	 * @param message A message that has already been line wrapped (if necessary).
 	 * @param longestLine The number of characters in the longest line of the message.
 	 * @return The message, wrapped in a speech bubble.
@@ -49,7 +56,7 @@ public class Bubble {
 	}
 
 	/**
-	 *
+	 * Wraps the message in a thought bubble.
 	 * @param message A message that has already been line wrapped (if necessary).
 	 * @param longestLine The number of characters in the longest line of the message.
 	 * @return The message, wrapped in a thought bubble.
@@ -59,19 +66,24 @@ public class Bubble {
 	}
 
 	/**
-	 * Knows about bubble wrapping characters.
+	 * Instances of this class knows about bubble wrapping characters for a specific bubble type.
 	 */
 	private static class BubbleWrap {
-		private String singleOpen;
-		private String singleClose;
-		private String multiStartOpen;
-		private String multiStartClose;
-		private String multiMidOpen;
-		private String multiMidClose;
-		private String multiEndOpen;
-		private String multiEndClose;
+		private String singleOpen;  // characters to use at start of a single line bubble
+		private String singleClose;  // characters to use at end of a single line bubble
+		private String multiStartOpen;  // characters to use at start of first line of a multi line bubble
+		private String multiStartClose;  // characters to use at end of first line of a multi line bubble
+		private String multiMidOpen;  // characters to use at start of ongoing lines of a multi line bubble
+		private String multiMidClose;  // characters to use at end of ongoing lines of a multi line bubble
+		private String multiEndOpen;  // characters to use at start of final line of a multi line bubble
+		private String multiEndClose;  // characters to use at end of final line of a multi line bubble
 		private final String newLine = System.getProperty("line.separator");
 
+		/**
+		 * Set the character to use at the start of a single line bubble.
+		 * @param open The bubble character to use at the start of the line.
+		 * @param close The bubble character to use at the end of the line.
+		 */
 		public void setSingle(final char open, final char close) {
 			this.singleOpen = open + " ";
 			this.singleClose = " " + close;

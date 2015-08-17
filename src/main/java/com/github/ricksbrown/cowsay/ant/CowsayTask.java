@@ -8,13 +8,14 @@ import org.apache.tools.ant.Task;
  * This class implements an Ant task to run cowsay.
  *
  * Usage:
- * <pre>
+ *
+ * <pre>{@code
 	<taskdef name="cowsay"
 		classname="com.github.ricksbrown.cowsay.ant.CowsayTask"
 		classpath="cowsay.jar"/>
 
 	<cowsay message="Moo!"/>
-	</pre>
+	}</pre>
  *
  * @author Rick Brown
  */
@@ -44,6 +45,14 @@ public class CowsayTask  extends Task {
 	 */
 	public void setThink(final boolean think) {
 		executor.setThink(think);
+	}
+
+	/**
+	 *
+	 * @param lang Set the i18n language.
+	 */
+	public void setLang(final String lang) {
+		executor.setLang(lang);
 	}
 
 	/**

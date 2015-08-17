@@ -11,18 +11,13 @@ import java.util.regex.Pattern;
 public class CowFormatter {
 
 	private static final Pattern COWSTART_RE = Pattern.compile(".*\\$the_cow\\s*=\\s*<<\"?EOC\"?;?", Pattern.DOTALL);
-	/*
 
-	$the_cow = <<"EOC";
-	        $thoughts   ^__^
-	         $thoughts  ($eyes)\\_______
-	            (__)\\       )\\/\\
-	             $tongue ||----w |
-	                ||     ||
-	EOC
-
-	*/
-
+	/**
+	 * Extracts the ascii art part of the cowfile, removing any before or after PERL comments, variable assignments, weird EOC markers etc.
+	 * @param cow The raw cowfile content.
+	 * @return The ascii art portion of the cowfile.
+	 * @throws CowParseException if the cowfile cannot be parsed.
+	 */
 	private static String extractCowTemplate (final String cow) throws CowParseException {
 
 		Matcher matcher = COWSTART_RE.matcher(cow);
@@ -35,6 +30,14 @@ public class CowFormatter {
 		}
 	}
 
+	/**
+	 * Processes the cow template (the raw content of a cowfile) inserting face and message as appropriate.
+	 * @param cow The content of a cowfile.
+	 * @param face The face to apply to this cow.
+	 * @param message The message the cow is saying or thinking.
+	 * @return The formatted cow.
+	 * @throws CowParseException If the cow could not be parsed.
+	 */
 	public static String formatCow(final String cow, final CowFace face, final Message message) throws CowParseException {
 		String result = extractCowTemplate(cow);
 		String tongue = face.getTongue();

@@ -65,8 +65,8 @@ public class CowsayTest {
 	 */
 	@Test
 	public void testCowthinkArg() {
-		System.out.println("cowsay Hello --cowthink");
-		String[] args = new String[]{"Hello", "--cowthink"};
+		System.out.println("cowsay --cowthink Hello");
+		String[] args = new String[]{"--cowthink", "Hello"};
 		String expResult = loadExpected("cowthinkHello.txt");
 		CowsayCli.addCowthinkOption();
 		String result = Cowsay.say(args);
@@ -79,7 +79,7 @@ public class CowsayTest {
 	@Test
 	public void testSayWrap2() {
 		System.out.println("cowsay -W 2 Hello");
-		String[] args = new String[]{"Hello", "-W", "2"};
+		String[] args = new String[]{"-W", "2", "Hello"};
 		String expResult = loadExpected("cowsayWrap2.txt");
 		String result = Cowsay.say(args);
 		Assert.assertEquals(expResult, result);
@@ -91,7 +91,7 @@ public class CowsayTest {
 	@Test
 	public void testSayNowrap() {
 		System.out.println("cowsay -n msg");
-		String[] args = new String[]{"Moo moo moo moo moo moo moo moo moo moo moo moo moo moo moo moo moo moo moo", "-n"};
+		String[] args = new String[]{"-n", "Moo moo moo moo moo moo moo moo moo moo moo moo moo moo moo moo moo moo moo"};
 		String expResult = loadExpected("cowsayLong.txt");
 		String result = Cowsay.say(args);
 		Assert.assertEquals(expResult, result);
@@ -103,7 +103,7 @@ public class CowsayTest {
 	@Test
 	public void testSayWrapZero() {
 		System.out.println("cowsay -W 0 msg");
-		String[] args = new String[]{"Moo moo moo moo moo moo moo moo moo moo moo moo moo moo moo moo moo moo moo", "-W", "0"};
+		String[] args = new String[]{"-W", "0", "Moo moo moo moo moo moo moo moo moo moo moo moo moo moo moo moo moo moo moo"};
 		String expResult = loadExpected("cowsayLong.txt");
 		String result = Cowsay.say(args);
 		Assert.assertEquals(expResult, result);
@@ -115,7 +115,7 @@ public class CowsayTest {
 	@Test
 	public void testSayWithNamedFile() {
 		System.out.println("cowsay -f tux Hello");
-		String[] args = new String[]{"Hello", "-f", "tux"};
+		String[] args = new String[]{"-f", "tux", "Hello"};
 		String expResult = loadExpected("cowsayTux.txt");
 		String result = Cowsay.say(args);
 		Assert.assertEquals(expResult, result);
@@ -128,8 +128,8 @@ public class CowsayTest {
 	public void testSayModes() {
 		Set<String> modes = modeMap.keySet();
 		for (String key : modes) {
-			String[] args = new String[]{"Hello", '-' + key};
-			System.out.println("cowsay Hello -" + key);
+			String[] args = new String[]{'-' + key, "Hello"};
+			System.out.println("cowsay -" + key+  " Hello");
 			String expResult = loadExpected(modeMap.get(key));
 			String result = Cowsay.say(args);
 			Assert.assertEquals(expResult, result);
@@ -141,8 +141,8 @@ public class CowsayTest {
 	 */
 	@Test
 	public void testSayEyes() {
-		System.out.println("cowsay -e QQ");
-		String[] args = new String[]{"Hello", "-e", "QQ"};
+		System.out.println("-e QQ cowsay");
+		String[] args = new String[]{"-e", "QQ", "Hello"};
 		String expResult = loadExpected("cowsayEyes.txt");
 		String result = Cowsay.say(args);
 		Assert.assertEquals(expResult, result);
@@ -153,8 +153,8 @@ public class CowsayTest {
 	 */
 	@Test
 	public void testSayEyesDollars() {
-		System.out.println("cowsay -e $$");
-		String[] args = new String[]{"Hello", "-e", "$$"};
+		System.out.println("-e $$ cowsay");
+		String[] args = new String[]{"-e", "$$", "Hello"};
 		String expResult = loadExpected("cowsayGreedy.txt");
 		String result = Cowsay.say(args);
 		Assert.assertEquals(expResult, result);
@@ -165,8 +165,8 @@ public class CowsayTest {
 	 */
 	@Test
 	public void testSayEyesBackslash() {
-		System.out.println("cowsay -e \\\\");
-		String[] args = new String[]{"Hello", "-e", "\\\\"};
+		System.out.println("-e \\\\ cowsay");
+		String[] args = new String[]{"-e", "\\\\", "Hello"};
 		String expResult = loadExpected("cowsayEyesBackslash.txt");
 		String result = Cowsay.say(args);
 		Assert.assertEquals(expResult, result);
@@ -177,8 +177,8 @@ public class CowsayTest {
 	 */
 	@Test
 	public void testSayTongue() {
-		System.out.println("cowsay -T V");
-		String[] args = new String[]{"Hello", "-T", "V"};
+		System.out.println("-T V cowsay");
+		String[] args = new String[]{"-T", "V", "Hello"};
 		String expResult = loadExpected("cowsayTongue.txt");
 		String result = Cowsay.say(args);
 		Assert.assertEquals(expResult, result);
@@ -189,8 +189,8 @@ public class CowsayTest {
 	 */
 	@Test
 	public void testSayTongueEyes() {
-		System.out.println("cowsay -T V -e QQ");
-		String[] args = new String[]{"Hello", "-T", "V", "-e", "QQ"};
+		System.out.println("cowsay -T V -e QQ Hello");
+		String[] args = new String[]{"-T", "V", "-e", "QQ", "Hello"};
 		String expResult = loadExpected("cowsayTongueEyes.txt");
 		String result = Cowsay.say(args);
 		Assert.assertEquals(expResult, result);
@@ -240,8 +240,8 @@ public class CowsayTest {
 		String[] cowfiles = Cowloader.listAllCowfiles();
 		Assert.assertNotEquals(0, cowfiles.length);
 		for (String cowfile : cowfiles) {
-			System.out.println("cowsay Hello -f " + cowfile);
-			String[] args = new String[]{"Hello", "-f", cowfile};
+			System.out.println("cowsay -f " + cowfile + " Hello");
+			String[] args = new String[]{"-f", cowfile, "Hello"};
 			String result = Cowsay.say(args);
 			Assert.assertNotEquals("", result);
 			System.out.println(result);  // woohoo!

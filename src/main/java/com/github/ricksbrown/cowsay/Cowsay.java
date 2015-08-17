@@ -9,14 +9,18 @@ import org.apache.commons.lang3.StringUtils;
 /**
  * Java port of the original cowsay commandline utility.
  * There are three entry points to this class:
- * The `main` method will call either cowsay or cowthink depending on the --cowthink flag.
- * Call `say` for cowsay or `think` for cowthink.
+ * <ul>
+ *	<li>{@code Cowsay.main(args);} will call either cowsay or cowthink depending on the --cowthink flag</li>
+ *	<li>{@code Cowsay.say(args);} is equivalent to cowsay</li>
+ *	<li>{@code Cowsay.think(args);} is equivalent to cowthink</li>
+ * </ul>
+ *
  * @author Rick Brown
  */
 public class Cowsay {
 
 	/**
-	 * cowsay
+	 * Equivalent to cowsay.
 	 * @param args the command line arguments
 	 * @return What the cow said.
 	 */
@@ -25,7 +29,7 @@ public class Cowsay {
 	}
 
 	/**
-	 * cowthink
+	 * Equivalent to cowthink.
 	 * @param args the command line arguments
 	 * @return What the cow thought.
 	 */
@@ -44,66 +48,68 @@ public class Cowsay {
 			Set<String> modes = CowFace.cowModes.keySet();
 			String wordwrap = null;
 			CommandLine commandLine = CowsayCli.parseCmdArgs(args);
-			if (commandLine.hasOption("h")) {
-				CowsayCli.showCmdLineHelp();
-			}
-			else if (commandLine.hasOption("l")) {
-				String[] files = Cowloader.listAllCowfiles();
-				if (files != null) {
-					return StringUtils.join(files, System.getProperty("line.separator"));
+			if (commandLine != null) {
+				if (commandLine.hasOption(CowsayCli.Opt.HELP.toString())) {
+					CowsayCli.showCmdLineHelp();
 				}
-			}
-			else {
-				String cowfileSpec = null;
-				CowFace cowFace = null;
-
-				if (commandLine.hasOption("W")) {
-					wordwrap = commandLine.getOptionValue("W");
-				}
-				else if (commandLine.hasOption("n")) {
-					wordwrap = "0";
-				}
-
-				for (String mode : modes) {
-					if (commandLine.hasOption(mode)) {
-						cowFace = CowFace.getByMode(mode);
-						break;
+				else if (commandLine.hasOption(CowsayCli.Opt.LIST_COWS.toString())) {
+					String[] files = Cowloader.listAllCowfiles();
+					if (files != null) {
+						return StringUtils.join(files, System.getProperty("line.separator"));
 					}
 				}
+				else {
+					String cowfileSpec = null;
+					CowFace cowFace = null;
 
-				if (cowFace == null) {
-					// if we are in here no modes were set
-					cowFace = new CowFace();
-					if (commandLine.hasOption("f")) {
-						cowfileSpec = commandLine.getOptionValue("f");
+					if (commandLine.hasOption(CowsayCli.Opt.WRAP_AT.toString())) {
+						wordwrap = commandLine.getOptionValue(CowsayCli.Opt.WRAP_AT.toString());
 					}
-					if (commandLine.hasOption("e")) {
-						cowFace.setEyes(commandLine.getOptionValue("e"));
+					else if (commandLine.hasOption(CowsayCli.Opt.NOWRAP.toString())) {
+						wordwrap = "0";
 					}
-					if (commandLine.hasOption("T")) {
-						cowFace.setTongue(commandLine.getOptionValue("T"));
-					}
-				}
 
-				if (commandLine.hasOption("cowthink")) {
-					isThought = true;
-				}
-
-				if (cowfileSpec == null) {
-					cowfileSpec = Cowloader.DEFAULT_COW;
-				}
-
-				String cowTemplate = Cowloader.load(cowfileSpec);
-				if (cowTemplate != null) {
-					String moosages[] = commandLine.getArgs();
-					String moosage = StringUtils.join(moosages);
-					if (moosage != null && moosage.length() > 0) {
-						Message message = new Message(moosage, isThought);
-						if (wordwrap != null) {
-							message.setWordwrap(wordwrap);
+					for (String mode : modes) {
+						if (commandLine.hasOption(mode)) {
+							cowFace = CowFace.getByMode(mode);
+							break;
 						}
-						String cow = CowFormatter.formatCow(cowTemplate, cowFace, message);
-						return cow;
+					}
+
+					if (cowFace == null) {
+						// if we are in here no modes were set
+						cowFace = new CowFace();
+						if (commandLine.hasOption(CowsayCli.Opt.COWFILE.toString())) {
+							cowfileSpec = commandLine.getOptionValue(CowsayCli.Opt.COWFILE.toString());
+						}
+						if (commandLine.hasOption(CowsayCli.Opt.EYES.toString())) {
+							cowFace.setEyes(commandLine.getOptionValue(CowsayCli.Opt.EYES.toString()));
+						}
+						if (commandLine.hasOption(CowsayCli.Opt.TONGUE.toString())) {
+							cowFace.setTongue(commandLine.getOptionValue(CowsayCli.Opt.TONGUE.toString()));
+						}
+					}
+
+					if (commandLine.hasOption(CowsayCli.Opt.THINK.toString())) {
+						isThought = true;
+					}
+
+					if (cowfileSpec == null) {
+						cowfileSpec = Cowloader.DEFAULT_COW;
+					}
+
+					String cowTemplate = Cowloader.load(cowfileSpec);
+					if (cowTemplate != null) {
+						String moosages[] = commandLine.getArgs();
+						String moosage = StringUtils.join(moosages);
+						if (moosage != null && moosage.length() > 0) {
+							Message message = new Message(moosage, isThought);
+							if (wordwrap != null) {
+								message.setWordwrap(wordwrap);
+							}
+							String cow = CowFormatter.formatCow(cowTemplate, cowFace, message);
+							return cow;
+						}
 					}
 				}
 			}

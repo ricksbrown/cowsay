@@ -43,10 +43,18 @@ public class CowFace {
 		setTongue(tongue);
 	}
 
+	/**
+	 * Get the character/s to use as eyes.
+	 * @return The eyes.
+	 */
 	public String getEyes() {
 		return this.eyes;
 	}
 
+	/**
+	 * Get the character/s to use as tongue.
+	 * @return The tongue.
+	 */
 	public String getTongue() {
 		return this.tongue;
 	}
@@ -63,6 +71,10 @@ public class CowFace {
 		return null;
 	}
 
+	/**
+	 * Set custom cow eyes.
+	 * @param eyes The eyes to use - if more than two characters long the first two will be used.
+	 */
 	public final void setEyes(final String eyes) {
 		if (eyes != null && eyes.length() > 0) {
 			if (eyes.length() > 2) {
@@ -74,6 +86,10 @@ public class CowFace {
 		}
 	}
 
+	/**
+	 * Set custom cow tongue.
+	 * @param tongue The tongue to use - if more than two characters long the first two will be used.
+	 */
 	public final void setTongue(final String tongue) {
 		if (tongue != null && tongue.length() > 0) {
 			if (tongue.length() > 2) {
@@ -85,6 +101,11 @@ public class CowFace {
 		}
 	}
 
+	/**
+	 * Determine if the given mode flag is known and mapped to a particular cow face.
+	 * @param mode The key to the mode, generally a single character, e.g. "b" for "Borg" mode.
+	 * @return true if this is a known mode.
+	 */
 	public static final boolean isKnownMode(final String mode) {
 		Set<String> modes = cowModes.keySet();
 		return modes.contains(mode);

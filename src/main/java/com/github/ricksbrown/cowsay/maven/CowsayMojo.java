@@ -54,6 +54,12 @@ public class CowsayMojo extends AbstractMojo {
 	 */
 	private boolean think;
 
+	/**
+	 * Optionally set an i18n language.
+	 * @parameter property="cowsay.lang"
+	 */
+	private String lang;
+
 	@Override
 	public void execute() throws MojoExecutionException {
 		try {
@@ -65,6 +71,7 @@ public class CowsayMojo extends AbstractMojo {
 			executor.setEyes(eyes);
 			executor.setTongue(tongue);
 			executor.setWrap(wrap);
+			executor.setLang(lang);
 
 			String moo = executor.execute();
 			System.out.println(moo);  // Probably need to allow for option to set a property

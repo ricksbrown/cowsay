@@ -12,6 +12,10 @@ Moo!
                 ||----w |
                 ||     ||
 ```
+# Internationalization
+This version of cowsay fully supports i18n.
+
+New and/or improved translations welcome - the default (English) messages can be found in the file `src/main/resources/MessagesBundle.properties`
 
 # Usage
 All the ways of using it support configuration consistent with the commandline flags of the original application.
@@ -23,7 +27,7 @@ Use the main methods `Cowsay.say` and `Cowsay.think`.
 Example:
 
 ```java
-String[] args = new String[]{"Moo!", "-f", "tux"};
+String[] args = new String[]{"-f", "tux", "Moo!"};
 String result = Cowsay.say(args);
 ```
 
@@ -34,7 +38,7 @@ Example:
 ```
 java -jar cowsay.jar "Moo!"
 java -jar cowsay.jar -f tux "Moo!"
-java -jar cowsay.jar "Moo!" --cowthink
+java -jar cowsay.jar --cowthink "Moo!"
 ```
 
 ## As an Ant task
@@ -60,7 +64,7 @@ Example:
 ```xml
 <plugin>
 	<groupId>com.github.ricksbrown</groupId>
-	<artifactId>Cowsay</artifactId>
+	<artifactId>cowsay</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 	<executions>
 		<execution>
@@ -86,7 +90,3 @@ Example:
 
 # Contributing
 Pull requests welcome (as long as they incorporate a "moo" somewhere)!
-
-This project will no doubt be incorporated into many important applications and critical (e.g. life support) systems.
-
-For this reason all contributions should include unit tests.

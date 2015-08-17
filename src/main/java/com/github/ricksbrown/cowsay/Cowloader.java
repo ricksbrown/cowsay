@@ -20,7 +20,10 @@ import java.util.logging.Logger;
  *  a provided absolute path,
  *	or a named cowfile found on the COWPATH environment variable,
  *	or a named cowfile found in the bundled cowfiles
- *	or the default cowfile
+ *	or the default cowfile.
+ *
+ * The cow will not be formatted or parsed, it will be the raw content loaded from the filesystem
+ *    (though newlines will be replaced to platform default).
  * @author Rick Brown
  */
 public class Cowloader {
@@ -32,33 +35,39 @@ public class Cowloader {
 	}
 
 	/**
+	 * Call this with the provided cowfileSpec - that is the value passed to `-f` on the commandline.
 	 *
-	 * @param cowFileSpec If cowFileSpec contains a filepath separator it is interpreted as relative to CWD
+	 * @param cowfileSpec If cowfileSpec contains a filepath separator it is interpreted as relative to CWD
 	 *    otherwise the COWPATH will be searched. If not found on the COWPATH we will search for a bundled cowfile.
-	 * @return
+	 * @return The content of the specified cowfile (or default cowfile if cowfileSpec is null or empty).
 	 */
-	public static String load(final String cowFileSpec) {
-		String _cowFileSpec = (cowFileSpec != null) ? cowFileSpec.trim() : DEFAULT_COW;
-		if (_cowFileSpec != null && _cowFileSpec.length() > 0) {
-			if (!_cowFileSpec.endsWith(COWFILE_EXT)) {
-				_cowFileSpec += COWFILE_EXT;
+	public static String load(final String cowfileSpec) {
+		String _cowfileSpec = (cowfileSpec != null) ? cowfileSpec.trim() : DEFAULT_COW;
+		if (_cowfileSpec != null && _cowfileSpec.length() > 0) {
+			if (!_cowfileSpec.endsWith(COWFILE_EXT)) {
+				_cowfileSpec += COWFILE_EXT;
 			}
 			InputStream cowInputStream;
-			if (_cowFileSpec.indexOf(File.separatorChar) >= 0) {
-				cowInputStream = getCowFromCwd(_cowFileSpec);
+			if (_cowfileSpec.indexOf(File.separatorChar) >= 0) {
+				cowInputStream = getCowFromPath(_cowfileSpec);
 			}
 			else {
-				cowInputStream = getCowFromCowPath(_cowFileSpec);
+				cowInputStream = getCowFromCowPath(_cowfileSpec);
 			}
 			if (cowInputStream != null) {
-				String cow = loadCow(cowInputStream);
+				String cow = cowInputStreamToString(cowInputStream);
 				return cow;
 			}
 		}
 		return "";
 	}
 
-	private static String loadCow(final InputStream cowInputStream) {
+	/**
+	 * Reads a cowfile from an InputStream and returns a string.
+	 * @param cowInputStream The InputStream instance to read into a String.
+	 * @return A String representing the result of reading the entire InputStream.
+	 */
+	private static String cowInputStreamToString(final InputStream cowInputStream) {
 		BufferedReader reader = new BufferedReader(new InputStreamReader(cowInputStream));
 		StringBuilder sb = new StringBuilder();
 		String line;
@@ -86,31 +95,45 @@ public class Cowloader {
 		return sb.toString();
 	}
 
-	private static InputStream getCowFromCwd(final String relativePath) {
+	/**
+	 * In the case that the cowfileSpec is a filesystem path call this method to attempt to load the cowfile.
+	 * It will attempt to load the cowfile relative to CWD and if that fails it will try as an absolute path.
+	 * @param path A path to a cowfile either relative to CWD or an absolute path.
+	 * @return An InputStream to the cowfile if it exists.
+	 */
+	private static InputStream getCowFromPath(final String path) {
 		String cwd = System.getProperty("user.dir");  // TODO is this really CWD?
 		if (cwd != null) {
-			File cowFile = new File(cwd, relativePath);
-			if (cowFile.exists()) {
-				return cowFileToCowInputStream(cowFile);
+			File cowfile = new File(cwd, path);
+			if (isCowfile(cowfile)) {
+				return cowfileToCowInputStream(cowfile);
 			}
 		}
 		// maybe it's an absolute path?
-		File cowFile = new File(relativePath);
-		if (cowFile.exists()) {
-			return cowFileToCowInputStream(cowFile);
+		File cowfile = new File(path);
+		if (isCowfile(cowfile)) {
+			return cowfileToCowInputStream(cowfile);
 		}
 		return null;
 	}
 
+	/**
+	 * This will attempt to load a cowfile, by name, from the COWPATH environment variable or bundled cowfiles.
+	 * Note that bundled cowfiles are considered part of the COWPATH since this is how to original `cowsay` worked.
+	 * COWPATH takes precedence and bundled cowfiles are only considered after searching the COWPATH.
+	 *
+	 * @param cowName The name of a cowfile, e.g. "sheep" or "sheep.cow".
+	 * @return An InputStream to the first matching cowfile found.
+	 */
 	private static InputStream getCowFromCowPath(final String cowName) {
 		String cowPath = System.getenv("COWPATH");
 		if(cowPath != null) {
 			String[] paths = cowPath.split(File.pathSeparator);
 			if (paths != null) {
 				for (String path : paths) {
-					File cowFile = getCowFile(path, cowName);
-					if (cowFile != null) {
-						return cowFileToCowInputStream(cowFile);
+					File cowfile = getCowfile(path, cowName);
+					if (cowfile != null) {
+						return cowfileToCowInputStream(cowfile);
 					}
 				}
 			}
@@ -118,6 +141,11 @@ public class Cowloader {
 		return getCowFromResources(cowName);
 	}
 
+	/**
+	 * List the names of all cowfiles found when searching COWPATH (including bundled cowfiles).
+	 * Primarily useful for the "-l" commandline flag and also handy for unit testing.
+	 * @return The names of available cowfiles.
+	 */
 	public static String[] listAllCowfiles() {
 		String[] resultAsArray;
 		String[] bundled = null;
@@ -176,10 +204,29 @@ public class Cowloader {
 
 	}
 
-	private static InputStream cowFileToCowInputStream(final File cowFile) {
+	/**
+	 * Determine if this File appears to be a genuine cowfile.
+	 * This is not a deep check, more rigor will be applied later.
+	 * @param cowfile A potential cowfile.
+	 * @return true if this File seems to be a cowfile.
+	 */
+	private static boolean isCowfile(final File cowfile) {
+		if (cowfile != null && cowfile.exists()) {
+			return cowfile.getName().endsWith(COWFILE_EXT);
+		}
+		return false;
+	}
+
+	/**
+	 * Reads a File to an InputStream.
+	 * Not sure why I thought this should be a separate method, I guess it made sense at the time.
+	 * @param cowfile The cowfile to read.
+	 * @return An InputStream which can be used to read the File.
+	 */
+	private static InputStream cowfileToCowInputStream(final File cowfile) {
 		InputStream cowInputStream = null;
 		try {
-			cowInputStream = new FileInputStream(cowFile);
+			cowInputStream = new FileInputStream(cowfile);
 		}
 		catch (FileNotFoundException ex) {
 			Logger.getLogger(Cowloader.class.getName()).log(Level.SEVERE, null, ex);
@@ -187,20 +234,36 @@ public class Cowloader {
 		return cowInputStream;
 	}
 
+	/**
+	 * Get a cowfile, by name, from the bundled cowfiles.
+	 * @param cowName The name of the cowfile to load.
+	 * @return An InputStream which can be used to read the cowfile or null if not found.
+	 */
 	private static InputStream getCowFromResources(final String cowName) {
 		return Cowloader.class.getResourceAsStream("/cows/" + cowName);
 	}
 
-	private static File getCowFile(final String folder, final String cowFileName) {
-		File[] cowFiles = getCowFiles(folder);
-		for (File cowFile : cowFiles) {
-			if (cowFile.getName().equals(cowFileName)) {
-				return cowFile;
+	/**
+	 * Get a cowfile, by name, from the given directory.
+	 * @param folder The absolute path to the filesystem folder.
+	 * @param cowName The name of the cowfile to load (without the ".cow" extension).
+	 * @return A File if the cowfile is found in this directory otherwise null.
+	 */
+	private static File getCowfile(final String folder, final String cowName) {
+		File[] cowfiles = getCowFiles(folder);
+		for (File cowfile : cowfiles) {
+			if (cowfile.getName().equals(cowName)) {
+				return cowfile;
 			}
 		}
 		return null;
 	}
 
+	/**
+	 * Gets all cowfiles found in the given directory.
+	 * @param folder The absolute path to the filesystem folder.
+	 * @return A list of all cowfiles found in this directory.
+	 */
 	private static File[] getCowFiles(final String folder) {
 		File dir = new File(folder);
 		File[] files = dir.listFiles(new FilenameFilter() {
