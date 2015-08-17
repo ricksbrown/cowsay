@@ -31,8 +31,9 @@
 
 	<scm>
 		<url>https://github.com/ricksbrown/cowsay</url>
-		<connection>scm:git:git://github.com/ricksbrown/cowsay.git</connection>
-		<developerConnection>scm:git:git@github.com:github.com/ricksbrown/cowsay.git</developerConnection>
+		<connection>scm:git:https://github.com/ricksbrown/cowsay.git</connection>
+		<developerConnection>scm:git:https://github.com/ricksbrown/cowsay.git</developerConnection>
+		<tag>cowsay-1.0.0</tag>
 	</scm>
 
 	<developers>
