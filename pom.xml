@@ -209,25 +209,19 @@
 					<plugin>
 						<groupId>org.codehaus.mojo</groupId>
 						<artifactId>exec-maven-plugin</artifactId>
-						<inherited>false</inherited> <!-- only execute these in the parent -->
+						<version>1.4.0</version>
 						<executions>
 							<execution>
-								<id>git submodule update</id>
 								<phase>initialize</phase>
-								<configuration>
-									<executable>git</executable>
-									<arguments>
-										<argument>submodule</argument>
-										<argument>update</argument>
-										<argument>--init</argument>
-										<argument>--recursive</argument>
-									</arguments>
-								</configuration>
+								<id>invoke build</id>
 								<goals>
 									<goal>exec</goal>
 								</goals>
 							</execution>
 						</executions>
+						<configuration>
+							<executable>update.sh</executable>
+						</configuration>
 					</plugin>
 				</plugins>
 			</build>
