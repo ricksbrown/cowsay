@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.ricksbrown</groupId>
 	<artifactId>cowsay</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<packaging>maven-plugin</packaging>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -90,8 +90,7 @@
 						<configuration>
 							<target>
 								<fileset id="cow-fileset" dir="src/main/resources/cows" />
-								<pathconvert targetos="unix" pathsep=","
-									property="cowfile-list" refid="cow-fileset">
+								<pathconvert targetos="unix" pathsep="," property="cowfile-list" refid="cow-fileset">
 									<map from="${basedir}/src/main/resources/cows/" to="" />
 								</pathconvert>
 								<echo file="src/main/resources/cowfile-list.csv">${cowfile-list}</echo>
