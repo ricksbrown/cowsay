@@ -54,10 +54,10 @@ Example:
 <cowsay message="Moo!" think="true"/><!-- cowthink -->
 <cowsay message="Moo!" mode="b"/><!-- Borg mode -->
 <cowsay message="Long live linux!" cowfile="tux"/>
+<cowsay message="Moo!" eyes="Oo" tongue=" U"/>
 ```
 
 ## As a Maven plugin
-TODO: get this into maven central - the world needs it!
 
 Example:
 
@@ -65,7 +65,7 @@ Example:
 <plugin>
 	<groupId>com.github.ricksbrown</groupId>
 	<artifactId>cowsay</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<executions>
 		<execution>
 			<id>say-moo</id>
@@ -74,14 +74,31 @@ Example:
 				<goal>moo</goal>
 			</goals>
 			<configuration>
-				<message>Moo!</message>
-				<think>true</think><!-- cowthink -->
-				<mode>b</mode><!-- Borg mode -->
+				<message>Compiling awesome stuff...</message>
+				<!-- Other options:
+				<eyes>Oo</eyes>
+				<cowfile>sheep</cowfile>
+				<mode>b</mode>
+				<think>true</think>
+				<tongue> V</tongue>
+				<wrap>60</wrap>
+				-->
 			</configuration>
 		</execution>
 	</executions>
 </plugin>
 ```
+```
+ ____________________________
+< Compiling awesome stuff... >
+ ----------------------------
+        \   ^__^
+         \  (oo)\_______
+            (__)\       )\/\
+                ||----w |
+                ||     ||
+```
+
 
 # Building
 1. `git clone --recursive https://github.com/RickSBrown/cowsay.git`
