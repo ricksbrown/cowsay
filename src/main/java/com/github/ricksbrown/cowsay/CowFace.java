@@ -17,6 +17,17 @@ public class CowFace {
 	private String eyes;  // they're watching you, they see your every move
 	private String tongue;
 
+	static {
+		cowModes.put("b", new CowFace("=="));
+		cowModes.put("d", new CowFace("xx", "U "));
+		cowModes.put("g", new CowFace("$$"));
+		cowModes.put("p", new CowFace("@@"));
+		cowModes.put("s", new CowFace("**", "U "));
+		cowModes.put("t", new CowFace("--"));
+		cowModes.put("w", new CowFace("OO"));
+		cowModes.put("y", new CowFace(".."));
+	}
+
 	/**
 	 * Get a default cow face.
 	 */
@@ -109,16 +120,5 @@ public class CowFace {
 	public static final boolean isKnownMode(final String mode) {
 		Set<String> modes = cowModes.keySet();
 		return modes.contains(mode);
-	}
-
-	static {
-		cowModes.put("b", new CowFace("=="));
-		cowModes.put("d", new CowFace("xx", "U "));
-		cowModes.put("g", new CowFace("$$"));
-		cowModes.put("p", new CowFace("@@"));
-		cowModes.put("s", new CowFace("**", "U "));
-		cowModes.put("t", new CowFace("--"));
-		cowModes.put("w", new CowFace("OO"));
-		cowModes.put("y", new CowFace(".."));
 	}
 }

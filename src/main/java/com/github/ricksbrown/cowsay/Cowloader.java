@@ -43,7 +43,7 @@ public class Cowloader {
 	 */
 	public static String load(final String cowfileSpec) {
 		String _cowfileSpec = (cowfileSpec != null) ? cowfileSpec.trim() : DEFAULT_COW;
-		if (_cowfileSpec != null && _cowfileSpec.length() > 0) {
+		if (_cowfileSpec.length() > 0) {
 			if (!_cowfileSpec.endsWith(COWFILE_EXT)) {
 				_cowfileSpec += COWFILE_EXT;
 			}
@@ -54,12 +54,16 @@ public class Cowloader {
 			else {
 				cowInputStream = getCowFromCowPath(_cowfileSpec);
 			}
+			if (cowInputStream == null) {
+				// Maybe there should be a verbose mode where we log this sort of error instead of silently failing?
+				cowInputStream = getCowFromResources(DEFAULT_COW + COWFILE_EXT);
+			}
 			if (cowInputStream != null) {
 				String cow = cowInputStreamToString(cowInputStream);
 				return cow;
 			}
 		}
-		return "";
+		return null;  // should never happen
 	}
 
 	/**

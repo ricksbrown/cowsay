@@ -122,6 +122,18 @@ public class CowsayTest {
 	}
 
 	/**
+	 * Test of say method, of class Cowsay with named cow - not found.
+	 */
+	@Test
+	public void testSayWithNamedFileNotFound() {
+		System.out.println("cowsay -f abcdefgzzzblah Hello");
+		String[] args = new String[]{"-f", "abcdefgzzzblah", "Hello"};
+		String expResult = loadExpected("cowsayHello.txt");
+		String result = Cowsay.say(args);
+		Assert.assertEquals(expResult, result);
+	}
+
+	/**
 	 * Test of say method, of class Cowsay with modes.
 	 */
 	@Test

@@ -80,7 +80,7 @@ public class Bubble {
 		private final String newLine = System.getProperty("line.separator");
 
 		/**
-		 * Set the character to use at the start of a single line bubble.
+		 * Set the characters to use for a single line bubble.
 		 * @param open The bubble character to use at the start of the line.
 		 * @param close The bubble character to use at the end of the line.
 		 */
@@ -89,6 +89,15 @@ public class Bubble {
 			this.singleClose = " " + close;
 		}
 
+		/**
+		 * Set the characters to use for multi line bubbles.
+		 * @param open The bubble character to use at the start of the first line.
+		 * @param close The bubble character to use at the end of the first line.
+		 * @param midOpen The character to use at the start of subsequent lines.
+		 * @param midClose The character to use at the end of subsequent lines.
+		 * @param endOpen The character to use at the start of the final line.
+		 * @param endClose The character to use at the end of the final line.
+		 */
 		public void setMulti(final char open, final char close, final char midOpen, final char midClose, final char endOpen, final char endClose) {
 			this.multiStartOpen = open + " ";
 			this.multiStartClose = " " + close;
@@ -98,31 +107,61 @@ public class Bubble {
 			this.multiEndClose = " " + endClose;
 		}
 
+		/**
+		 * Build the line that forms the top of the bubble.
+		 * @param longestLine The length of the longest line in the message.
+		 * @return The top line.
+		 */
 		public String buildTop(final int longestLine) {
 			String result = StringUtils.repeat('_', longestLine + 2);
 			return " " + result + newLine;
 		}
 
+		/**
+		 * Build the line that forms the bottom of the bubble.
+		 * @param longestLine The length of the longest line in the message.
+		 * @return The bottom line.
+		 */
 		public String buildBottom(final int longestLine) {
 			String result = StringUtils.repeat('-', longestLine + 2);
 			return " " + result;
 		}
 
+		/**
+		 * Apply bubble formatting to a single line message.
+		 * @param line The message line.
+		 * @return The line with start and end characters.
+		 */
 		public String formatSingle(final String line) {
 			String result = line;
 			return singleOpen + result + singleClose + newLine;
 		}
 
+		/**
+		 * Apply bubble formatting to a first line of a mutli line message.
+		 * @param line The message line.
+		 * @return The line with start and end characters.
+		 */
 		public String formatMultiOpen(final String line, final int padTo) {
 			String result = StringUtils.rightPad(line, padTo);
 			return multiStartOpen + result + multiStartClose + newLine;
 		}
 
+		/**
+		 * Apply bubble formatting to a subsequent line of a mutli line message.
+		 * @param line The message line.
+		 * @return The line with start and end characters.
+		 */
 		public String formatMultiMid(final String line, final int padTo) {
 			String result = StringUtils.rightPad(line, padTo);
 			return multiMidOpen + result + multiMidClose + newLine;
 		}
 
+		/**
+		 * Apply bubble formatting to a last line of a mutli line message.
+		 * @param line The message line.
+		 * @return The line with start and end characters.
+		 */
 		public String formatMultiEnd(final String line, final int padTo) {
 			String result = StringUtils.rightPad(line, padTo);
 			return multiEndOpen + result + multiEndClose + newLine;
