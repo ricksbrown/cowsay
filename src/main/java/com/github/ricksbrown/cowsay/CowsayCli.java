@@ -57,7 +57,9 @@ public class CowsayCli {
 		TONGUE("T"),
 		COWFILE("f"),
 		LANG("lang"),
-		THINK("cowthink");
+		THINK("cowthink"),
+		ALT("alt"),
+		HTML("html");
 
 		private Opt(final String text) {
 			this.text = text;

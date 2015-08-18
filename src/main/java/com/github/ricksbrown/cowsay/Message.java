@@ -16,6 +16,8 @@ public class Message {
 
 	private final String message;
 	private final boolean isThought;
+	private final boolean isHtml;
+	private final String altText;
 
 	/**
 	 * Create the formatted message.
@@ -23,8 +25,28 @@ public class Message {
 	 * @param isThought true if this should be formatted as thought instead of speech.
 	 */
 	public Message (final String message, final boolean isThought) {
+		this(message, isThought, false);
+	}
+
+	/**
+	 * Create the formatted message.
+	 * @param message The user provided message to format.
+	 * @param isThought true if this should be formatted as thought instead of speech.
+	 */
+	public Message (final String message, final boolean isThought, final boolean asHtml) {
+		this(message, isThought, asHtml, "An ascii character saying '%s'");
+	}
+
+	/**
+	 * Create the formatted message.
+	 * @param message The user provided message to format.
+	 * @param isThought true if this should be formatted as thought instead of speech.
+	 */
+	public Message (final String message, final boolean isThought, final boolean asHtml, final String altText) {
 		this.isThought = isThought;
 		this.message = message;
+		this.isHtml = asHtml;
+		this.altText = altText;
 	}
 
 	/**
