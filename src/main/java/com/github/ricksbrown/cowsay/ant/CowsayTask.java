@@ -56,6 +56,22 @@ public class CowsayTask  extends Task {
 	}
 
 	/**
+	 *
+	 * @param alt Set the HTML alt text.
+	 */
+	public void setAlt(final String alt) {
+		executor.setAlt(alt);
+	}
+
+	/**
+	 *
+	 * @param html true to turn on HTML mode.
+	 */
+	public void setHtml(final boolean html) {
+		executor.setHtml(html);
+	}
+
+	/**
 	 * @param tongue Custom tongue.
 	 */
 	public void setTongue(final String tongue) {

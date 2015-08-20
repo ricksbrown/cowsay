@@ -3,9 +3,9 @@ Java port of the original cowsay by Tony Monroe.
 Moo!
 
 ```
- ______
-< Moo! >
- ------
+ ______________________________
+< Available on Maven Central! >
+ ------------------------------
         \   ^__^
          \  (oo)\_______
             (__)\       )\/\
@@ -20,6 +20,11 @@ New and/or improved translations welcome - the default (English) messages can be
 # Usage
 All the ways of using it support configuration consistent with the commandline flags of the original application.
 Documentation can be found in various man pages on the web.
+
+## Additional flags not found in the original cowsay
+* `--html` HTML output mode, produces accessible HTML5
+* `--alt <arg>` Choose your own alt text for HTML output mode
+* `--lang <arg>` Switch language
 
 ## As a Java library
 Use the main methods `Cowsay.say` and `Cowsay.think`.
@@ -101,7 +106,7 @@ Example:
 
 
 # Building
-1. `git clone --recursive https://github.com/RickSBrown/cowsay.git`
+1. `git clone --recursive https://github.com/ricksbrown/cowsay.git`
 2. `cd cowsay`
 3. `mvn install`
 
