@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.ricksbrown</groupId>
 	<artifactId>cowsay</artifactId>
-	<version>1.0.1-SNAPSHOT</version>
+	<version>1.0.1</version>
 	<packaging>maven-plugin</packaging>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -33,7 +33,7 @@
 		<url>https://github.com/ricksbrown/cowsay</url>
 		<connection>scm:git:https://github.com/ricksbrown/cowsay.git</connection>
 		<developerConnection>scm:git:https://github.com/ricksbrown/cowsay.git</developerConnection>
-		<tag>cowsay-1.0.0</tag>
+		<tag>cowsay-1.0.1</tag>
 	</scm>
 
 	<developers>
