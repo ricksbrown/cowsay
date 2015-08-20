@@ -70,7 +70,7 @@ Example:
 <plugin>
 	<groupId>com.github.ricksbrown</groupId>
 	<artifactId>cowsay</artifactId>
-	<version>1.0.0</version>
+	<version>1.0.1</version>
 	<executions>
 		<execution>
 			<id>say-moo</id>
