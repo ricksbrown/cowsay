@@ -60,6 +60,18 @@ public class CowsayMojo extends AbstractMojo {
 	 */
 	private String lang;
 
+	/**
+	 * Optionally turn on HTML output mode.
+	 * @parameter property="cowsay.html"
+	 */
+	private boolean html;
+
+	/**
+	 * Optionally set HTML alt text.
+	 * @parameter property="cowsay.alt"
+	 */
+	private String alt;
+
 	@Override
 	public void execute() throws MojoExecutionException {
 		try {
@@ -72,6 +84,8 @@ public class CowsayMojo extends AbstractMojo {
 			executor.setTongue(tongue);
 			executor.setWrap(wrap);
 			executor.setLang(lang);
+			executor.setAlt(alt);
+			executor.setHtml(html);
 
 			String moo = executor.execute();
 			System.out.println(moo);  // Probably need to allow for option to set a property

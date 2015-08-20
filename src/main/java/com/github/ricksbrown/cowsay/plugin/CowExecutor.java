@@ -21,6 +21,8 @@ public class CowExecutor {
 	private String wrap = null;
 	private String cowfile = null;
 	private String lang = null;
+	private boolean html = false;
+	private String alt = null;
 
 	/**
 	 * @param eyes Custom eyes.
@@ -74,7 +76,6 @@ public class CowExecutor {
 		this.mode = mode;
 	}
 
-
 	/**
 	 * Check that the mandatory properties have been set.
 	 */
@@ -93,6 +94,23 @@ public class CowExecutor {
 	}
 
 	/**
+	 * Enable / disable HTML output mode.
+	 * @param html true to turn on HTML output mode.
+	 */
+	public void setHtml(boolean html) {
+		this.html = html;
+	}
+
+	/**
+	 * Set the alt text for HTML mode.
+	 * @param alt The alt text.
+	 */
+	public void setAlt(String alt) {
+		this.alt = alt;
+	}
+
+
+	/**
 	 * Build an args array that can be passed to cowsay.
 	 * @return commandline args
 	 */
@@ -101,6 +119,14 @@ public class CowExecutor {
 		List<String> args = new ArrayList<String>();
 		if (lang != null && lang.length() > 0) {
 			args.add(flagify(CowsayCli.Opt.LANG.toString()));
+			args.add(lang);
+		}
+		if (html) {
+			args.add(flagify(CowsayCli.Opt.HTML.toString()));
+		}
+		if (alt != null && alt.length() > 0) {
+			args.add(flagify(CowsayCli.Opt.ALT.toString()));
+			args.add(alt);
 		}
 		if (wrap != null) {
 			args.add(flagify(CowsayCli.Opt.WRAP_AT.toString()));

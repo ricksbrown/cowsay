@@ -4,6 +4,7 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.cli.CommandLine;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -108,6 +109,21 @@ public class Cowsay {
 								message.setWordwrap(wordwrap);
 							}
 							String cow = CowFormatter.formatCow(cowTemplate, cowFace, message);
+							if (commandLine.hasOption(CowsayCli.Opt.HTML.toString())) {
+								cow = StringEscapeUtils.escapeHtml4(cow);
+								cow = "<figure><pre>" + cow + "</pre><figcaption style=\"left:-999px; position:absolute\">";
+								String alt;
+								if (commandLine.hasOption(CowsayCli.Opt.ALT.toString())) {
+									alt = commandLine.getOptionValue(CowsayCli.Opt.ALT.toString());
+								}
+								else {
+									alt = isThought ? I18n.getMessage("altthink") : I18n.getMessage("altsay");
+
+								}
+								String escaped = StringEscapeUtils.escapeHtml4(moosage);
+								cow += String.format(alt, escaped);
+								cow += "</figcaption></figure>";
+							}
 							return cow;
 						}
 					}

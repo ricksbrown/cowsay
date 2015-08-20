@@ -39,6 +39,8 @@ public class CowsayCli {
 		options.addOption(Opt.TONGUE.text, true, "");
 		options.addOption(Opt.COWFILE.text, true, "");
 		options.addOption(null, Opt.LANG.text, true, "");
+		options.addOption(null, Opt.HTML.text, false, "");
+		options.addOption(null, Opt.ALT.text, true, "");
 
 		for (Option option : options.getOptions()) {
 			option.setRequired(false);
