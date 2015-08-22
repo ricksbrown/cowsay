@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/ricksbrown/cowsay.svg?branch=master)](https://travis-ci.org/ricksbrown/cowsay)
 # Cowsay
 Java port of the original cowsay by Tony Monroe.
 Moo!
