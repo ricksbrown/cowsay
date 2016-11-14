@@ -25,7 +25,6 @@ public class CowsayCli {
 
 	static {
 		// Option descriptions are added later, if needed, in case the locale / language changes.
-		String newLine = System.getProperty("line.separator");
 		options = new Options();
 		options.addOption(Opt.NOWRAP.text, false, "");
 		options.addOption(Opt.WRAP_AT.text, true, "");
