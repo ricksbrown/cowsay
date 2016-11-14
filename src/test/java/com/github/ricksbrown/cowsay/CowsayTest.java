@@ -21,6 +21,9 @@ import org.junit.Test;
  */
 public class CowsayTest {
 
+	/**
+	 * Maps mode switches to test resources containing expected output.
+	 */
 	public static Map<String, String> modeMap;
 
 	@BeforeClass
@@ -56,6 +59,30 @@ public class CowsayTest {
 		System.out.println("cowsay Hello");
 		String[] args = new String[]{"Hello"};
 		String expResult = loadExpected("cowsayHello.txt");
+		String result = Cowsay.say(args);
+		Assert.assertEquals(expResult, result);
+	}
+
+	/**
+	 * Test of say method, of class Cowsay, with multiple words in multiple args issue #4.
+	 */
+	@Test
+	public void testSayManyWords() {
+		System.out.println("cowsay foo bar baz");
+		String[] args = new String[]{"foo", "bar", "baz"};
+		String expResult = loadExpected("cowsayFooBarBaz.txt");
+		String result = Cowsay.say(args);
+		Assert.assertEquals(expResult, result);
+	}
+
+	/**
+	 * Test of say method, of class Cowsay, with multiple words in one arg.
+	 */
+	@Test
+	public void testSayManyWordsOneArg() {
+		System.out.println("cowsay foo bar baz");
+		String[] args = new String[]{"foo bar baz"};
+		String expResult = loadExpected("cowsayFooBarBaz.txt");
 		String result = Cowsay.say(args);
 		Assert.assertEquals(expResult, result);
 	}

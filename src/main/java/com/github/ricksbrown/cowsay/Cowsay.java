@@ -102,7 +102,7 @@ public class Cowsay {
 					String cowTemplate = Cowloader.load(cowfileSpec);
 					if (cowTemplate != null) {
 						String moosages[] = commandLine.getArgs();
-						String moosage = StringUtils.join(moosages);
+						String moosage = StringUtils.join(moosages, " ");
 						if (moosage != null && moosage.length() > 0) {
 							Message message = new Message(moosage, isThought);
 							if (wordwrap != null) {
