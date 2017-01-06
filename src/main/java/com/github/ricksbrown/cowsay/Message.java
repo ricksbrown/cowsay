@@ -1,5 +1,8 @@
 package com.github.ricksbrown.cowsay;
 
+import java.util.ArrayList;
+import java.util.List;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.WordUtils;
 
 /**
@@ -44,6 +47,27 @@ public class Message {
 	}
 
 	/**
+	 * Applies word wrapping to the message to handle long lines.
+	 * @param message The raw input message.
+	 * @return The message with long lines wrapped.
+	 */
+	private String wrapMessage(final String message) {
+		// Note that the original cowsay wraps lines mid-word.
+		// This version differs in that it wraps between words if possible.
+		int wrap = getWordwrap();
+		if (wrap <= 0) {
+			return message;
+		}
+		final List<String> result = new ArrayList<String>();
+		String newLine = System.getProperty("line.separator");
+		String[] lines = message.split(newLine);
+		for (String line : lines) {
+			result.add(WordUtils.wrap(line, wrap, null, true));
+		}
+		return StringUtils.join(result, newLine);
+	}
+
+	/**
 	 * Builds the bubble around the message.
 	 * @param message The plain message as provided by the user.
 	 * @return The message, line-wrapped and bubble-wrapped.
@@ -51,13 +75,7 @@ public class Message {
 	private String formatMessage(final String message) {
 		String result;
 		if (message != null) {
-			int wrap = getWordwrap();
-			if (wrap > 0) {
-				result = WordUtils.wrap(message, wrap, null, true);
-			}
-			else {
-				result = message;
-			}
+			result = wrapMessage(message);
 			int longestLine = getLongestLineLen(result);
 			if (!isThought) {
 				result = Bubble.formatSpeech(result, longestLine);
@@ -107,7 +125,7 @@ public class Message {
 		String[] lines = message.split(newLine);
 		int maxLen = 0;
 		for (String line : lines) {
-			maxLen = Math.max(maxLen, lines[0].length());
+			maxLen = Math.max(maxLen, line.length());
 		}
 		return maxLen;
 	}
