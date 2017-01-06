@@ -1,0 +1,12 @@
+ _______________________________________
+/ This is a test text.                  \
+| To test long lines in cowsay.         |
+| This is a really really really really |
+| really long line.                     |
+\ Moo moo moo.                          /
+ ---------------------------------------
+        \   ^__^
+         \  (oo)\_______
+            (__)\       )\/\
+                ||----w |
+                ||     ||
