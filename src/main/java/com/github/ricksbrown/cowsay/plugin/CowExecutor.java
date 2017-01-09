@@ -27,7 +27,7 @@ public class CowExecutor {
 	/**
 	 * @param eyes Custom eyes.
 	 */
-	public void setEyes(String eyes) {
+	public void setEyes(final String eyes) {
 		this.eyes = eyes;
 	}
 
@@ -35,7 +35,7 @@ public class CowExecutor {
 	 *
 	 * @param cowfile Specify an alternate cowfile.
 	 */
-	public void setCowfile(String cowfile) {
+	public void setCowfile(final String cowfile) {
 		this.cowfile = cowfile;
 	}
 
@@ -43,14 +43,14 @@ public class CowExecutor {
 	 *
 	 * @param think If true the cow will think the message instead of saying it.
 	 */
-	public void setThink(boolean think) {
+	public void setThink(final boolean think) {
 		this.think = think;
 	}
 
 	/**
 	 * @param tongue Custom tongue.
 	 */
-	public void setTongue(String tongue) {
+	public void setTongue(final String tongue) {
 		this.tongue = tongue;
 	}
 
@@ -58,21 +58,21 @@ public class CowExecutor {
 	 * @param wrap Wrap message at approximately this length.
 	 * Pass "0" for no wrap.
 	 */
-	public void setWrap(String wrap) {
+	public void setWrap(final String wrap) {
 		this.wrap = wrap;
 	}
 
 	/**
 	 * @param message The message for the cow to say / think.
 	 */
-	public void setMessage(String message) {
+	public void setMessage(final String message) {
 		this.message = message;
 	}
 
 	/**
 	 * @param mode The cow mode, for example "b" for "Borg".
 	 */
-	public void setMode(String mode) {
+	public void setMode(final String mode) {
 		this.mode = mode;
 	}
 
@@ -89,7 +89,7 @@ public class CowExecutor {
 	 * Set the i18n language.
 	 * @param lang The language to use.
 	 */
-	public void setLang(String lang) {
+	public void setLang(final String lang) {
 		this.lang = lang;
 	}
 
@@ -97,7 +97,7 @@ public class CowExecutor {
 	 * Enable / disable HTML output mode.
 	 * @param html true to turn on HTML output mode.
 	 */
-	public void setHtml(boolean html) {
+	public void setHtml(final boolean html) {
 		this.html = html;
 	}
 
@@ -105,7 +105,7 @@ public class CowExecutor {
 	 * Set the alt text for HTML mode.
 	 * @param alt The alt text.
 	 */
-	public void setAlt(String alt) {
+	public void setAlt(final String alt) {
 		this.alt = alt;
 	}
 
@@ -114,7 +114,7 @@ public class CowExecutor {
 	 * Build an args array that can be passed to cowsay.
 	 * @return commandline args
 	 */
-	String[] buildArgs() {
+	protected String[] buildArgs() {
 		String result[] = new String[0];
 		List<String> args = new ArrayList<String>();
 		if (lang != null && lang.length() > 0) {
