@@ -239,8 +239,8 @@ public class CowsayTest {
 	 * Test of say method, of class Cowsay with long message.
 	 */
 	@Test
-	public void testSayMultiLine() {
-		System.out.println("cowsay mutli");
+	public void testSayLongLine() {
+		System.out.println("cowsay long");
 		String[] args = new String[]{"Moo moo moo moo moo moo moo moo moo moo moo moo moo moo moo moo moo moo moo"};
 		String expResult = loadExpected("cowsayMulti.txt");
 		String result = Cowsay.say(args);
@@ -251,11 +251,40 @@ public class CowsayTest {
 	 * Test of think method, of class Cowsay with long message.
 	 */
 	@Test
-	public void testThinkMultiLine() {
-		System.out.println("cowthink multi");
+	public void testThinkLongLine() {
+		System.out.println("cowthink long");
 		String[] args = new String[]{"Moo moo moo moo moo moo moo moo moo moo moo moo moo moo moo moo moo moo moo"};
 		String expResult = loadExpected("cowthinkMulti.txt");
 		String result = Cowsay.think(args);
+		Assert.assertEquals(expResult, result);
+	}
+
+	/**
+	 * Test of say method, of class Cowsay with multiline input message.
+	 */
+	@Test
+	public void testSayMultiLineInput() {
+		System.out.println("cowsay mutli");
+		String[] args = new String[]{"This is a test text."
+				+ System.getProperty("line.separator") + "To test long lines in cowsay."
+				+ System.getProperty("line.separator") + "Moo moo moo."};
+		String expResult = loadExpected("cowsayMultiline.txt");
+		String result = Cowsay.say(args);
+		Assert.assertEquals(expResult, result);
+	}
+
+	/**
+	 * Test of say method, of class Cowsay with multiline input message.
+	 */
+	@Test
+	public void testSayMultiLineLongInput() {
+		System.out.println("cowsay mutli long");
+		String[] args = new String[]{"This is a test text.\n"
+				+ "To test long lines in cowsay.\n"
+				+ "This is a really really really really really long line.\n"
+				+ "Moo moo moo."};
+		String expResult = loadExpected("cowsayMultilineLong.txt");
+		String result = Cowsay.say(args);
 		Assert.assertEquals(expResult, result);
 	}
 
