@@ -9,7 +9,10 @@ import java.util.Set;
  * @author Rick Brown
  */
 public class CowFace {
-	public static final Map<String, CowFace> cowModes = new HashMap<String, CowFace>();
+	/**
+	 * The various predefined modes built into cowsay, for example "borg" mode.
+	 */
+	public static final Map<String, CowFace> COW_MODES = new HashMap<String, CowFace>();
 
 	private static final String DEFAULT_EYES = "oo";
 	private static final String DEFAULT_TONGUE = "  ";
@@ -18,20 +21,20 @@ public class CowFace {
 	private String tongue;
 
 	static {
-		cowModes.put("b", new CowFace("=="));
-		cowModes.put("d", new CowFace("xx", "U "));
-		cowModes.put("g", new CowFace("$$"));
-		cowModes.put("p", new CowFace("@@"));
-		cowModes.put("s", new CowFace("**", "U "));
-		cowModes.put("t", new CowFace("--"));
-		cowModes.put("w", new CowFace("OO"));
-		cowModes.put("y", new CowFace(".."));
+		COW_MODES.put("b", new CowFace("=="));
+		COW_MODES.put("d", new CowFace("xx", "U "));
+		COW_MODES.put("g", new CowFace("$$"));
+		COW_MODES.put("p", new CowFace("@@"));
+		COW_MODES.put("s", new CowFace("**", "U "));
+		COW_MODES.put("t", new CowFace("--"));
+		COW_MODES.put("w", new CowFace("OO"));
+		COW_MODES.put("y", new CowFace(".."));
 	}
 
 	/**
 	 * Get a default cow face.
 	 */
-	public CowFace () {
+	public CowFace() {
 		this(DEFAULT_EYES, DEFAULT_TONGUE);
 	}
 
@@ -40,7 +43,7 @@ public class CowFace {
 	 * Default tongue will be used.
 	 * @param eyes The two characters to use as eyes.
 	 */
-	private CowFace (final String eyes) {
+	private CowFace(final String eyes) {
 		this(eyes, DEFAULT_TONGUE);
 	}
 
@@ -49,7 +52,7 @@ public class CowFace {
 	 * @param eyes The two characters to use as eyes.
 	 * @param tongue The two characters to use as tongue.
 	 */
-	private CowFace (final String eyes, final String tongue) {
+	private CowFace(final String eyes, final String tongue) {
 		setEyes(eyes);
 		setTongue(tongue);
 	}
@@ -77,7 +80,7 @@ public class CowFace {
 	 */
 	protected static CowFace getByMode(final String mode) {
 		if (mode != null) {
-			return cowModes.get(mode);
+			return COW_MODES.get(mode);
 		}
 		return null;
 	}
@@ -90,8 +93,7 @@ public class CowFace {
 		if (eyes != null && eyes.length() > 0) {
 			if (eyes.length() > 2) {
 				this.eyes = eyes.substring(0, 2);
-			}
-			else {
+			} else {
 				this.eyes = eyes;
 			}
 		}
@@ -105,8 +107,7 @@ public class CowFace {
 		if (tongue != null && tongue.length() > 0) {
 			if (tongue.length() > 2) {
 				this.tongue = tongue.substring(0, 2);
-			}
-			else {
+			} else {
 				this.tongue = tongue;
 			}
 		}
@@ -118,7 +119,7 @@ public class CowFace {
 	 * @return true if this is a known mode.
 	 */
 	public static final boolean isKnownMode(final String mode) {
-		Set<String> modes = cowModes.keySet();
+		Set<String> modes = COW_MODES.keySet();
 		return modes.contains(mode);
 	}
 }

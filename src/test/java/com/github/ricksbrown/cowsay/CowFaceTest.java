@@ -5,7 +5,6 @@
  */
 package com.github.ricksbrown.cowsay;
 
-import java.util.Map;
 import java.util.Set;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -20,12 +19,9 @@ import org.junit.Test;
  */
 public class CowFaceTest {
 
-	public static Map<String, String> modeMap;
-
 	@BeforeClass
 	public static void setUpClass() {
 		CowsayTest.setUpClass();
-		modeMap = CowsayTest.modeMap;
 	}
 
 	@AfterClass
@@ -45,7 +41,7 @@ public class CowFaceTest {
 	 */
 	@Test
 	public void testIsKnownMode() {
-		Set<String> modes = modeMap.keySet();
+		Set<String> modes = CowsayTest.modeMap.keySet();
 		for (String key : modes) {
 			System.out.println("isKnownMode " + key);
 			boolean expResult = true;

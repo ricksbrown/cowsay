@@ -89,8 +89,7 @@ public class CowsayMojo extends AbstractMojo {
 
 			String moo = executor.execute();
 			System.out.println(moo);  // Probably need to allow for option to set a property
-		}
-		catch(IllegalStateException ex) {
+		} catch (IllegalStateException ex) {
 			throw new MojoExecutionException(ex.getMessage(), ex);
 		}
 	}

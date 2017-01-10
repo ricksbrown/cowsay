@@ -6,10 +6,19 @@ package com.github.ricksbrown.cowsay;
  */
 public class CowParseException extends Exception {
 
-	public CowParseException(final String message, final Throwable throwable) {
-		super(message, throwable);
+	/**
+	 * Create an exception with the given message and preceding exception.
+	 * @param message A message which explains this exception.
+	 * @param cause The root cause.
+	 */
+	public CowParseException(final String message, final Throwable cause) {
+		super(message, cause);
 	}
 
+	/**
+	 * Create an exception with the given message.
+	 * @param message A message which explains this exception.
+	 */
 	public CowParseException(final String message) {
 		super(message);
 	}

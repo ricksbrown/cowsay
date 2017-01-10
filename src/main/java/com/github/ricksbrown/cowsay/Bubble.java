@@ -6,22 +6,29 @@ import org.apache.commons.lang3.StringUtils;
  *
  * @author Rick Brown
  */
-public class Bubble {
-	private static final BubbleWrap speechBubble;
-	private static final BubbleWrap thoughtBubble;
+public final class Bubble {
+	private static final BubbleWrap SPEECH_BUBBLE;
+	private static final BubbleWrap THOUGHT_BUBBLE;
+
+	/**
+	 * Utility class does not need a constructor.
+	 */
+	private Bubble() {
+
+	}
 
 	static {
-		speechBubble = new BubbleWrap();
-		speechBubble.setSingle('<', '>');
-		speechBubble.setMulti('/', '\\', '|', '|', '\\', '/');
-		thoughtBubble = new BubbleWrap();
-		thoughtBubble.setSingle('(', ')');
-		thoughtBubble.setMulti('(', ')', '(', ')', '(', ')');
+		SPEECH_BUBBLE = new BubbleWrap();
+		SPEECH_BUBBLE.setSingle('<', '>');
+		SPEECH_BUBBLE.setMulti('/', '\\', '|', '|', '\\', '/');
+		THOUGHT_BUBBLE = new BubbleWrap();
+		THOUGHT_BUBBLE.setSingle('(', ')');
+		THOUGHT_BUBBLE.setMulti('(', ')', '(', ')', '(', ')');
 	}
 
 	/**
 	 * Draws a complete bubble around a line-wrapped message.
-	 * @param bubble The BubbleWrap to use (e.g. speechBubble or thoughtBubble)
+	 * @param bubble The BubbleWrap to use (e.g. SPEECH_BUBBLE or THOUGHT_BUBBLE)
 	 * @param message The message to wrap, it should already be line-wrapped if appropriate.
 	 * @param longestLine The length of the longest line in the message.
 	 * @return The message, wrapped in a bubble.
@@ -37,8 +44,7 @@ public class Bubble {
 				sb.append(bubble.formatMultiMid(lines[i], longestLine));
 			}
 			sb.append(bubble.formatMultiEnd(lines[(lines.length - 1)], longestLine));
-		}
-		else {
+		} else {
 			sb.append(bubble.formatSingle(lines[0]));
 		}
 		sb.append(bubble.buildBottom(longestLine));
@@ -52,7 +58,7 @@ public class Bubble {
 	 * @return The message, wrapped in a speech bubble.
 	 */
 	public static String formatSpeech(final String message, final int longestLine) {
-		return formatBubble(speechBubble, message, longestLine);
+		return formatBubble(SPEECH_BUBBLE, message, longestLine);
 	}
 
 	/**
@@ -62,7 +68,7 @@ public class Bubble {
 	 * @return The message, wrapped in a thought bubble.
 	 */
 	public static String formatThought(final String message, final int longestLine) {
-		return formatBubble(thoughtBubble, message, longestLine);
+		return formatBubble(THOUGHT_BUBBLE, message, longestLine);
 	}
 
 	/**
@@ -140,6 +146,7 @@ public class Bubble {
 		/**
 		 * Apply bubble formatting to a first line of a mutli line message.
 		 * @param line The message line.
+		 * @param padTo The minimum length the string should be after padding is applied.
 		 * @return The line with start and end characters.
 		 */
 		public String formatMultiOpen(final String line, final int padTo) {
@@ -150,6 +157,7 @@ public class Bubble {
 		/**
 		 * Apply bubble formatting to a subsequent line of a mutli line message.
 		 * @param line The message line.
+		 * @param padTo The minimum length the string should be after padding is applied.
 		 * @return The line with start and end characters.
 		 */
 		public String formatMultiMid(final String line, final int padTo) {
@@ -160,6 +168,7 @@ public class Bubble {
 		/**
 		 * Apply bubble formatting to a last line of a mutli line message.
 		 * @param line The message line.
+		 * @param padTo The minimum length the string should be after padding is applied.
 		 * @return The line with start and end characters.
 		 */
 		public String formatMultiEnd(final String line, final int padTo) {

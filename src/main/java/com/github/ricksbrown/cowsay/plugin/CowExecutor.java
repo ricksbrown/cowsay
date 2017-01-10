@@ -78,9 +78,10 @@ public class CowExecutor {
 
 	/**
 	 * Check that the mandatory properties have been set.
+	 * @throws IllegalStateException If no message has been provided for the cow to say or think.
 	 */
 	private void validate() throws IllegalStateException {
-		if(this.message == null) {
+		if (this.message == null) {
 			throw new IllegalStateException("No message specified");
 		}
 	}
@@ -134,8 +135,7 @@ public class CowExecutor {
 		}
 		if (mode != null && CowFace.isKnownMode(mode)) {
 			args.add(flagify(mode));
-		}
-		else {
+		} else {
 			if (eyes != null) {
 				args.add(flagify(CowsayCli.Opt.EYES.toString()));
 				args.add(eyes);
@@ -177,8 +177,7 @@ public class CowExecutor {
 		String result;
 		if (think) {
 			result = Cowsay.think(args);
-		}
-		else {
+		} else {
 			result = Cowsay.say(args);
 		}
 		return result;

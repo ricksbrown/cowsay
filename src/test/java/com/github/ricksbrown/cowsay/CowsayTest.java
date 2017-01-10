@@ -168,7 +168,7 @@ public class CowsayTest {
 		Set<String> modes = modeMap.keySet();
 		for (String key : modes) {
 			String[] args = new String[]{'-' + key, "Hello"};
-			System.out.println("cowsay -" + key+  " Hello");
+			System.out.println("cowsay -" + key + " Hello");
 			String expResult = loadExpected(modeMap.get(key));
 			String result = Cowsay.say(args);
 			Assert.assertEquals(expResult, result);
@@ -316,12 +316,16 @@ public class CowsayTest {
 		}
 	}
 
+	/**
+	 * Fetches the expected output.
+	 * @param name The name of the file to load.
+	 * @return The content of the file.
+	 */
 	public static String loadExpected(final String name) {
 		try {
 			InputStream expected = CowsayTest.class.getResourceAsStream("/" + name);
 			return IOUtils.toString(expected, "UTF-8");
-		}
-		catch (IOException ex) {
+		} catch (IOException ex) {
 			Logger.getLogger(CowsayTest.class.getName()).log(Level.SEVERE, null, ex);
 		}
 		return "";
