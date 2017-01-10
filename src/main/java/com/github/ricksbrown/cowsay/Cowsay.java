@@ -46,7 +46,7 @@ public class Cowsay {
 	private static String sayOrThink(final String[] args, final boolean think) {
 		try {
 			boolean isThought = think;
-			Set<String> modes = CowFace.cowModes.keySet();
+			Set<String> modes = CowFace.COW_MODES.keySet();
 			String wordwrap = null;
 			CommandLine commandLine = CowsayCli.parseCmdArgs(args);
 			if (commandLine != null) {

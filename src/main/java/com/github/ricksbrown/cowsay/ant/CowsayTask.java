@@ -20,7 +20,7 @@ import org.apache.tools.ant.Task;
  * @author Rick Brown
  */
 public class CowsayTask  extends Task {
-	private CowExecutor executor = new CowExecutor();
+	private final CowExecutor executor = new CowExecutor();
 	private String property = null;
 
 	/**
@@ -102,7 +102,7 @@ public class CowsayTask  extends Task {
 
 	/**
 	 * Run cowsay with the provided attributes.
-	 * @throws BuildException
+	 * @throws BuildException If something goes wrong during execution.
 	 */
 	@Override
 	public void execute() throws BuildException {
@@ -110,12 +110,10 @@ public class CowsayTask  extends Task {
 			String moo = executor.execute();
 			if (this.property != null && this.property.length() > 0) {
 				getProject().setProperty(this.property, moo);
-			}
-			else {
+			} else {
 				System.out.println(moo);
 			}
-		}
-		catch(IllegalStateException ex) {
+		} catch (IllegalStateException ex) {
 			throw new BuildException(ex.getMessage(), ex);
 		}
 	}

@@ -8,7 +8,14 @@ import java.util.regex.Pattern;
  *
  * @author Rick Brown
  */
-public class CowFormatter {
+public final class CowFormatter {
+
+	/**
+	 * Utility class does not need constructor.
+	 */
+	private CowFormatter() {
+
+	}
 
 	private static final Pattern COWSTART_RE = Pattern.compile(".*\\$the_cow\\s*=\\s*<<\"?EOC\"?;?", Pattern.DOTALL);
 
@@ -18,14 +25,13 @@ public class CowFormatter {
 	 * @return The ascii art portion of the cowfile.
 	 * @throws CowParseException if the cowfile cannot be parsed.
 	 */
-	private static String extractCowTemplate (final String cow) throws CowParseException {
+	private static String extractCowTemplate(final String cow) throws CowParseException {
 
 		Matcher matcher = COWSTART_RE.matcher(cow);
 		if (matcher.find(0)) {
 			String result = matcher.replaceFirst("");
 			return result;
-		}
-		else {
+		} else {
 			throw new CowParseException("Could not parse cow " + cow);
 		}
 	}

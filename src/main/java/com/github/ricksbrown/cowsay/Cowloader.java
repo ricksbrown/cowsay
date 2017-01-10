@@ -26,12 +26,22 @@ import java.util.logging.Logger;
  *    (though newlines will be replaced to platform default).
  * @author Rick Brown
  */
-public class Cowloader {
+public final class Cowloader {
+	/**
+	 * The file extension of a cowfile.
+	 */
 	public static final String COWFILE_EXT = ".cow";
+
+	/**
+	 * The name of the default cowfile to use.
+	 */
 	public static final String DEFAULT_COW = "default";
 
-	public static final String load() {
-		return load((String) null);
+	/**
+	 * Utility classes do not need constructors.
+	 */
+	private Cowloader() {
+
 	}
 
 	/**
@@ -42,17 +52,16 @@ public class Cowloader {
 	 * @return The content of the specified cowfile (or default cowfile if cowfileSpec is null or empty).
 	 */
 	public static String load(final String cowfileSpec) {
-		String _cowfileSpec = (cowfileSpec != null) ? cowfileSpec.trim() : DEFAULT_COW;
-		if (_cowfileSpec.length() > 0) {
-			if (!_cowfileSpec.endsWith(COWFILE_EXT)) {
-				_cowfileSpec += COWFILE_EXT;
+		String effectiveCowfileSpec = (cowfileSpec != null) ? cowfileSpec.trim() : DEFAULT_COW;
+		if (effectiveCowfileSpec.length() > 0) {
+			if (!effectiveCowfileSpec.endsWith(COWFILE_EXT)) {
+				effectiveCowfileSpec += COWFILE_EXT;
 			}
 			InputStream cowInputStream;
-			if (_cowfileSpec.indexOf(File.separatorChar) >= 0) {
-				cowInputStream = getCowFromPath(_cowfileSpec);
-			}
-			else {
-				cowInputStream = getCowFromCowPath(_cowfileSpec);
+			if (effectiveCowfileSpec.indexOf(File.separatorChar) >= 0) {
+				cowInputStream = getCowFromPath(effectiveCowfileSpec);
+			} else {
+				cowInputStream = getCowFromCowPath(effectiveCowfileSpec);
 			}
 			if (cowInputStream == null) {
 				// Maybe there should be a verbose mode where we log this sort of error instead of silently failing?
@@ -82,16 +91,13 @@ public class Cowloader {
 				sb.append(newLine);
 			}
 			reader.close();
-		}
-		catch (IOException ex) {
+		} catch (IOException ex) {
 			Logger.getLogger(Cowloader.class.getName()).log(Level.SEVERE, null, ex);
-		}
-		finally {
+		} finally {
 			if (cowInputStream != null) {
 				try {
 					cowInputStream.close();
-				}
-				catch (IOException ex) {
+				} catch (IOException ex) {
 					Logger.getLogger(Cowloader.class.getName()).log(Level.SEVERE, null, ex);
 				}
 			}
@@ -131,7 +137,7 @@ public class Cowloader {
 	 */
 	private static InputStream getCowFromCowPath(final String cowName) {
 		String cowPath = System.getenv("COWPATH");
-		if(cowPath != null) {
+		if (cowPath != null) {
 			String[] paths = cowPath.split(File.pathSeparator);
 			if (paths != null) {
 				for (String path : paths) {
@@ -166,15 +172,12 @@ public class Cowloader {
 				reader.close();
 				String bundleList = sb.toString();
 				bundled = bundleList.split(",");
-			}
-			catch (IOException ex) {
+			} catch (IOException ex) {
 				Logger.getLogger(Cowloader.class.getName()).log(Level.WARNING, null, ex);
-			}
-			finally {
+			} finally {
 				try {
 					bundleStream.close();
-				}
-				catch (IOException ex) {
+				} catch (IOException ex) {
 					Logger.getLogger(Cowloader.class.getName()).log(Level.SEVERE, null, ex);
 				}
 			}
@@ -231,8 +234,7 @@ public class Cowloader {
 		InputStream cowInputStream = null;
 		try {
 			cowInputStream = new FileInputStream(cowfile);
-		}
-		catch (FileNotFoundException ex) {
+		} catch (FileNotFoundException ex) {
 			Logger.getLogger(Cowloader.class.getName()).log(Level.SEVERE, null, ex);
 		}
 		return cowInputStream;
@@ -270,9 +272,10 @@ public class Cowloader {
 	 */
 	private static File[] getCowFiles(final String folder) {
 		File dir = new File(folder);
-		File[] files = dir.listFiles(new FilenameFilter() {
+		File[] files;
+		files = dir.listFiles(new FilenameFilter() {
 			@Override
-			public boolean accept(File dir, String name) {
+			public boolean accept(final File dir, final String name) {
 				return name.endsWith(".cow");
 			}
 		});

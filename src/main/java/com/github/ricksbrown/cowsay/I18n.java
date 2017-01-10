@@ -8,10 +8,17 @@ import java.util.ResourceBundle;
  * Moo! Muh! Meuh!
  * @author Rick Brown
  */
-public class I18n {
+public final class I18n {
 	private static final String DEFAULT_LANG = "en";
 	private static Locale currentLocale = null;
 	private static ResourceBundle messages = null;
+
+	/**
+	 * Utility classes do not need constructors.
+	 */
+	private I18n() {
+
+	}
 
 	/**
 	 * Set the language.

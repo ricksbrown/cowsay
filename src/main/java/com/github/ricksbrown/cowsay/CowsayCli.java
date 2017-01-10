@@ -30,7 +30,7 @@ public class CowsayCli {
 		options.addOption(Opt.WRAP_AT.text, true, "");
 		options.addOption(Opt.HELP.text, false, "");
 		options.addOption(Opt.LIST_COWS.text, false, "");
-		Set<String> modes = CowFace.cowModes.keySet();
+		Set<String> modes = CowFace.COW_MODES.keySet();
 		for (String mode : modes) {
 			options.addOption(mode, false, "");
 		}

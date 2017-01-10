@@ -12,9 +12,12 @@ import org.apache.commons.lang3.text.WordUtils;
  * @author Rick Brown
  */
 public class Message {
+	/**
+	 * The default wrap point for long lines.
+	 */
+	public static final byte DEFAULT_WRAP = 40;
 	private static final String SAY_TOKEN = "\\";
 	private static final String THINK_TOKEN = "o";
-	public static final byte DEFAULT_WRAP = 40;
 	private int wordwrap = -1;
 
 	private final String message;
@@ -25,7 +28,7 @@ public class Message {
 	 * @param message The user provided message to format.
 	 * @param isThought true if this should be formatted as thought instead of speech.
 	 */
-	public Message (final String message, final boolean isThought) {
+	public Message(final String message, final boolean isThought) {
 		this.isThought = isThought;
 		this.message = message;
 	}
@@ -79,8 +82,7 @@ public class Message {
 			int longestLine = getLongestLineLen(result);
 			if (!isThought) {
 				result = Bubble.formatSpeech(result, longestLine);
-			}
-			else {
+			} else {
 				result = Bubble.formatThought(result, longestLine);
 			}
 			return result;
@@ -98,8 +100,7 @@ public class Message {
 			if (ww >= 0) {
 				this.wordwrap = ww;
 			}
-		}
-		catch(Throwable ignore) {
+		} catch(Throwable ignore) {
 			// ignore
 		}
 	}
