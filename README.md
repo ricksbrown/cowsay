@@ -14,6 +14,24 @@ Moo!
                 ||----w |
                 ||     ||
 ```
+# Download
+
+The JAR available on Maven Central is _The One JAR_ and can be used in any of the advertised ways:
+ * Maven Plugin
+ * Java library on the classpath
+ * Ant Task
+ * Self Executing JAR
+
+The last two scenarios in particular may require you to manually download _The One Jar_ from Maven.
+It will be named following the convention `cowsay-{version}.jar`. 
+
+For example if you want version `1.0.3` you would go [here](http://repo1.maven.org/maven2/com/github/ricksbrown/cowsay/1.0.3/) and download [cowsay-1.0.3.jar](http://repo1.maven.org/maven2/com/github/ricksbrown/cowsay/1.0.3/cowsay-1.0.3.jar).
+
+>One JAR to rule the cows, 
+One JAR to find them,
+One JAR to bring them all, 
+and in the pasture bind them
+
 # Internationalization
 This version of cowsay fully supports i18n.
 
