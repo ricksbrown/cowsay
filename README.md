@@ -22,7 +22,7 @@ The JAR available on Maven Central is _The One JAR_ and can be used in any of th
  * Ant Task
  * Self Executing JAR
 
-The last two scenarios in particular may require you to manually download _The One Jar_ from Maven.
+The last two scenarios in particular may require you to manually download _The One JAR_ from Maven.
 It will be named following the convention `cowsay-{version}.jar`. 
 
 For example if you want version `1.0.3` you would go [here](http://repo1.maven.org/maven2/com/github/ricksbrown/cowsay/1.0.3/) and download [cowsay-1.0.3.jar](http://repo1.maven.org/maven2/com/github/ricksbrown/cowsay/1.0.3/cowsay-1.0.3.jar).
@@ -31,11 +31,6 @@ For example if you want version `1.0.3` you would go [here](http://repo1.maven.o
 One JAR to find them,
 One JAR to bring them all, 
 and in the pasture bind them
-
-# Internationalization
-This version of cowsay fully supports i18n.
-
-New and/or improved translations welcome - the default (English) messages can be found in the file `src/main/resources/MessagesBundle.properties`
 
 # Usage
 All the ways of using it support configuration consistent with the commandline flags of the original application.
@@ -90,7 +85,7 @@ Example:
 <plugin>
 	<groupId>com.github.ricksbrown</groupId>
 	<artifactId>cowsay</artifactId>
-	<version>1.0.2</version>
+	<version>1.0.3</version>
 	<executions>
 		<execution>
 			<id>say-moo</id>
@@ -124,6 +119,10 @@ Example:
                 ||     ||
 ```
 
+# Internationalization
+This version of cowsay fully supports i18n.
+
+New and/or improved translations welcome - the default (English) messages can be found in the file `src/main/resources/MessagesBundle.properties`
 
 # Building
 1. `git clone --recursive https://github.com/ricksbrown/cowsay.git`
@@ -132,3 +131,7 @@ Example:
 
 # Contributing
 Pull requests welcome (as long as they incorporate a "moo" somewhere)!
+
+# Stats
+As of April 2017 this tool is downloaded over 60 times a month.
+The peak so far is 105 times in January 2017.
