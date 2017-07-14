@@ -49,7 +49,7 @@ public class CowsayCli {
 	/**
 	 * Command line argument constants.
 	 */
-	public static enum Opt {
+	public enum Opt {
 		NOWRAP("n"),
 		WRAP_AT("W"),
 		HELP("h"),
@@ -62,11 +62,11 @@ public class CowsayCli {
 		ALT("alt"),
 		HTML("html");
 
-		private Opt(final String text) {
+		Opt(final String text) {
 			this.text = text;
 		}
 
-		private final String text;
+		final String text;
 
 		@Override
 		public String toString() {

@@ -24,18 +24,6 @@ public class CowFaceTest {
 		CowsayTest.setUpClass();
 	}
 
-	@AfterClass
-	public static void tearDownClass() {
-	}
-
-	@Before
-	public void setUp() {
-	}
-
-	@After
-	public void tearDown() {
-	}
-
 	/**
 	 * Test of isKnownMode method, of class CowFace.
 	 */

@@ -20,18 +20,6 @@ public class CowExecutorTest {
 		CowsayTest.setUpClass();
 	}
 
-	@AfterClass
-	public static void tearDownClass() {
-	}
-
-	@Before
-	public void setUp() {
-	}
-
-	@After
-	public void tearDown() {
-	}
-
 	/**
 	 * Test of setEyes method, of class CowExecutor.
 	 */

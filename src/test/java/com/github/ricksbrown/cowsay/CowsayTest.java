@@ -39,18 +39,6 @@ public class CowsayTest {
 		modeMap.put("y", "cowsayYoung.txt");
 	}
 
-	@AfterClass
-	public static void tearDownClass() {
-	}
-
-	@Before
-	public void setUp() {
-	}
-
-	@After
-	public void tearDown() {
-	}
-
 	/**
 	 * Test of say method, of class Cowsay.
 	 */

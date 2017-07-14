@@ -10,14 +10,14 @@ import java.util.regex.Pattern;
  */
 public final class CowFormatter {
 
+	private static final Pattern COWSTART_RE = Pattern.compile(".*\\$the_cow\\s*=\\s*<<\"?EOC\"?;?", Pattern.DOTALL);
+
 	/**
 	 * Utility class does not need constructor.
 	 */
 	private CowFormatter() {
 
 	}
-
-	private static final Pattern COWSTART_RE = Pattern.compile(".*\\$the_cow\\s*=\\s*<<\"?EOC\"?;?", Pattern.DOTALL);
 
 	/**
 	 * Extracts the ascii art part of the cowfile, removing any before or after PERL comments, variable assignments, weird EOC markers etc.

@@ -133,6 +133,16 @@ public class CowExecutor {
 			args.add(flagify(CowsayCli.Opt.WRAP_AT.toString()));
 			args.add(wrap);
 		}
+		buildFaceArgs(args);
+		args.add(message);
+		return args.toArray(result);
+	}
+
+	/**
+	 * Face specific flags, either a face mode or face customizations.
+	 * @param args The arg line to add to.
+	 */
+	private void buildFaceArgs(final List<String> args) {
 		if (mode != null && CowFace.isKnownMode(mode)) {
 			args.add(flagify(mode));
 		} else {
@@ -149,8 +159,6 @@ public class CowExecutor {
 				args.add(cowfile);
 			}
 		}
-		args.add(message);
-		return args.toArray(result);
 	}
 
 	/**

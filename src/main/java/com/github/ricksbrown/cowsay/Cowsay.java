@@ -46,7 +46,7 @@ public class Cowsay {
 	private static String sayOrThink(final String[] args, final boolean think) {
 		try {
 			boolean isThought = think;
-			Set<String> modes = CowFace.COW_MODES.keySet();
+
 			String wordwrap = null;
 			CommandLine commandLine = CowsayCli.parseCmdArgs(args);
 			if (commandLine != null) {
@@ -69,26 +69,13 @@ public class Cowsay {
 					else if (commandLine.hasOption(CowsayCli.Opt.NOWRAP.toString())) {
 						wordwrap = "0";
 					}
-
-					for (String mode : modes) {
-						if (commandLine.hasOption(mode)) {
-							cowFace = CowFace.getByMode(mode);
-							break;
-						}
-					}
-
+					cowFace = getCowFaceByMode(commandLine);
 					if (cowFace == null) {
 						// if we are in here no modes were set
-						cowFace = new CowFace();
 						if (commandLine.hasOption(CowsayCli.Opt.COWFILE.toString())) {
 							cowfileSpec = commandLine.getOptionValue(CowsayCli.Opt.COWFILE.toString());
 						}
-						if (commandLine.hasOption(CowsayCli.Opt.EYES.toString())) {
-							cowFace.setEyes(commandLine.getOptionValue(CowsayCli.Opt.EYES.toString()));
-						}
-						if (commandLine.hasOption(CowsayCli.Opt.TONGUE.toString())) {
-							cowFace.setTongue(commandLine.getOptionValue(CowsayCli.Opt.TONGUE.toString()));
-						}
+						cowFace = getCowFace(commandLine);
 					}
 
 					if (commandLine.hasOption(CowsayCli.Opt.THINK.toString())) {
@@ -109,21 +96,7 @@ public class Cowsay {
 								message.setWordwrap(wordwrap);
 							}
 							String cow = CowFormatter.formatCow(cowTemplate, cowFace, message);
-							if (commandLine.hasOption(CowsayCli.Opt.HTML.toString())) {
-								cow = StringEscapeUtils.escapeHtml4(cow);
-								cow = "<figure><pre>" + cow + "</pre><figcaption style=\"left:-999px; position:absolute\">";
-								String alt;
-								if (commandLine.hasOption(CowsayCli.Opt.ALT.toString())) {
-									alt = commandLine.getOptionValue(CowsayCli.Opt.ALT.toString());
-								}
-								else {
-									alt = isThought ? I18n.getMessage("altthink") : I18n.getMessage("altsay");
-
-								}
-								String escaped = StringEscapeUtils.escapeHtml4(moosage);
-								cow += String.format(alt, escaped);
-								cow += "</figcaption></figure>";
-							}
+							cow = formatHtml(commandLine, cow, moosage, isThought);
 							return cow;
 						}
 					}
@@ -134,6 +107,69 @@ public class Cowsay {
 			Logger.getLogger(Cowsay.class.getName()).log(Level.SEVERE, null, ex);
 		}
 		return "";
+	}
+
+	/**
+	 * May apply HTML markup to the cow, if requested in the command line.
+	 * @param commandLine The command line with user options.
+	 * @param plainCow The cow formatted in plain text.
+	 * @param moosage The message the cow is saying.
+	 * @param isThought true if this is cowthink instead of cowsay.
+	 * @return Either the plaintext cow or an HTML marked up version, depending on command line.
+	 */
+	private static String formatHtml(final CommandLine commandLine, final String plainCow, final String moosage,
+									 final boolean isThought) {
+		String cow = plainCow;
+		if (commandLine.hasOption(CowsayCli.Opt.HTML.toString())) {
+			cow = StringEscapeUtils.escapeHtml4(cow);
+			cow = "<figure><pre>" + cow + "</pre><figcaption style=\"left:-999px; position:absolute\">";
+			String alt;
+			if (commandLine.hasOption(CowsayCli.Opt.ALT.toString())) {
+				alt = commandLine.getOptionValue(CowsayCli.Opt.ALT.toString());
+			}
+			else {
+				alt = isThought ? I18n.getMessage("altthink") : I18n.getMessage("altsay");
+
+			}
+			String escaped = StringEscapeUtils.escapeHtml4(moosage);
+			cow += String.format(alt, escaped);
+			cow += "</figcaption></figure>";
+		}
+		return cow;
+	}
+
+	/**
+	 * If a pre-defined cow mode has been set on the command line then use that face.
+	 * @param commandLine The command line with user options.
+	 * @return The cowface for the mode selected on the command line or null if no mode set.
+	 */
+	private static CowFace getCowFaceByMode(final CommandLine commandLine) {
+		CowFace cowFace = null;
+		Set<String> modes = CowFace.COW_MODES.keySet();
+		for (String mode : modes) {
+			if (commandLine.hasOption(mode)) {
+				cowFace = CowFace.getByMode(mode);
+				break;
+			}
+		}
+		return cowFace;
+	}
+
+	/**
+	 * Get a regular cow face optionally formatted with custom eyes and tongue from the command line.
+	 * @param commandLine The command line with user options.
+	 * @return A regular cowface, possibly formatted with custom tongue and/or eyes.
+	 */
+	private static CowFace getCowFace(final CommandLine commandLine) {
+		CowFace cowFace;
+		cowFace = new CowFace();
+		if (commandLine.hasOption(CowsayCli.Opt.EYES.toString())) {
+			cowFace.setEyes(commandLine.getOptionValue(CowsayCli.Opt.EYES.toString()));
+		}
+		if (commandLine.hasOption(CowsayCli.Opt.TONGUE.toString())) {
+			cowFace.setTongue(commandLine.getOptionValue(CowsayCli.Opt.TONGUE.toString()));
+		}
+		return cowFace;
 	}
 
 	/**
