@@ -2,10 +2,7 @@ package com.github.ricksbrown.cowsay.plugin;
 
 import com.github.ricksbrown.cowsay.CowsayTest;
 import java.util.Set;
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 

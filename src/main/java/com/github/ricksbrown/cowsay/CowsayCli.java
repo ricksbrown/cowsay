@@ -62,11 +62,11 @@ public class CowsayCli {
 		ALT("alt"),
 		HTML("html");
 
+		final String text;
+
 		Opt(final String text) {
 			this.text = text;
 		}
-
-		final String text;
 
 		@Override
 		public String toString() {
