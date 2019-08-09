@@ -61,6 +61,19 @@ java -jar cowsay.jar -f tux "Moo!"
 java -jar cowsay.jar --cowthink "Moo!"
 ```
 
+## As a Command Line Utility
+To call the executable jar from the command line you need to add some wrapper scripts to your [PATH](https://en.wikipedia.org/wiki/PATH_(variable)).
+
+Basic wrappers are provided for convenience here in the [wrappers](wrappers) directory.
+
+Once installed you can execute cowsay and cowthink like so:
+
+```
+cowsay Moo!
+cowsay -f tux Moo!
+cowthink Moo!
+```
+
 ## As an Ant task
 
 Example:
@@ -120,7 +133,7 @@ Example:
 ```
 
 # Internationalization
-This version of cowsay fully supports i18n.
+In the interests of absurd over-engineering this version of cowsay fully supports i18n.
 
 New and/or improved translations welcome - the default (English) messages can be found in the file `src/main/resources/MessagesBundle.properties`
 
@@ -128,10 +141,3 @@ New and/or improved translations welcome - the default (English) messages can be
 1. `git clone --recursive https://github.com/ricksbrown/cowsay.git`
 2. `cd cowsay`
 3. `mvn install`
-
-# Contributing
-Pull requests welcome (as long as they incorporate a "moo" somewhere)!
-
-# Stats
-As of April 2017 this tool is downloaded over 60 times a month.
-The peak so far is 105 times in January 2017.
