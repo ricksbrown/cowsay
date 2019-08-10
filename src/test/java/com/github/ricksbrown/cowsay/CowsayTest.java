@@ -341,9 +341,9 @@ public class CowsayTest {
 	@Test
 	public void testSayMultiLineLongInput() {
 		System.out.println("cowsay mutli long");
-		String[] args = new String[]{"This is a test text.\n"
-				+ "To test long lines in cowsay.\n"
-				+ "This is a really really really really really long line.\n"
+		String[] args = new String[]{"This is a test text." + System.lineSeparator()
+				+ "To test long lines in cowsay." + System.lineSeparator()
+				+ "This is a really really really really really long line." + System.lineSeparator()
 				+ "Moo moo moo."};
 		String expResult = loadExpected("cowsayMultilineLong.txt");
 		String result = Cowsay.say(args);
