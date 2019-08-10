@@ -146,16 +146,23 @@
 				<version>1.4.0</version>
 				<executions>
 					<execution>
+						<!-- This is necessary for the maven-release-plugin since it does not handle git submodules -->
+						<id>git submodule update</id>
 						<phase>initialize</phase>
-						<id>invoke build</id>
+						<configuration>
+							<executable>git</executable>
+							<arguments>
+								<argument>submodule</argument>
+								<argument>update</argument>
+								<argument>--init</argument>
+								<argument>--recursive</argument>
+							</arguments>
+						</configuration>
 						<goals>
 							<goal>exec</goal>
 						</goals>
 					</execution>
 				</executions>
-				<configuration>
-					<executable>update.sh</executable>
-				</configuration>
 			</plugin>
 		</plugins>
 	</build>
