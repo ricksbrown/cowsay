@@ -14,6 +14,8 @@ Moo!
                 ||----w |
                 ||     ||
 ```
+New in 1.0.4: you can now pipe input into cowsay, e.g. `ls | cowsay`
+
 # Download
 
 The JAR available on Maven Central is _The One JAR_ and can be used in any of the advertised ways:
