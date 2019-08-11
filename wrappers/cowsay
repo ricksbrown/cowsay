@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # This can be used to run java cowsay as a command line utility on *nix systems.
-# Downloaded the cowsay jar.
+# Download the cowsay jar.
 # Put this wrapper script in the same directory.
 # Make this wrapper script executable: chmod +x cowsay
 # Ensure the directory that contains this wrapper script is in your PATH.
