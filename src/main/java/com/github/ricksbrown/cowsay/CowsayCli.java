@@ -1,7 +1,12 @@
 package com.github.ricksbrown.cowsay;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -138,6 +143,27 @@ public class CowsayCli {
 				}
 			}
 		}
+	}
+
+	/**
+	 * Checks StdIn for piped input.
+	 * @return All lines from StdIn.
+	 */
+	public static String[] getPipedInput() {
+		List<String> messages = new ArrayList<>();
+		try (InputStreamReader isr = new InputStreamReader(System.in)) {
+			if (isr.ready()) {
+				try (BufferedReader bufferedReader = new BufferedReader(isr)) {
+					String line;
+					while ((line = bufferedReader.readLine()) != null) {
+						messages.add(line);
+					}
+				}
+			}
+		} catch (IOException ex) {
+			Logger.getLogger(CowsayCli.class.getName()).log(Level.WARNING, null, ex);
+		}
+		return messages.toArray(new String[messages.size()]);
 	}
 
 	/**

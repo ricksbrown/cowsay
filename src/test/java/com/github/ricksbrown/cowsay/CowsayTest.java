@@ -1,5 +1,6 @@
 package com.github.ricksbrown.cowsay;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
@@ -49,6 +50,42 @@ public class CowsayTest {
 	}
 
 	/**
+	 * Test of say method, of class Cowsay, with piped input.
+	 */
+	@Test
+	public void testPipedSay() {
+		try {
+			System.out.println("echo Hello | cowsay");
+			String[] args = new String[0];
+			ByteArrayInputStream in = new ByteArrayInputStream("Hello".getBytes());
+			System.setIn(in);
+			String expResult = loadExpected("cowsayHello.txt");
+			String result = Cowsay.say(args);
+			Assert.assertEquals(expResult, result);
+		} finally {
+			System.setIn(System.in);
+		}
+	}
+
+	/**
+	 * Test of say method, of class Cowsay with both piped input and arg.
+	 */
+	@Test
+	public void testPipedSayTrumpedByArgs() {
+		try {
+			System.out.println("echo foobar | cowsay Hello");
+			String[] args = new String[]{"Hello"};
+			String expResult = loadExpected("cowsayHello.txt");
+			ByteArrayInputStream in = new ByteArrayInputStream("foobar".getBytes());
+			System.setIn(in);
+			String result = Cowsay.say(args);
+			Assert.assertEquals("Message from args trumps piped input", expResult, result);
+		} finally {
+			System.setIn(System.in);
+		}
+	}
+
+	/**
 	 * Test of say method, of class Cowsay, with multiple words in multiple args issue #4.
 	 */
 	@Test
@@ -70,6 +107,24 @@ public class CowsayTest {
 		String expResult = loadExpected("cowsayFooBarBaz.txt");
 		String result = Cowsay.say(args);
 		Assert.assertEquals(expResult, result);
+	}
+
+	/**
+	 * Test of say method, of class Cowsay, with multiple words piped.
+	 */
+	@Test
+	public void testPipedSayManyWords() {
+		try {
+			System.out.println("echo foo bar baz | cowsay");
+			String expResult = loadExpected("cowsayFooBarBaz.txt");
+			String[] args = new String[0];
+			ByteArrayInputStream in = new ByteArrayInputStream("foo bar baz".getBytes());
+			System.setIn(in);
+			String result = Cowsay.say(args);
+			Assert.assertEquals(expResult, result);
+		} finally {
+			System.setIn(System.in);
+		}
 	}
 
 	/**
@@ -159,6 +214,28 @@ public class CowsayTest {
 			Assert.assertEquals(expResult, result);
 		}
 	}
+
+	/**
+	 * Test of say method, of class Cowsay, with piped input and flags.
+	 */
+	@Test
+	public void testSayModesPiped() {
+		try {
+			Set<String> modes = modeMap.keySet();
+			for (String key : modes) {
+				String[] args = new String[]{'-' + key};
+				System.out.println("echo Hello | cowsay -" + key);
+				String expResult = loadExpected(modeMap.get(key));
+				ByteArrayInputStream in = new ByteArrayInputStream("Hello".getBytes());
+				System.setIn(in);
+				String result = Cowsay.say(args);
+				Assert.assertEquals(expResult, result);
+			}
+		} finally {
+			System.setIn(System.in);
+		}
+	}
+
 
 	/**
 	 * Test of say method, of class Cowsay with custom eyes.
@@ -264,9 +341,9 @@ public class CowsayTest {
 	@Test
 	public void testSayMultiLineLongInput() {
 		System.out.println("cowsay mutli long");
-		String[] args = new String[]{"This is a test text.\n"
-				+ "To test long lines in cowsay.\n"
-				+ "This is a really really really really really long line.\n"
+		String[] args = new String[]{"This is a test text." + System.lineSeparator()
+				+ "To test long lines in cowsay." + System.lineSeparator()
+				+ "This is a really really really really really long line." + System.lineSeparator()
 				+ "Moo moo moo."};
 		String expResult = loadExpected("cowsayMultilineLong.txt");
 		String result = Cowsay.say(args);
@@ -315,5 +392,4 @@ public class CowsayTest {
 		}
 		return "";
 	}
-
 }

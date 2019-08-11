@@ -44,7 +44,6 @@ Documentation can be found in various man pages on the web.
 ## As a Java library
 Use the main methods `Cowsay.say` and `Cowsay.think`.
 
-Example:
 
 ```java
 String[] args = new String[]{"-f", "tux", "Moo!"};
@@ -53,30 +52,33 @@ String result = Cowsay.say(args);
 
 ## As an executable jar
 
-Example:
-
 ```
 java -jar cowsay.jar "Moo!"
 java -jar cowsay.jar -f tux "Moo!"
 java -jar cowsay.jar --cowthink "Moo!"
+
+# Since 1.0.4 handles piped input
+echo Moo! | java -jar cowsay.jar
 ```
 
 ## As a Command Line Utility
-To call the executable jar from the command line you need to add some wrapper scripts to your [PATH](https://en.wikipedia.org/wiki/PATH_(variable)).
+To make it work like any other cowsay 
+you need to add some wrapper scripts to your [PATH](https://en.wikipedia.org/wiki/PATH_(variable)).
 
-Basic wrappers are provided for convenience here in the [wrappers](wrappers) directory.
+Basic Windows and *nix wrappers are provided for convenience here in the [wrappers](wrappers) directory.
 
-Once installed you can execute cowsay and cowthink like so:
+Once installed you can execute cowsay and cowthink exactly like other versions:
 
 ```
 cowsay Moo!
 cowsay -f tux Moo!
 cowthink Moo!
+
+# Since 1.0.4 handles piped input
+echo Moo! | cowsay
 ```
 
 ## As an Ant task
-
-Example:
 
 ```xml
 <taskdef name="cowsay"
@@ -91,8 +93,6 @@ Example:
 ```
 
 ## As a Maven plugin
-
-Example:
 
 ```xml
 <plugin>

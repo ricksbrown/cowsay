@@ -89,6 +89,9 @@ public class Cowsay {
 					String cowTemplate = Cowloader.load(cowfileSpec);
 					if (cowTemplate != null) {
 						String moosages[] = commandLine.getArgs();
+						if (moosages.length == 0) {
+							moosages = CowsayCli.getPipedInput();
+						}
 						String moosage = StringUtils.join(moosages, " ");
 						if (moosage != null && moosage.length() > 0) {
 							Message message = new Message(moosage, isThought);

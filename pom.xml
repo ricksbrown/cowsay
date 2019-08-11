@@ -8,12 +8,12 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
-	
+
 	<description>
 		Java port of the original cowsay by Tony Monroe.
 		Moo!
 	</description>
-	
+
 	<parent>
 		<groupId>org.sonatype.oss</groupId>
 		<artifactId>oss-parent</artifactId>
@@ -47,10 +47,10 @@
 			</roles>
 		</developer>
 	</developers>
-	
+
 	<build>
 		<plugins>
-<!--			<plugin>
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.3</version>
@@ -58,7 +58,7 @@
 					<source>1.7</source>
 					<target>1.7</target>
 				</configuration>
-			</plugin>-->
+			</plugin>
 			<plugin>
 				<artifactId>maven-resources-plugin</artifactId>
 				<version>2.7</version>
@@ -146,16 +146,23 @@
 				<version>1.4.0</version>
 				<executions>
 					<execution>
+						<!-- This is necessary for the maven-release-plugin since it does not handle git submodules -->
+						<id>git submodule update</id>
 						<phase>initialize</phase>
-						<id>invoke build</id>
+						<configuration>
+							<executable>git</executable>
+							<arguments>
+								<argument>submodule</argument>
+								<argument>update</argument>
+								<argument>--init</argument>
+								<argument>--recursive</argument>
+							</arguments>
+						</configuration>
 						<goals>
 							<goal>exec</goal>
 						</goals>
 					</execution>
 				</executions>
-				<configuration>
-					<executable>update.sh</executable>
-				</configuration>
 			</plugin>
 		</plugins>
 	</build>
