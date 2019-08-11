@@ -25,7 +25,7 @@ The JAR available on Maven Central is _The One JAR_ and can be used in any of th
 The last two scenarios in particular may require you to manually download _The One JAR_ from Maven.
 It will be named following the convention `cowsay-{version}.jar`. 
 
-For example if you want version `1.0.3` you would go [here](http://repo1.maven.org/maven2/com/github/ricksbrown/cowsay/1.0.3/) and download [cowsay-1.0.3.jar](http://repo1.maven.org/maven2/com/github/ricksbrown/cowsay/1.0.3/cowsay-1.0.3.jar).
+For example if you want version `1.0.4` you would go [here](http://repo1.maven.org/maven2/com/github/ricksbrown/cowsay/1.0.4/) and download [cowsay-1.0.4.jar](http://repo1.maven.org/maven2/com/github/ricksbrown/cowsay/1.0.4/cowsay-1.0.4.jar).
 
 >One JAR to rule the cows, 
 One JAR to find them,
@@ -98,7 +98,7 @@ echo Moo! | cowsay
 <plugin>
 	<groupId>com.github.ricksbrown</groupId>
 	<artifactId>cowsay</artifactId>
-	<version>1.0.3</version>
+	<version>1.0.4</version>
 	<executions>
 		<execution>
 			<id>say-moo</id>
