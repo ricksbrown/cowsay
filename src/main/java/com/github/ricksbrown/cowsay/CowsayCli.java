@@ -151,13 +151,13 @@ public class CowsayCli {
 	 */
 	public static String[] getPipedInput() {
 		List<String> messages = new ArrayList<>();
-		try {
-			InputStreamReader isr = new InputStreamReader(System.in);
+		try (InputStreamReader isr = new InputStreamReader(System.in)) {
 			if (isr.ready()) {
-				BufferedReader bufferedReader = new BufferedReader(isr);
-				String line;
-				while ((line = bufferedReader.readLine()) != null) {
-					messages.add(line);
+				try (BufferedReader bufferedReader = new BufferedReader(isr)) {
+					String line;
+					while ((line = bufferedReader.readLine()) != null) {
+						messages.add(line);
+					}
 				}
 			}
 		} catch (IOException ex) {
