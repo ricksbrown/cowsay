@@ -1,5 +1,7 @@
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/c2ae0ae0cbc24295975e1f75bd111662)](https://www.codacy.com/app/ricksbrown/cowsay?utm_source=github.com&utm_medium=referral&utm_content=ricksbrown/cowsay&utm_campaign=badger)
 [![Build Status](https://travis-ci.org/ricksbrown/cowsay.svg?branch=master)](https://travis-ci.org/ricksbrown/cowsay)
+[![Javadocs](https://javadoc.io/badge/com.github.ricksbrown/cowsay.svg)](https://javadoc.io/doc/com.github.ricksbrown/cowsay)
+
 # Cowsay
 Java port of the original cowsay by Tony Monroe.
 Moo!
@@ -14,6 +16,7 @@ Moo!
                 ||----w |
                 ||     ||
 ```
+
 New in 1.0.4: you can now pipe input into cowsay, e.g. `ls | cowsay`
 
 # Download
@@ -35,22 +38,30 @@ One JAR to bring them all,
 and in the pasture bind them
 
 # Usage
-All the ways of using it support configuration consistent with the commandline flags of the original application.
+All the ways of using it support configuration consistent with the commandline flags of the original application, including full support for `COWPATH` environment variable.
+
 Documentation can be found in various man pages on the web.
 
-## Additional flags not found in the original cowsay
-* `--html` HTML output mode, produces accessible HTML5
-* `--alt <arg>` Choose your own alt text for HTML output mode
-* `--lang <arg>` Switch language
-
 ## As a Java library
-Use the main methods `Cowsay.say` and `Cowsay.think`.
+Include it as a dependency in your project, for example in your Maven pom.xml:
+
+```xml
+<dependency>
+	<groupId>com.github.ricksbrown</groupId>
+	<artifactId>cowsay</artifactId>
+	<version>1.0.4</version>
+</dependency>
+```
+
+Then use the main methods [Cowsay.say](https://static.javadoc.io/com.github.ricksbrown/cowsay/1.0.4/index.html?com/github/ricksbrown/cowsay/Cowsay.html) and [Cowsay.think](https://static.javadoc.io/com.github.ricksbrown/cowsay/1.0.4/index.html?com/github/ricksbrown/cowsay/Cowsay.html).
 
 
 ```java
 String[] args = new String[]{"-f", "tux", "Moo!"};
 String result = Cowsay.say(args);
 ```
+
+You may also use [CowExecutor](https://static.javadoc.io/com.github.ricksbrown/cowsay/1.0.4/index.html?com/github/ricksbrown/cowsay/plugin/CowExecutor.html) for more advanced scenarios.
 
 ## As an executable jar
 
@@ -133,6 +144,11 @@ echo Moo! | cowsay
                 ||----w |
                 ||     ||
 ```
+
+## Additional flags not found in the original cowsay
+* `--html` HTML output mode, produces accessible HTML5
+* `--alt <arg>` Choose your own alt text for HTML output mode
+* `--lang <arg>` Switch language
 
 # Internationalization
 In the interests of absurd over-engineering this version of cowsay fully supports i18n.
