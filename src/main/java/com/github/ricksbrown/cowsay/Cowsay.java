@@ -61,7 +61,7 @@ public class Cowsay {
 				}
 				else {
 					String cowfileSpec = null;
-					CowFace cowFace = null;
+					CowFace cowFace;
 
 					if (commandLine.hasOption(CowsayCli.Opt.WRAP_AT.toString())) {
 						wordwrap = commandLine.getOptionValue(CowsayCli.Opt.WRAP_AT.toString());
