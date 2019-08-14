@@ -48,6 +48,8 @@ public final class CowFormatter {
 		String result = extractCowTemplate(cow);
 		String tongue = face.getTongue();
 		String eyes = face.getEyes();
+		// In third-party cowfile heredocs a single eye is frequently extracted using the perl chop function
+		String eye = Character.toString(eyes.charAt(eyes.length() - 1));
 		result = result.replaceAll("\\\\\\\\", "\\\\");  // do this first
 		result = result.replace("\\@", "@");
 		result = result.replace("\\$", "$");
@@ -56,6 +58,10 @@ public final class CowFormatter {
 		result = result.replace("$thoughts", message.getThoughts());
 		result = result.replace("${eyes}", eyes);  // sheep - doesn't help that i know zero perl
 		result = result.replace("$eyes", eyes);
+		result = result.replace("${eye}", eye);
+		result = result.replace("$eye", eye);
+		result = result.replace("${extra}", eye);
+		result = result.replace("$extra", eye);
 		result = result.replaceAll("EOC\\s*$", "");
 		result = message.getMessage() + result;
 		return result;
