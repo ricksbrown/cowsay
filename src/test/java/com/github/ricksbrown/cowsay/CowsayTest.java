@@ -364,16 +364,19 @@ public class CowsayTest {
 
 	/**
 	 * Test parsing all known cowfiles.
+	 * Tests against output from original perl cowsay on ubuntu.
+	 * EXCEPT squirrel, which is not original and seems broken.
 	 */
 	@Test
 	public void testAllCowfiles() {
 		String[] cowfiles = Cowloader.listAllCowfiles();
 		Assert.assertNotEquals(0, cowfiles.length);
 		for (String cowfile : cowfiles) {
-			System.out.println("cowsay -f " + cowfile + " Hello");
-			String[] args = new String[]{"-f", cowfile, "Hello"};
+			System.out.println("cowsay -f " + cowfile + " Moo");
+			String[] args = new String[]{"-f", cowfile, "Moo"};
 			String result = Cowsay.say(args);
-			Assert.assertNotEquals("", result);
+			String expResult = loadExpected("ubuntu/" + cowfile + ".cow.txt");
+			Assert.assertEquals(expResult, result);
 			System.out.println(result);  // woohoo!
 		}
 	}
@@ -386,7 +389,9 @@ public class CowsayTest {
 	public static String loadExpected(final String name) {
 		try {
 			InputStream expected = CowsayTest.class.getResourceAsStream("/" + name);
-			return IOUtils.toString(expected, "UTF-8");
+			String result = IOUtils.toString(expected, "UTF-8");
+			result = result.replace("\n", System.lineSeparator());
+			return result;
 		} catch (IOException ex) {
 			Logger.getLogger(CowsayTest.class.getName()).log(Level.SEVERE, null, ex);
 		}

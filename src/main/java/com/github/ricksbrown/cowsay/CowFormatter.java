@@ -50,6 +50,13 @@ public final class CowFormatter {
 		String eyes = face.getEyes();
 		// In third-party cowfile heredocs a single eye is frequently extracted using the perl chop function
 		String eye = Character.toString(eyes.charAt(eyes.length() - 1));
+		if (cow.contains("$eyes .= ($extra x 2);")) {
+			// special case for extra three-eyes.cow - not sure how to handle it more robustly without a perl engine
+			eyes += eye;
+		} else if (cow.contains("$eyes .= \" $other_eye\";")) {
+			// special case for udder.cow
+			eyes = eye + " " + eye;
+		}
 		result = result.replaceAll("\\\\\\\\", "\\\\");  // do this first
 		result = result.replace("\\@", "@");
 		result = result.replace("\\$", "$");
