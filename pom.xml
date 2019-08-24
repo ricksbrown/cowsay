@@ -21,11 +21,14 @@
 	</parent>
 
 	<licenses>
+		<!--
+			Note that the original cowsay is by Tony Monroe <tony@nog.net>
+			Cowfiles used in this project are directly taken from https://github.com/schacon/cowsay and are covered by that project's copyright.
+		-->
 		<license>
-			<name>GPLv3</name>
-			<url>http://www.gnu.org/licenses/gpl-3.0.txt</url>
+			<name>MIT License</name>
+			<url>https://tldrlegal.com/license/mit-license</url>
 			<distribution>manual</distribution>
-			<comments>GNU General Public License</comments>
 		</license>
 	</licenses>
 
@@ -86,6 +89,7 @@
 				<version>1.8</version>
 				<executions>
 					<execution>
+						<id>cowfile-list</id>
 						<phase>generate-resources</phase>
 						<configuration>
 							<target>
