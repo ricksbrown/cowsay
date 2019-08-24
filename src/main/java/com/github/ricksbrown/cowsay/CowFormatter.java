@@ -59,7 +59,6 @@ public final class CowFormatter {
 		}
 		result = result.replaceAll("\\\\\\\\", "\\\\");  // do this first
 		result = result.replace("\\@", "@");
-		result = result.replace("\\$", "$");
 		result = result.replace("${tongue}", tongue);
 		result = result.replace("$tongue", tongue);
 		result = result.replace("$thoughts", message.getThoughts());
@@ -69,6 +68,7 @@ public final class CowFormatter {
 		result = result.replace("$eye", eye);
 		result = result.replace("${extra}", eye);
 		result = result.replace("$extra", eye);
+		result = result.replace("\\$", "$");  // do this last
 		result = result.replaceAll("EOC\\s*$", "");
 		result = message.getMessage() + result;
 		return result;
