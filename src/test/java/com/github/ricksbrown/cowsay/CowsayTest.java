@@ -365,7 +365,6 @@ public class CowsayTest {
 	/**
 	 * Test parsing all known cowfiles.
 	 * Tests against output from original perl cowsay on ubuntu.
-	 * EXCEPT squirrel, which is not original and seems broken.
 	 */
 	@Test
 	public void testAllCowfiles() {

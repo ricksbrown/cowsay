@@ -2,6 +2,7 @@ package com.github.ricksbrown.cowsay;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.apache.commons.lang3.StringEscapeUtils;
 
 /**
  * For a given cow template cleans comments, inserts message, cow face, removes header footer etc.
@@ -57,8 +58,17 @@ public final class CowFormatter {
 			// special case for udder.cow
 			eyes = eye + " " + eye;
 		}
-		result = result.replaceAll("\\\\\\\\", "\\\\");  // do this first
-		result = result.replace("\\@", "@");
+		// result = result.replaceAll("\\\\\\\\", "\\\\");  // do this first
+		/*
+		 * A java unescape seems to work well enough for the cow files (perl heredocs).
+		 * The main concern is the consume the backslashes correctly.
+		 * The original regex method is not as accurate (not as true to the original cowsay).
+		 * The regex method coped better with some cowfile errors (when people forget to escape a backslash,
+		 * like in squirrel https://github.com/schacon/cowsay/pull/16) but worse in other scenarios (when people
+		 * unnecessarily escape characters like "\#").
+		 */
+		result = StringEscapeUtils.unescapeJava(result);  // do this first
+		// result = result.replace("\\@", "@");  // not needed with unescapeJava
 		result = result.replace("${tongue}", tongue);
 		result = result.replace("$tongue", tongue);
 		result = result.replace("$thoughts", message.getThoughts());
@@ -68,7 +78,7 @@ public final class CowFormatter {
 		result = result.replace("$eye", eye);
 		result = result.replace("${extra}", eye);
 		result = result.replace("$extra", eye);
-		result = result.replace("\\$", "$");  // do this last
+		// result = result.replace("\\$", "$");  // do this last (not needed with unescapeJava)
 		result = result.replaceAll("EOC\\s*$", "");
 		result = message.getMessage() + result;
 		return result;
