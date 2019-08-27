@@ -11,7 +11,7 @@ import org.apache.commons.lang3.StringEscapeUtils;
  */
 public final class CowFormatter {
 
-	private static final Pattern COWSTART_RE = Pattern.compile(".*\\$the_cow\\s*=\\s*<<\"?EOC\"?;?", Pattern.DOTALL);
+	private static final Pattern COWSTART_RE = Pattern.compile(".*\\$the_cow\\s*=\\s*<<\\s*\"?EOC\"?;?", Pattern.DOTALL);
 
 	/**
 	 * Utility class does not need constructor.
