@@ -1,6 +1,7 @@
 package com.github.ricksbrown.cowsay;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
@@ -9,6 +10,7 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.io.IOUtils;
+import org.hamcrest.CoreMatchers;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -363,7 +365,7 @@ public class CowsayTest {
 	}
 
 	/**
-	 * Test parsing all known cowfiles.
+	 * Test output of all standard cowfiles.
 	 * Tests against output from original perl cowsay on ubuntu.
 	 */
 	@Test
@@ -374,9 +376,37 @@ public class CowsayTest {
 			System.out.println("cowsay -f " + cowfile + " Moo");
 			String[] args = new String[]{"-f", cowfile, "Moo"};
 			String result = Cowsay.say(args);
-			String expResult = loadExpected("ubuntu/" + cowfile + ".cow.txt");
-			Assert.assertEquals(expResult, result);
-			System.out.println(result);  // woohoo!
+			String expResult = loadExpected("cowgen" + File.separatorChar + "core" + File.separatorChar + cowfile + ".cow.txt");
+			System.out.println("expResult");
+			System.out.println(expResult);
+			System.out.println("result");
+			System.out.println(result);
+			Assert.assertThat(expResult, CoreMatchers.is(result));
+		}
+	}
+
+	/**
+	 * Test output of extra cowfiles.
+	 * Tests against output from original perl cowsay on ubuntu.
+	 * EXCEPT squirrel, which is not original and is broken: https://github.com/schacon/cowsay/pull/16
+	 */
+	@Test
+	public void testExtraCowfiles() {
+		File testResourcesDir = new File(CowsayTest.class.getResource("/cowfiles").getFile());
+		File[] extraCowFiles = testResourcesDir.listFiles();
+		for (File extraCowFile : extraCowFiles) {
+			if (extraCowFile.getName().endsWith(".cow")) {
+				System.out.println("cowsay -f " + extraCowFile.getAbsolutePath() + " Moo");
+				String name = extraCowFile.getName();
+				String[] args = new String[]{"-f", extraCowFile.getAbsolutePath(), "Moo"};
+				String result = Cowsay.say(args);
+				String expResult = loadExpected("cowgen" + File.separatorChar + "cowfiles" + File.separatorChar + name + ".txt");
+				System.out.println("expResult");
+				System.out.println(expResult);
+				System.out.println("result");
+				System.out.println(result);
+				Assert.assertThat(expResult, CoreMatchers.is(result));
+			}
 		}
 	}
 

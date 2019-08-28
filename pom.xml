@@ -241,6 +241,45 @@
 	</dependencies>
 	<profiles>
 		<profile>
+			<id>cowgen</id>
+			<!--
+				This could be used to generate native cow output files for test resources.
+			-->
+			<build>
+				<plugins>
+					<plugin>
+						<artifactId>maven-antrun-plugin</artifactId>
+						<version>1.8</version>
+						<executions>
+							<execution>
+								<id>cowtput</id>
+								<phase>generate-test-resources</phase>
+								<configuration>
+									<tasks>
+										<exec executable="/bin/bash">
+											<arg value="${basedir}/cowgen.sh" />
+											<arg value="${basedir}/src/main/resources/cows" />
+											<arg value="${basedir}/src/test/resources/cowgen/core" />
+										</exec>
+									</tasks>
+									<tasks>
+										<exec executable="/bin/bash">
+											<arg value="${basedir}/cowgen.sh" />
+											<arg value="${basedir}/src/test/resources/cowfiles" />
+											<arg value="${basedir}/src/test/resources/cowgen/cowfiles" />
+										</exec>
+									</tasks>
+								</configuration>
+								<goals>
+									<goal>run</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
 			<id>release-sign-artifacts</id>
 			<activation>
 				<property>
