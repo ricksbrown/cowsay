@@ -8,6 +8,7 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -81,7 +82,7 @@ public final class Cowloader {
 	 * @return A String representing the result of reading the entire InputStream.
 	 */
 	private static String cowInputStreamToString(final InputStream cowInputStream) {
-		BufferedReader reader = new BufferedReader(new InputStreamReader(cowInputStream));
+		BufferedReader reader = new BufferedReader(new InputStreamReader(cowInputStream, StandardCharsets.UTF_8));
 		StringBuilder sb = new StringBuilder();
 		String line;
 		try {

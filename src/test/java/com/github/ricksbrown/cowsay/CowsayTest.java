@@ -419,7 +419,7 @@ public class CowsayTest {
 		try {
 			InputStream expected = CowsayTest.class.getResourceAsStream("/" + name);
 			String result = IOUtils.toString(expected, "UTF-8");
-			result = result.replace("\n", System.lineSeparator());
+			result = result.replaceAll("\\r?\\n", System.lineSeparator());
 			return result;
 		} catch (IOException ex) {
 			Logger.getLogger(CowsayTest.class.getName()).log(Level.SEVERE, null, ex);
