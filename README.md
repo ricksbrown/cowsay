@@ -42,6 +42,34 @@ All the ways of using it support configuration consistent with the commandline f
 
 Documentation can be found in various man pages on the web.
 
+## As a Command Line Utility
+To make it work like any other cowsay 
+you need to add some wrapper scripts to your [PATH](https://en.wikipedia.org/wiki/PATH_(variable)).
+
+Basic Windows and *nix wrappers are provided for convenience here in the [wrappers](wrappers) directory.
+
+Once installed you can execute cowsay and cowthink exactly like other versions:
+
+```
+cowsay Moo!
+cowsay -f tux Moo!
+cowthink Moo!
+
+# Since 1.0.4 handles piped input
+echo Moo! | cowsay
+```
+
+## As an executable jar
+
+```
+java -jar cowsay.jar "Moo!"
+java -jar cowsay.jar -f tux "Moo!"
+java -jar cowsay.jar --cowthink "Moo!"
+
+# Since 1.0.4 handles piped input
+echo Moo! | java -jar cowsay.jar
+```
+
 ## As a Java library
 Include it as a dependency in your project, for example in your Maven pom.xml:
 
@@ -63,33 +91,7 @@ String result = Cowsay.say(args);
 
 You may also use [CowExecutor](https://static.javadoc.io/com.github.ricksbrown/cowsay/1.0.4/index.html?com/github/ricksbrown/cowsay/plugin/CowExecutor.html) for more advanced scenarios.
 
-## As an executable jar
-
-```
-java -jar cowsay.jar "Moo!"
-java -jar cowsay.jar -f tux "Moo!"
-java -jar cowsay.jar --cowthink "Moo!"
-
-# Since 1.0.4 handles piped input
-echo Moo! | java -jar cowsay.jar
-```
-
-## As a Command Line Utility
-To make it work like any other cowsay 
-you need to add some wrapper scripts to your [PATH](https://en.wikipedia.org/wiki/PATH_(variable)).
-
-Basic Windows and *nix wrappers are provided for convenience here in the [wrappers](wrappers) directory.
-
-Once installed you can execute cowsay and cowthink exactly like other versions:
-
-```
-cowsay Moo!
-cowsay -f tux Moo!
-cowthink Moo!
-
-# Since 1.0.4 handles piped input
-echo Moo! | cowsay
-```
+Try running the example java project: [cowsay-example](cowsay-example)
 
 ## As an Ant task
 
@@ -104,6 +106,8 @@ echo Moo! | cowsay
 <cowsay message="Long live linux!" cowfile="tux"/>
 <cowsay message="Moo!" eyes="Oo" tongue=" U"/>
 ```
+
+Try running Ant on the example java project: [cowsay-example](cowsay-example)
 
 ## As a Maven plugin
 
@@ -144,6 +148,8 @@ echo Moo! | cowsay
                 ||----w |
                 ||     ||
 ```
+
+Try running maven on the example java project: [cowsay-example](cowsay-example)
 
 ## Additional flags not found in the original cowsay
 * `--html` HTML output mode, produces accessible HTML5

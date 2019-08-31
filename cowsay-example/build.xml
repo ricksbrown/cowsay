@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	An example of how to use the cowsay Ant task - I bet millions of people need this.
+-->
+<project basedir="." default="build" name="CowSayTest">
+	<property name="cowjarpath" location="../cowsay/target/cowsay-${cowsay.version}.jar"/>
+	<target name="build">
+		<taskdef name="cowsay"
+			classname="com.github.ricksbrown.cowsay.ant.CowsayTask"
+			classpath="${cowjarpath}"/>
+
+		<cowsay message="Selecting a different cowfile from Ant" cowfile="moose"/>
+		<cowsay think="true">
+			I am thinking...
+			This is awesome,
+			a talking cow from Ant.
+		</cowsay>
+	</target>
+</project>

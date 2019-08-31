@@ -2,11 +2,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.ricksbrown</groupId>
-	<artifactId>cowsay</artifactId>
-	<version>1.0.5-SNAPSHOT</version>
-	<packaging>maven-plugin</packaging>
+	<artifactId>cowsay-parent</artifactId>
+	<version>1.1.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<cowfile.list.skip>true</cowfile.list.skip>
 	</properties>
 
 	<description>
@@ -21,11 +22,14 @@
 	</parent>
 
 	<licenses>
+		<!--
+			Note that the original cowsay is by Tony Monroe <tony@nog.net>
+			Cowfiles used in this project are directly taken from https://github.com/schacon/cowsay and are covered by that project's copyright.
+		-->
 		<license>
-			<name>GPLv3</name>
-			<url>http://www.gnu.org/licenses/gpl-3.0.txt</url>
+			<name>MIT License</name>
+			<url>https://tldrlegal.com/license/mit-license</url>
 			<distribution>manual</distribution>
-			<comments>GNU General Public License</comments>
 		</license>
 	</licenses>
 
@@ -33,7 +37,7 @@
 		<url>https://github.com/ricksbrown/cowsay</url>
 		<connection>scm:git:https://github.com/ricksbrown/cowsay.git</connection>
 		<developerConnection>scm:git:https://github.com/ricksbrown/cowsay.git</developerConnection>
-		<tag>cowsay-1.0.0</tag>
+		<tag>cowsay-1.1.0</tag>
 	</scm>
 
 	<developers>
@@ -48,89 +52,88 @@
 		</developer>
 	</developers>
 
+	<profiles>
+		<profile>
+			<id>release-sign-artifacts</id>
+			<activation>
+				<property>
+					<name>performRelease</name>
+					<value>true</value>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-gpg-plugin</artifactId>
+						<version>1.6</version>
+						<executions>
+							<execution>
+								<id>sign-artifacts</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>cowgen</id>
+			<!--
+				This could be used to generate native cow output files for test resources.
+			-->
+			<build>
+				<plugins>
+					<plugin>
+						<artifactId>maven-antrun-plugin</artifactId>
+						<version>1.8</version>
+						<executions>
+							<execution>
+								<id>cowtput</id>
+								<phase>generate-test-resources</phase>
+								<configuration>
+									<tasks>
+										<exec executable="/bin/bash">
+											<arg value="${basedir}/cowgen.sh" />
+											<arg value="${basedir}/cowjar/src/main/resources/cows" />
+											<arg value="${basedir}/cowsay/src/test/resources/cowgen/cowjar" />
+										</exec>
+									</tasks>
+									<tasks>
+										<exec executable="/bin/bash">
+											<arg value="${basedir}/cowgen.sh" />
+											<arg value="${basedir}/cowjar-extra/src/main/resources/cows" />
+											<arg value="${basedir}/cowsay/src/test/resources/cowgen/cowjar-extra" />
+										</exec>
+									</tasks>
+								</configuration>
+								<goals>
+									<goal>run</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+
+	<distributionManagement>
+		<snapshotRepository>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+		</snapshotRepository>
+		<repository>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+		</repository>
+	</distributionManagement>
+
 	<build>
 		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.3</version>
-				<configuration>
-					<source>1.7</source>
-					<target>1.7</target>
-				</configuration>
-			</plugin>
-			<plugin>
-				<artifactId>maven-resources-plugin</artifactId>
-				<version>2.7</version>
-				<executions>
-					<execution>
-						<id>copy-resources</id>
-						<phase>generate-resources</phase>
-						<goals>
-							<goal>copy-resources</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>src/main/resources/cows</outputDirectory>
-							<resources>
-								<resource>
-									<directory>${basedir}/cowsay/cows</directory>
-									<filtering>false</filtering>
-								</resource>
-							</resources>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<artifactId>maven-antrun-plugin</artifactId>
-				<version>1.8</version>
-				<executions>
-					<execution>
-						<phase>generate-resources</phase>
-						<configuration>
-							<target>
-								<fileset id="cow-fileset" dir="src/main/resources/cows" />
-								<pathconvert targetos="unix" pathsep="," property="cowfile-list" refid="cow-fileset">
-									<map from="${basedir}/src/main/resources/cows/" to="" />
-								</pathconvert>
-								<echo file="src/main/resources/cowfile-list.csv">${cowfile-list}</echo>
-							</target>
-						</configuration>
-						<goals>
-							<goal>run</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<artifactId>maven-assembly-plugin</artifactId>
-				<configuration>
-					<archive>
-						<manifest>
-							<addClasspath>true</addClasspath>
-							<mainClass>com.github.ricksbrown.cowsay.Cowsay</mainClass>
-						</manifest>
-					</archive>
-					<descriptorRefs>
-						<descriptorRef>jar-with-dependencies</descriptorRef>
-					</descriptorRefs>
-					<appendAssemblyId>false</appendAssemblyId>
-				</configuration>
-				<executions>
-					<execution>
-						<id>make-jar-with-dependencies</id>
-						<phase>package</phase>
-						<goals>
-							<goal>single</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-plugin-plugin</artifactId>
-				<version>3.2</version>
-			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-release-plugin</artifactId>
@@ -165,113 +168,47 @@
 				</executions>
 			</plugin>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>3.1.1</version>
-				<configuration>
-					<tags>
-						<tag>
-							<name>goal</name>
-							<placement>a</placement>
-							<head>Goal:</head>
-						</tag>
-						<tag>
-							<name>phase</name>
-							<placement>a</placement>
-							<head>Phase:</head>
-						</tag>
-						<tag>
-							<name>threadSafe</name>
-							<placement>a</placement>
-							<head>Thread Safe:</head>
-						</tag>
-						<tag>
-							<name>requiresDependencyResolution</name>
-							<placement>a</placement>
-							<head>Requires Dependency Resolution:</head>
-						</tag>
-						<tag>
-							<name>requiresProject</name>
-							<placement>a</placement>
-							<head>Requires Project:</head>
-						</tag>
-					</tags>
-				</configuration>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>cowfile-list</id>
+						<phase>process-resources</phase>
+						<configuration>
+							<skip>${cowfile.list.skip}</skip>
+							<target>
+								<fileset id="cow-fileset" dir="src/main/resources/cows" />
+								<pathconvert targetos="unix" pathsep="," property="cowfile-list" refid="cow-fileset">
+									<map from="${basedir}/src/main/resources/cows/" to="" />
+								</pathconvert>
+								<echo file="src/main/resources/${cowjar.name}.csv">${cowfile-list}</echo>
+							</target>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<artifactId>maven-resources-plugin</artifactId>
+					<version>2.7</version>
+				</plugin>
+				<plugin>
+					<artifactId>maven-antrun-plugin</artifactId>
+					<version>1.8</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 	</build>
-	<dependencies>
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-lang3</artifactId>
-			<version>3.3.2</version>
-		</dependency>
-		<dependency>
-			<groupId>commons-cli</groupId>
-			<artifactId>commons-cli</artifactId>
-			<version>1.3</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.maven</groupId>
-			<artifactId>maven-plugin-api</artifactId>
-			<version>3.0</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.ant</groupId>
-			<artifactId>ant</artifactId>
-			<version>1.9.2</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.12</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>commons-io</groupId>
-			<artifactId>commons-io</artifactId>
-			<version>2.4</version>
-			<scope>test</scope>
-		</dependency>
-	</dependencies>
-	<profiles>
-		<profile>
-			<id>release-sign-artifacts</id>
-			<activation>
-				<property>
-					<name>performRelease</name>
-					<value>true</value>
-				</property>
-			</activation>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-gpg-plugin</artifactId>
-						<version>1.6</version>
-						<executions>
-							<execution>
-								<id>sign-artifacts</id>
-								<phase>verify</phase>
-								<goals>
-									<goal>sign</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-	</profiles>
-	<distributionManagement>
-		<snapshotRepository>
-			<id>ossrh</id>
-			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
-		</snapshotRepository>
-		<repository>
-			<id>ossrh</id>
-			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-		</repository>
-	</distributionManagement>
+
+	<modules>
+		<module>cowjar</module>
+		<module>cowjar-off</module>
+		<module>cowsay</module>
+		<module>cowjar-extra</module>
+		<module>cowjar-js</module>
+	</modules>
 </project>
