@@ -7,7 +7,7 @@ release.properties
 dependency-reduced-pom.xml
 buildNumber.properties
 nbactions.xml
-src/main/resources/cows/
-src/main/resources/cowfile-list.csv
+**/src/main/resources/cows/
+**/src/main/resources/*.csv
 /nb-configuration.xml
 /nbactions-release-profile.xml

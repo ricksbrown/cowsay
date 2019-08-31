@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.github.ricksbrown</groupId>
+	<artifactId>cowsay-example</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+	<packaging>jar</packaging>
+
+	<properties>
+		<cowsay.version>1.1.0-SNAPSHOT</cowsay.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
+	<build>
+		<plugins>
+			<plugin>
+				<!-- Example cowsay plugin usage -->
+				<groupId>com.github.ricksbrown</groupId>
+				<artifactId>cowsay</artifactId>
+				<version>${cowsay.version}</version>
+				<executions>
+					<execution>
+						<id>say-moo</id>
+						<phase>compile</phase>
+						<goals>
+							<goal>moo</goal>
+						</goals>
+						<configuration>
+							<message>What good is a maven build without cows?</message>
+							<cowfile>tux</cowfile>
+						</configuration>
+					</execution>
+				</executions>
+				<!--
+				If you want the additional/excluded cows you need to add them
+				<dependencies>
+					<dependency>
+						<groupId>com.github.ricksbrown</groupId>
+						<artifactId>cowjar-off</artifactId>
+						<version>${cowsay.version}</version>
+					</dependency>
+					<dependency>
+						<groupId>com.github.ricksbrown</groupId>
+						<artifactId>cowjar-extra</artifactId>
+						<version>${cowsay.version}</version>
+					</dependency>
+					<dependency>
+						<groupId>com.github.ricksbrown</groupId>
+						<artifactId>cowjar-js</artifactId>
+						<version>${cowsay.version}</version>
+					</dependency>
+				</dependencies>
+				-->
+			</plugin>
+			<plugin>
+				<!-- Ant example called from maven -->
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>1.8</version>
+				<executions>
+					<execution>
+						<id>ant-from-maven-example</id>
+						<phase>compile</phase>
+						<configuration>
+							<tasks>
+								<property name="cowjarpath" refid="maven.compile.classpath"/>
+								<ant antfile="${basedir}/build.xml">
+									<target name="build"/>
+								</ant>
+							</tasks>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+	<dependencies>
+		<!--
+		If you want the additional/excluded cows you need to add them
+		<dependency>
+			<groupId>com.github.ricksbrown</groupId>
+			<artifactId>cowjar-off</artifactId>
+			<version>${cowsay.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.github.ricksbrown</groupId>
+			<artifactId>cowjar-extra</artifactId>
+			<version>${cowsay.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.github.ricksbrown</groupId>
+			<artifactId>cowjar-js</artifactId>
+			<version>${cowsay.version}</version>
+		</dependency>
+		-->
+		<dependency>
+			<!-- Example cowsay java library usage -->
+			<groupId>com.github.ricksbrown</groupId>
+			<artifactId>cowsay</artifactId>
+			<version>${cowsay.version}</version>
+		</dependency>
+	</dependencies>
+</project>
