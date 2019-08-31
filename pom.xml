@@ -207,8 +207,8 @@
 	<modules>
 		<module>cowjar</module>
 		<module>cowjar-off</module>
-		<module>cowsay</module>
 		<module>cowjar-extra</module>
 		<module>cowjar-js</module>
+		<module>cowsay</module>
 	</modules>
 </project>
