@@ -7,7 +7,7 @@
 	<target name="build">
 		<taskdef name="cowsay"
 			classname="com.github.ricksbrown.cowsay.ant.CowsayTask"
-			classpath="${cowjarpath}"/>
+			classpath="${cowjarpath}"/><!-- You can also include other cowjars on the classpath -->
 
 		<cowsay message="Selecting a different cowfile from Ant" cowfile="moose"/>
 		<cowsay think="true">

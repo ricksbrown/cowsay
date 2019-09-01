@@ -3,6 +3,7 @@ package com.github.ricksbrown.cowsay;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * For a given cow template cleans comments, inserts message, cow face, removes header footer etc.
@@ -50,7 +51,7 @@ public final class CowFormatter {
 		String tongue = face.getTongue();
 		String eyes = face.getEyes();
 		// In third-party cowfile heredocs a single eye is frequently extracted using the perl chop function
-		String eye = Character.toString(eyes.charAt(eyes.length() - 1));
+		String eye = StringUtils.chop(eyes);
 		if (cow.contains("$eyes .= ($extra x 2);")) {
 			// special case for extra three-eyes.cow - not sure how to handle it more robustly without a perl engine
 			eyes += eye;
