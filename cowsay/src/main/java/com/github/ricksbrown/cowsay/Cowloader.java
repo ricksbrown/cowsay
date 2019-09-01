@@ -171,8 +171,18 @@ public final class Cowloader {
 	 * @return The names of available cowfiles.
 	 */
 	public static String[] listAllCowfiles() {
+		return listAllCowfiles(Cowloader.class.getClassLoader());
+	}
+
+	/**
+	 * List the names of all cowfiles found when searching COWPATH (including bundled cowfiles).
+	 * Primarily useful for the "-l" commandline flag and also handy for unit testing.
+	 * @param classloader The classloader to use when searching for cowjars (useful for testing).
+	 * @return The names of available cowfiles.
+	 */
+	public static String[] listAllCowfiles(final ClassLoader classloader) {
 		String[] resultAsArray;
-		Set<String> result = getBundledCowfiles();
+		Set<String> result = getBundledCowfiles(classloader);
 		String cowPath = System.getenv("COWPATH");
 		if (cowPath != null) {
 			String[] paths = cowPath.split(File.pathSeparator);
@@ -260,12 +270,13 @@ public final class Cowloader {
 
 	/**
 	 * Get a list of cowfiles bundled in cowjars.
+	 * @param classloader The classloader to use to search for cowfiles.
 	 * @return The names of bundled cowfiles.
 	 */
-	private static Set<String> getBundledCowfiles() {
+	private static Set<String> getBundledCowfiles(final ClassLoader classloader) {
 		Set<String> result = new HashSet<>();
 		try {
-			Enumeration<URL> enumeration = Cowloader.class.getClassLoader().getResources("cows");
+			Enumeration<URL> enumeration = classloader.getResources("cows");
 			while (enumeration.hasMoreElements()) {
 				URL url = enumeration.nextElement();
 				URLConnection connection = url.openConnection();
