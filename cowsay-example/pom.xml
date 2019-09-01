@@ -61,12 +61,12 @@
 						<id>ant-from-maven-example</id>
 						<phase>compile</phase>
 						<configuration>
-							<tasks>
+							<target>
 								<property name="cowjarpath" refid="maven.compile.classpath"/>
 								<ant antfile="${basedir}/build.xml">
 									<target name="build"/>
 								</ant>
-							</tasks>
+							</target>
 						</configuration>
 						<goals>
 							<goal>run</goal>

@@ -4,14 +4,20 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.JarURLConnection;
+import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -187,61 +193,6 @@ public final class Cowloader {
 	}
 
 	/**
-	 * Get a list of cowfiles bundled in the cowjar.
-	 * @return The names of bundled cowfiles.
-	 */
-	private static Set<String> getBundledCowfiles() {
-		Set<String> result = new HashSet<>();
-		String bundleList = System.getProperty("cowfile.bundle.csv", "/cowjar-js.csv,/cowjar-extra.csv,/cowjar-off.csv,/cowjar.csv");
-		String[] bundleNames = bundleList.split(",");
-		for (String bundleName : bundleNames) {
-			Set<String> nextResult = getBundledCowfiles(bundleName);
-			LOGGER.log(Level.FINEST, "Checking {0} got {1}", new Object[]{bundleName, nextResult.size()});
-			result.addAll(nextResult);
-		}
-		return result;
-	}
-
-	/**
-	 * Get a list of cowfiles bundled in the cowjar.
-	 * @param bundlePath The path to the bundle csv.
-	 * @return The names of bundled cowfiles.
-	 */
-	private static Set<String> getBundledCowfiles(final String bundlePath) {
-		Set<String> result = new HashSet<>();
-		InputStream bundleStream = Cowloader.class.getResourceAsStream(bundlePath);
-		if (bundleStream != null) {
-			try (BufferedReader reader = new BufferedReader(new InputStreamReader(bundleStream))) {
-				StringBuilder sb = new StringBuilder();
-				String line;
-				while ((line = reader.readLine()) != null) {
-					sb.append(line);
-				}
-				reader.close();
-				String bundleList = sb.toString();
-				String[] bundled = bundleList.split(",");
-				if (bundled != null) {
-					for (String cowfile : bundled) {
-						if (cowfile.endsWith(COWFILE_EXT)) {  // mech-and-cow for example is not a cowfile and should be excluded
-							String cowName = cowfile.replaceAll(COWFILE_EXT_RE, "");
-							result.add(cowName);
-						}
-					}
-				}
-			} catch (IOException ex) {
-				LOGGER.log(Level.WARNING, null, ex);
-			} finally {
-				try {
-					bundleStream.close();
-				} catch (IOException ex) {
-					LOGGER.log(Level.SEVERE, null, ex);
-				}
-			}
-		}
-		return result;
-	}
-
-	/**
 	 * Determine if this File appears to be a genuine cowfile.
 	 * This is not a deep check, more rigor will be applied later.
 	 * @param cowfile A potential cowfile.
@@ -303,12 +254,66 @@ public final class Cowloader {
 	private static File[] getCowFiles(final String folder) {
 		File dir = new File(folder);
 		File[] files;
-		files = dir.listFiles(new FilenameFilter() {
-			@Override
-			public boolean accept(final File dir, final String name) {
-				return name.endsWith(".cow");
-			}
-		});
+		files = dir.listFiles((final File dir1, final String name) -> name.endsWith(".cow"));
 		return files;
+	}
+
+	/**
+	 * Get a list of cowfiles bundled in cowjars.
+	 * @return The names of bundled cowfiles.
+	 */
+	private static Set<String> getBundledCowfiles() {
+		Set<String> result = new HashSet<>();
+		try {
+			Enumeration<URL> enumeration = Cowloader.class.getClassLoader().getResources("cows");
+			while (enumeration.hasMoreElements()) {
+				URL url = enumeration.nextElement();
+				URLConnection connection = url.openConnection();
+				if (connection instanceof JarURLConnection) {
+					processJAR((JarURLConnection) connection, result);
+				} else {
+					String filePath = URLDecoder.decode(url.getPath(), "UTF-8");
+					String[] fileList = new File(filePath).list();
+					if (fileList != null) {
+						for (String file : fileList) {
+							addCowfile(file, result);
+						}
+					}
+				}
+			}
+		} catch (IOException ex) {
+			LOGGER.log(Level.SEVERE, null, ex);
+		}
+		return result;
+	}
+
+	/**
+	 * Helper for getBundledCowfiles and processJAR, add a cowfile to a Set.
+	 * @param cowfile A potential cowfile.
+	 * @param result The cowfile will be added to this if it is indeed a cowfile.
+	 */
+	private static void addCowfile(final String cowfile, final Set<String> result) {
+		if (cowfile.endsWith(COWFILE_EXT)) {  // mech-and-cow for example is not a cowfile and should be excluded
+			String cowName = cowfile.replaceAll(COWFILE_EXT_RE, "");
+			cowName = cowName.replace("cows/", "");
+			result.add(cowName);
+		}
+	}
+
+	/**
+	 * Heper for getBundledCowfiles, handles the scenario when cow files are contained in a JAR on the classpath.
+	 * @param connection The connection to the JAR on the classpath.
+	 * @param result Cowfiles will be added to this.
+	 */
+	private static void processJAR(final JarURLConnection connection, final Set<String> result) {
+		try (JarFile jar = connection.getJarFile()) {
+			Enumeration<JarEntry> entries = jar.entries();
+			while (entries.hasMoreElements()) {
+				String entry = entries.nextElement().getName();
+				addCowfile(entry, result);
+			}
+		} catch (IOException ex) {
+			LOGGER.log(Level.SEVERE, null, ex);
+		}
 	}
 }

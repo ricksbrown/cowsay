@@ -123,8 +123,8 @@ public final class Cowsay {
 	 * @return The string with normalized whitespace.
 	 */
 	private static String normalizeSpace(final String s) {
-		String moosage = StringUtils.replaceChars(s, '\t', ' ');
-		moosage = moosage.replaceAll("[ ]+", " ");
+		String moosage = StringUtils.replaceChars(s, '\t', ' ');  // Tabs are converted to spaces
+		moosage = moosage.replaceAll("[ ]+", " ");  // All consecutive spaces are reduced to a single space
 		return moosage;
 	}
 
