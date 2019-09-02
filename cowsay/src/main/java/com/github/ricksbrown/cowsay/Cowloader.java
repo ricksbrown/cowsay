@@ -49,7 +49,15 @@ public final class Cowloader {
 	 */
 	private static final String COWFILE_EXT_RE = "\\" + COWFILE_EXT + "$";
 
+	/**
+	 * The logger for this class.
+	 */
 	private static final Logger LOGGER = Logger.getLogger(Cowloader.class.getName());
+
+	/**
+	 * Used to read environment variables.
+	 */
+	private static Environment cowEnvironment = CowEnvironment.getInstance();
 
 	/**
 	 * Utility classes do not need constructors.
@@ -87,6 +95,15 @@ public final class Cowloader {
 			}
 		}
 		return null;  // should never happen
+	}
+
+	/**
+	 * Set the Environment instance used to look up environment variables.
+	 * This is primarily to facilitate unit testing.
+	 * @param env The environment variable lookup class.
+	 */
+	public static void setCowEnvironment(final Environment env) {
+		cowEnvironment = env;
 	}
 
 	/**
@@ -150,7 +167,7 @@ public final class Cowloader {
 	 * @return An InputStream to the first matching cowfile found.
 	 */
 	private static InputStream getCowFromCowPath(final String cowName) {
-		String cowPath = System.getenv("COWPATH");
+		String cowPath = cowEnvironment.getVariable("COWPATH");
 		if (cowPath != null) {
 			String[] paths = cowPath.split(File.pathSeparator);
 			if (paths != null) {
@@ -183,7 +200,7 @@ public final class Cowloader {
 	public static String[] listAllCowfiles(final ClassLoader classloader) {
 		String[] resultAsArray;
 		Set<String> result = getBundledCowfiles(classloader);
-		String cowPath = System.getenv("COWPATH");
+		String cowPath = cowEnvironment.getVariable("COWPATH");
 		if (cowPath != null) {
 			String[] paths = cowPath.split(File.pathSeparator);
 			if (paths != null) {

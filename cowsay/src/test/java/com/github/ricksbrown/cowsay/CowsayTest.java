@@ -2,15 +2,9 @@ package com.github.ricksbrown.cowsay;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.apache.commons.io.IOUtils;
-import org.hamcrest.CoreMatchers;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -46,9 +40,9 @@ public class CowsayTest {
 	public void testSay() {
 		System.out.println("cowsay Hello");
 		String[] args = new String[]{"Hello"};
-		String expResult = loadExpected("cowsayHello.txt");
+		String expResult = TestUtils.loadExpected("cowsayHello.txt");
 		String result = Cowsay.say(args);
-		cowfileCompare(expResult, result);
+		TestUtils.cowfileCompare(expResult, result);
 	}
 
 	/**
@@ -58,9 +52,9 @@ public class CowsayTest {
 	public void testSayWhitespaceNormalized() {
 		System.out.println("cowsay \"\t\tHello     there  \t\t  \"");
 		String[] args = new String[]{"\t\tHello     there  \t\t  "};
-		String expResult = loadExpected("cowsayWhitespace.txt");
+		String expResult = TestUtils.loadExpected("cowsayWhitespace.txt");
 		String result = Cowsay.say(args);
-		cowfileCompare(expResult, result);
+		TestUtils.cowfileCompare(expResult, result);
 	}
 
 	/**
@@ -73,9 +67,9 @@ public class CowsayTest {
 			String[] args = new String[0];
 			ByteArrayInputStream in = new ByteArrayInputStream("Hello".getBytes());
 			System.setIn(in);
-			String expResult = loadExpected("cowsayHello.txt");
+			String expResult = TestUtils.loadExpected("cowsayHello.txt");
 			String result = Cowsay.say(args);
-			cowfileCompare(expResult, result);
+			TestUtils.cowfileCompare(expResult, result);
 		} finally {
 			System.setIn(System.in);
 		}
@@ -89,7 +83,7 @@ public class CowsayTest {
 		try {
 			System.out.println("echo foobar | cowsay Hello");
 			String[] args = new String[]{"Hello"};
-			String expResult = loadExpected("cowsayHello.txt");
+			String expResult = TestUtils.loadExpected("cowsayHello.txt");
 			ByteArrayInputStream in = new ByteArrayInputStream("foobar".getBytes());
 			System.setIn(in);
 			String result = Cowsay.say(args);
@@ -106,9 +100,9 @@ public class CowsayTest {
 	public void testSayManyWords() {
 		System.out.println("cowsay foo bar baz");
 		String[] args = new String[]{"foo", "bar", "baz"};
-		String expResult = loadExpected("cowsayFooBarBaz.txt");
+		String expResult = TestUtils.loadExpected("cowsayFooBarBaz.txt");
 		String result = Cowsay.say(args);
-		cowfileCompare(expResult, result);
+		TestUtils.cowfileCompare(expResult, result);
 	}
 
 	/**
@@ -118,9 +112,9 @@ public class CowsayTest {
 	public void testSayManyWordsOneArg() {
 		System.out.println("cowsay foo bar baz");
 		String[] args = new String[]{"foo bar baz"};
-		String expResult = loadExpected("cowsayFooBarBaz.txt");
+		String expResult = TestUtils.loadExpected("cowsayFooBarBaz.txt");
 		String result = Cowsay.say(args);
-		cowfileCompare(expResult, result);
+		TestUtils.cowfileCompare(expResult, result);
 	}
 
 	/**
@@ -130,12 +124,12 @@ public class CowsayTest {
 	public void testPipedSayManyWords() {
 		try {
 			System.out.println("echo foo bar baz | cowsay");
-			String expResult = loadExpected("cowsayFooBarBaz.txt");
+			String expResult = TestUtils.loadExpected("cowsayFooBarBaz.txt");
 			String[] args = new String[0];
 			ByteArrayInputStream in = new ByteArrayInputStream("foo bar baz".getBytes());
 			System.setIn(in);
 			String result = Cowsay.say(args);
-			cowfileCompare(expResult, result);
+			TestUtils.cowfileCompare(expResult, result);
 		} finally {
 			System.setIn(System.in);
 		}
@@ -148,10 +142,10 @@ public class CowsayTest {
 	public void testCowthinkArg() {
 		System.out.println("cowsay --cowthink Hello");
 		String[] args = new String[]{"--cowthink", "Hello"};
-		String expResult = loadExpected("cowthinkHello.txt");
+		String expResult = TestUtils.loadExpected("cowthinkHello.txt");
 		CowsayCli.addCowthinkOption();
 		String result = Cowsay.say(args);
-		cowfileCompare(expResult, result);
+		TestUtils.cowfileCompare(expResult, result);
 	}
 
 	/**
@@ -161,9 +155,9 @@ public class CowsayTest {
 	public void testSayWrap2() {
 		System.out.println("cowsay -W 2 Hello");
 		String[] args = new String[]{"-W", "2", "Hello"};
-		String expResult = loadExpected("cowsayWrap2.txt");
+		String expResult = TestUtils.loadExpected("cowsayWrap2.txt");
 		String result = Cowsay.say(args);
-		cowfileCompare(expResult, result);
+		TestUtils.cowfileCompare(expResult, result);
 	}
 
 	/**
@@ -173,9 +167,9 @@ public class CowsayTest {
 	public void testSayNowrap() {
 		System.out.println("cowsay -n msg");
 		String[] args = new String[]{"-n", "Moo moo moo moo moo moo moo moo moo moo moo moo moo moo moo moo moo moo moo"};
-		String expResult = loadExpected("cowsayLong.txt");
+		String expResult = TestUtils.loadExpected("cowsayLong.txt");
 		String result = Cowsay.say(args);
-		cowfileCompare(expResult, result);
+		TestUtils.cowfileCompare(expResult, result);
 	}
 
 	/**
@@ -185,9 +179,9 @@ public class CowsayTest {
 	public void testSayWrapZero() {
 		System.out.println("cowsay -W 0 msg");
 		String[] args = new String[]{"-W", "0", "Moo moo moo moo moo moo moo moo moo moo moo moo moo moo moo moo moo moo moo"};
-		String expResult = loadExpected("cowsayLong.txt");
+		String expResult = TestUtils.loadExpected("cowsayLong.txt");
 		String result = Cowsay.say(args);
-		cowfileCompare(expResult, result);
+		TestUtils.cowfileCompare(expResult, result);
 	}
 
 	/**
@@ -197,9 +191,9 @@ public class CowsayTest {
 	public void testSayWithNamedFile() {
 		System.out.println("cowsay -f tux Hello");
 		String[] args = new String[]{"-f", "tux", "Hello"};
-		String expResult = loadExpected("cowsayTux.txt");
+		String expResult = TestUtils.loadExpected("cowsayTux.txt");
 		String result = Cowsay.say(args);
-		cowfileCompare(expResult, result);
+		TestUtils.cowfileCompare(expResult, result);
 	}
 
 	/**
@@ -209,9 +203,9 @@ public class CowsayTest {
 	public void testSayWithNamedFileNotFound() {
 		System.out.println("cowsay -f abcdefgzzzblah Hello");
 		String[] args = new String[]{"-f", "abcdefgzzzblah", "Hello"};
-		String expResult = loadExpected("cowsayHello.txt");
+		String expResult = TestUtils.loadExpected("cowsayHello.txt");
 		String result = Cowsay.say(args);
-		cowfileCompare(expResult, result);
+		TestUtils.cowfileCompare(expResult, result);
 	}
 
 	/**
@@ -223,9 +217,9 @@ public class CowsayTest {
 		for (String key : modes) {
 			String[] args = new String[]{'-' + key, "Hello"};
 			System.out.println("cowsay -" + key + " Hello");
-			String expResult = loadExpected(modeMap.get(key));
+			String expResult = TestUtils.loadExpected(modeMap.get(key));
 			String result = Cowsay.say(args);
-			cowfileCompare(expResult, result);
+			TestUtils.cowfileCompare(expResult, result);
 		}
 	}
 
@@ -239,11 +233,11 @@ public class CowsayTest {
 			for (String key : modes) {
 				String[] args = new String[]{'-' + key};
 				System.out.println("echo Hello | cowsay -" + key);
-				String expResult = loadExpected(modeMap.get(key));
+				String expResult = TestUtils.loadExpected(modeMap.get(key));
 				ByteArrayInputStream in = new ByteArrayInputStream("Hello".getBytes());
 				System.setIn(in);
 				String result = Cowsay.say(args);
-				cowfileCompare(expResult, result);
+				TestUtils.cowfileCompare(expResult, result);
 			}
 		} finally {
 			System.setIn(System.in);
@@ -258,9 +252,9 @@ public class CowsayTest {
 	public void testSayEyes() {
 		System.out.println("-e QQ cowsay");
 		String[] args = new String[]{"-e", "QQ", "Hello"};
-		String expResult = loadExpected("cowsayEyes.txt");
+		String expResult = TestUtils.loadExpected("cowsayEyes.txt");
 		String result = Cowsay.say(args);
-		cowfileCompare(expResult, result);
+		TestUtils.cowfileCompare(expResult, result);
 	}
 
 	/**
@@ -270,9 +264,9 @@ public class CowsayTest {
 	public void testSayEyesDollars() {
 		System.out.println("-e $$ cowsay");
 		String[] args = new String[]{"-e", "$$", "Hello"};
-		String expResult = loadExpected("cowsayGreedy.txt");
+		String expResult = TestUtils.loadExpected("cowsayGreedy.txt");
 		String result = Cowsay.say(args);
-		cowfileCompare(expResult, result);
+		TestUtils.cowfileCompare(expResult, result);
 	}
 
 	/**
@@ -282,9 +276,9 @@ public class CowsayTest {
 	public void testSayEyesBackslash() {
 		System.out.println("-e \\\\ cowsay");
 		String[] args = new String[]{"-e", "\\\\", "Hello"};
-		String expResult = loadExpected("cowsayEyesBackslash.txt");
+		String expResult = TestUtils.loadExpected("cowsayEyesBackslash.txt");
 		String result = Cowsay.say(args);
-		cowfileCompare(expResult, result);
+		TestUtils.cowfileCompare(expResult, result);
 	}
 
 	/**
@@ -294,9 +288,9 @@ public class CowsayTest {
 	public void testSayTongue() {
 		System.out.println("-T V cowsay");
 		String[] args = new String[]{"-T", "V", "Hello"};
-		String expResult = loadExpected("cowsayTongue.txt");
+		String expResult = TestUtils.loadExpected("cowsayTongue.txt");
 		String result = Cowsay.say(args);
-		cowfileCompare(expResult, result);
+		TestUtils.cowfileCompare(expResult, result);
 	}
 
 	/**
@@ -306,9 +300,9 @@ public class CowsayTest {
 	public void testSayTongueEyes() {
 		System.out.println("cowsay -T V -e QQ Hello");
 		String[] args = new String[]{"-T", "V", "-e", "QQ", "Hello"};
-		String expResult = loadExpected("cowsayTongueEyes.txt");
+		String expResult = TestUtils.loadExpected("cowsayTongueEyes.txt");
 		String result = Cowsay.say(args);
-		cowfileCompare(expResult, result);
+		TestUtils.cowfileCompare(expResult, result);
 	}
 
 	/**
@@ -318,9 +312,9 @@ public class CowsayTest {
 	public void testSayLongLine() {
 		System.out.println("cowsay long");
 		String[] args = new String[]{"Moo moo moo moo moo moo moo moo moo moo moo moo moo moo moo moo moo moo moo"};
-		String expResult = loadExpected("cowsayMulti.txt");
+		String expResult = TestUtils.loadExpected("cowsayMulti.txt");
 		String result = Cowsay.say(args);
-		cowfileCompare(expResult, result);
+		TestUtils.cowfileCompare(expResult, result);
 	}
 
 	/**
@@ -330,9 +324,9 @@ public class CowsayTest {
 	public void testThinkLongLine() {
 		System.out.println("cowthink long");
 		String[] args = new String[]{"Moo moo moo moo moo moo moo moo moo moo moo moo moo moo moo moo moo moo moo"};
-		String expResult = loadExpected("cowthinkMulti.txt");
+		String expResult = TestUtils.loadExpected("cowthinkMulti.txt");
 		String result = Cowsay.think(args);
-		cowfileCompare(expResult, result);
+		TestUtils.cowfileCompare(expResult, result);
 	}
 
 	/**
@@ -344,9 +338,9 @@ public class CowsayTest {
 		String[] args = new String[]{"This is a test text."
 				+ System.getProperty("line.separator") + "To test long lines in cowsay."
 				+ System.getProperty("line.separator") + "Moo moo moo."};
-		String expResult = loadExpected("cowsayMultiline.txt");
+		String expResult = TestUtils.loadExpected("cowsayMultiline.txt");
 		String result = Cowsay.say(args);
-		cowfileCompare(expResult, result);
+		TestUtils.cowfileCompare(expResult, result);
 	}
 
 	/**
@@ -359,9 +353,9 @@ public class CowsayTest {
 				+ "To test long lines in cowsay." + System.lineSeparator()
 				+ "This is a really really really really really long line." + System.lineSeparator()
 				+ "Moo moo moo."};
-		String expResult = loadExpected("cowsayMultilineLong.txt");
+		String expResult = TestUtils.loadExpected("cowsayMultilineLong.txt");
 		String result = Cowsay.say(args);
-		cowfileCompare(expResult, result);
+		TestUtils.cowfileCompare(expResult, result);
 	}
 
 	/**
@@ -371,9 +365,9 @@ public class CowsayTest {
 	public void testThink() {
 		System.out.println("cowthink Hello");
 		String[] args = new String[]{"Hello"};
-		String expResult = loadExpected("cowthinkHello.txt");
+		String expResult = TestUtils.loadExpected("cowthinkHello.txt");
 		String result = Cowsay.think(args);
-		cowfileCompare(expResult, result);
+		TestUtils.cowfileCompare(expResult, result);
 	}
 
 	/**
@@ -411,75 +405,19 @@ public class CowsayTest {
 	public void testJsCowfiles() {
 		testCowjar("cowjar-js");
 	}
-
-	/**
+/**
 	 * Tests that the output of java cowsay matches that of original perl cowsay.
 	 * @param cowjarName The name of the cowjar which contains the cowfiles to test.
 	 */
 	private void testCowjar(final String cowjarName) {
-		File[] cowfiles = getCowjarCowFiles(cowjarName);
+		File[] cowfiles = TestUtils.getCowjarCowFiles(cowjarName);
 		for (File cowfile : cowfiles) {
 			System.out.println("cowsay -f " + cowfile.getAbsolutePath() + " Moo");
 			String name = cowfile.getName();
 			String[] args = new String[]{"-f", cowfile.getAbsolutePath(), "Moo"};
 			String result = Cowsay.say(args);
-			String expResult = loadExpected(String.join(File.separator, "cowgen", cowjarName, name + ".txt"));
-			cowfileCompare(expResult, result);
+			String expResult = TestUtils.loadExpected(String.join(File.separator, "cowgen", cowjarName, name + ".txt"));
+			TestUtils.cowfileCompare(expResult, result);
 		}
-	}
-
-	/**
-	 * Standard way of comparing output of cowsay.
-	 * @param expected The expected output.
-	 * @param actual The actual output.
-	 */
-	public static void cowfileCompare(final String expected, final String actual) {
-		System.out.println("Expected:");
-		System.out.println(expected);
-		System.out.println("Actual:");
-		System.out.println(actual);
-		Assert.assertThat(expected, CoreMatchers.is(actual));
-	}
-
-	/**
-	 * Gets all cowfiles in cowjar.
-	 * @param cowjarName The name of the cowjar.
-	 * @return The cowfiles.
-	 */
-	public static File[] getCowjarCowFiles(final String cowjarName) {
-		String path = String.join(File.separator, "..", cowjarName, "src", "main", "resources", "cows");
-		File testResourcesDir = new File(path);
-		File[] result = testResourcesDir.listFiles((final File dir, final String name) -> name.endsWith(".cow"));
-		return result;
-	}
-
-	/**
-	 * Fetches the expected output from resources.
-	 * @param name The name of a resource to load.
-	 * @return The content of the file.
-	 */
-	public static String loadExpected(final String name) {
-		InputStream expected = CowsayTest.class.getResourceAsStream("/" + name);
-		if (expected == null) {
-			System.out.println("Could not find " + "/" + name);
-			return "";
-		}
-		return loadExpected(expected);
-	}
-
-	/**
-	 * Fetches the expected output.
-	 * @param expected A stream of the expected result.
-	 * @return The content of the file.
-	 */
-	public static String loadExpected(final InputStream expected) {
-		try {
-			String result = IOUtils.toString(expected, "UTF-8");
-			result = result.replaceAll("\\r?\\n", System.lineSeparator());
-			return result;
-		} catch (IOException ex) {
-			Logger.getLogger(CowsayTest.class.getName()).log(Level.SEVERE, null, ex);
-		}
-		return "";
 	}
 }

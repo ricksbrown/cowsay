@@ -1,6 +1,7 @@
 package com.github.ricksbrown.cowsay.plugin;
 
 import com.github.ricksbrown.cowsay.CowsayTest;
+import com.github.ricksbrown.cowsay.TestUtils;
 import java.util.Set;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -26,7 +27,7 @@ public class CowExecutorTest {
 		String eyes = "QQ";
 		CowExecutor instance = new CowExecutor();
 		instance.setEyes(eyes);
-		String expResult = CowsayTest.loadExpected("cowsayEyes.txt");
+		String expResult = TestUtils.loadExpected("cowsayEyes.txt");
 		instance.setMessage("Hello");
 		String result = instance.execute();
 		Assert.assertEquals(expResult, result);
@@ -41,7 +42,7 @@ public class CowExecutorTest {
 		String cowfile = "tux";
 		CowExecutor instance = new CowExecutor();
 		instance.setCowfile(cowfile);
-		String expResult = CowsayTest.loadExpected("cowsayTux.txt");
+		String expResult = TestUtils.loadExpected("cowsayTux.txt");
 		instance.setMessage("Hello");
 		String result = instance.execute();
 		Assert.assertEquals(expResult, result);
@@ -56,7 +57,7 @@ public class CowExecutorTest {
 		boolean think = true;
 		CowExecutor instance = new CowExecutor();
 		instance.setThink(think);
-		String expResult = CowsayTest.loadExpected("cowthinkHello.txt");
+		String expResult = TestUtils.loadExpected("cowthinkHello.txt");
 		instance.setMessage("Hello");
 		String result = instance.execute();
 		Assert.assertEquals(expResult, result);
@@ -71,7 +72,7 @@ public class CowExecutorTest {
 		String tongue = "V";
 		CowExecutor instance = new CowExecutor();
 		instance.setTongue(tongue);
-		String expResult = CowsayTest.loadExpected("cowsayTongue.txt");
+		String expResult = TestUtils.loadExpected("cowsayTongue.txt");
 		instance.setMessage("Hello");
 		String result = instance.execute();
 		Assert.assertEquals(expResult, result);
@@ -86,7 +87,7 @@ public class CowExecutorTest {
 		String wrap = "2";
 		CowExecutor instance = new CowExecutor();
 		instance.setWrap(wrap);
-		String expResult = CowsayTest.loadExpected("cowsayWrap2.txt");
+		String expResult = TestUtils.loadExpected("cowsayWrap2.txt");
 		instance.setMessage("Hello");
 		String result = instance.execute();
 		Assert.assertEquals(expResult, result);
@@ -101,7 +102,7 @@ public class CowExecutorTest {
 		CowExecutor instance = new CowExecutor();
 		instance.setMessage("Hello");
 		String result = instance.execute();
-		String expResult = CowsayTest.loadExpected("cowsayHello.txt");
+		String expResult = TestUtils.loadExpected("cowsayHello.txt");
 		Assert.assertEquals(expResult, result);
 	}
 
@@ -115,7 +116,7 @@ public class CowExecutorTest {
 		Set<String> modes = CowsayTest.modeMap.keySet();
 		for (String key : modes) {
 			System.out.println("setMode " + key);
-			String expResult = CowsayTest.loadExpected(CowsayTest.modeMap.get(key));
+			String expResult = TestUtils.loadExpected(CowsayTest.modeMap.get(key));
 			instance.setMode(key);
 			String result = instance.execute();
 			Assert.assertEquals(expResult, result);
