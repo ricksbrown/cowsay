@@ -8,6 +8,7 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import org.hamcrest.CoreMatchers;
 import org.junit.After;
@@ -20,6 +21,8 @@ import org.junit.Test;
  * @author Rick Brown
  */
 public class CowloaderTest {
+
+	private static final List<String> COWS_OFF = Arrays.asList("bong", "head-in", "sodomized");
 
 	@After
 	public void afterEach() {
@@ -43,9 +46,32 @@ public class CowloaderTest {
 	public void testListWithCowpath() {
 		String cowjarName = "cowjar-extra";
 		String[] expected = getCowjarCowNames(new String[]{"cowjar", cowjarName});
-		Environment env = addCowjarCowsToCowpath(cowjarName);
+		addCowjarCowsToCowpath(cowjarName);
 		String[] result = Cowloader.listAllCowfiles();
 		Assert.assertArrayEquals(expected, result);
+	}
+
+	/**
+	 * Test that "offensive" cowfiles do not ship by default.
+	 */
+	@Test
+	public void testDefaultWithoutOffensiveCows() {
+		List<String> cowlist = Arrays.asList(Cowloader.listAllCowfiles());
+		for (String offcow : COWS_OFF) {
+			Assert.assertFalse("Default bundle should not ship with " + offcow, cowlist.contains(offcow));
+		}
+	}
+
+	/**
+	 * Test that "offensive" cowfiles can be added with cowjars-off.
+	 */
+	@Test
+	public void testWithOffensiveCows() {
+		addCowjarCowsToCowpath("cowjar-off");
+		List<String> cowlist = Arrays.asList(Cowloader.listAllCowfiles());
+		for (String offcow : COWS_OFF) {
+			Assert.assertTrue("cowjar-off should provide " + offcow, cowlist.contains(offcow));
+		}
 	}
 
 	/**
