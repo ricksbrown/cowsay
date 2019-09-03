@@ -47,23 +47,46 @@ and in the pasture bind them
 That said, there is also a minimal jar which can be [used as a Java library](#As-a-Java-library) but is not executable, it is about 33KB compared to 1.6MB.
 
 # Usage
+
 All the ways of using it support configuration consistent with the commandline flags of the original application, including full support for `COWPATH` environment variable.
 
 Documentation can be found in various man pages on the web.
 
 ## As a Command Line Utility
-To make it work like any other cowsay 
-you need to add some wrapper scripts to your [PATH](https://en.wikipedia.org/wiki/PATH_(variable)).
 
-Basic Windows and *nix wrappers are provided for convenience here in the [wrappers](wrappers) directory.
+To avoid having to execute the jar directly with `java -jar` you can add wrapper scripts to make java cowsay indistinguishable from the original.
 
-Once installed you can execute cowsay and cowthink exactly like other versions:
+Windows and *nix wrappers are provided in the [wrappers](wrappers) directory.
+
+Once installed you can execute cowsay and cowthink from the commandline like so:
 
 ```
 cowsay Moo!
 cowsay -f tux Moo!
 cowthink Moo!
-echo Moo! | cowsay
+echo "Piping to cowsay" | cowsay -f dragon
+```
+
+```
+ __________________
+< Piping to cowsay >
+ ------------------
+      \                    / \  //\
+       \    |\___/|      /   \//  \\
+            /0  0  \__  /    //  | \ \    
+           /     /  \/_/    //   |  \  \  
+           @_^_@'/   \/_   //    |   \   \ 
+           //_^_/     \/_ //     |    \    \
+        ( //) |        \///      |     \     \
+      ( / /) _|_ /   )  //       |      \     _\
+    ( // /) '/,_ _ _/  ( ; -.    |    _ _\.-~        .-~~~^-.
+  (( / / )) ,-{        _      `-.|.-~-.           .~         `.
+ (( // / ))  '/\      /                 ~-. _ .-~      .-~^-.  \
+ (( /// ))      `.   {            }                   /      \  \
+  (( / ))     .----~-.\        \-'                 .~         \  `. \^-.
+             ///.----..>        \             _ -~             `.  ^-`  ^-_
+               ///-._ _ _ _ _ _ _}^ - - - - ~                     ~-- ,.-~
+                                                                  /.-~
 ```
 
 ## As an executable jar
@@ -92,8 +115,29 @@ Then use the main methods [Cowsay.say](https://static.javadoc.io/com.github.rick
 
 
 ```java
-String[] args = new String[]{"-f", "tux", "Moo!"};
+String[] args = new String[]{"-f", "Stegosaurus", "Hello from Java!"};
 String result = Cowsay.say(args);
+System.out.println(result);
+```
+
+```
+ __________________
+< Hello from Java! >
+ ------------------
+\                             .       .
+ \                           / `.   .' " 
+  \                  .---.  <    > <    >  .---.
+   \                 |    \  \ - ~ ~ - /  /    |
+         _____          ..-~             ~-..-~
+        |     |   \~~~\.'                    `./~~~/
+       ---------   \__/                        \__/
+      .'  O    \     /               /       \  " 
+     (_____,    `._.'               |         }  \/~~~/
+      `----.          /       }     |        /    \__/
+            `-.      |       /      |       /      `. ,~~|
+                ~-.__|      /_ - ~ ^|      /- _      `..-'   
+                     |     /        |     /     ~-.     `-. _  _  _
+                     |_____|        |_____|         ~ - . _ _ _ _ _>
 ```
 
 You may also use [CowExecutor](https://static.javadoc.io/com.github.ricksbrown/cowsay/1.1.0/index.html?com/github/ricksbrown/cowsay/plugin/CowExecutor.html) for more advanced scenarios.
@@ -110,8 +154,23 @@ Try running the example java project: [cowsay-example](cowsay-example)
 <cowsay message="Moo!"/>
 <cowsay message="Moo!" think="true"/><!-- cowthink -->
 <cowsay message="Moo!" mode="b"/><!-- Borg mode -->
-<cowsay message="Long live linux!" cowfile="tux"/>
 <cowsay message="Moo!" eyes="Oo" tongue=" U"/>
+<cowsay message="The cool kids don't love Ant anymore" cowfile="tux"/>
+```
+
+```
+ ______________________________________
+< The cool kids don't love Ant anymore >
+ --------------------------------------
+   \
+    \
+        .--.
+       |o_o |
+       |:_/ |
+      //   \ \
+     (|     | )
+    /'\_   _/`\
+    \___)=(___/
 ```
 
 Try running Ant on the example java project: [cowsay-example](cowsay-example)
@@ -131,10 +190,10 @@ Try running Ant on the example java project: [cowsay-example](cowsay-example)
 				<goal>moo</goal>
 			</goals>
 			<configuration>
-				<message>Compiling awesome stuff...</message>
+				<message>Compiling with Maven...</message>
+				<cowfile>daemon</cowfile>
 				<!-- Other options:
 				<eyes>Oo</eyes>
-				<cowfile>sheep</cowfile>
 				<mode>b</mode>
 				<think>true</think>
 				<tongue> V</tongue>
@@ -146,14 +205,28 @@ Try running Ant on the example java project: [cowsay-example](cowsay-example)
 </plugin>
 ```
 ```
- ____________________________
-< Compiling awesome stuff... >
- ----------------------------
-        \   ^__^
-         \  (oo)\_______
-            (__)\       )\/\
-                ||----w |
-                ||     ||
+ _________________________
+< Compiling with Maven... >
+ -------------------------
+   \         ,        ,
+    \       /(        )`
+     \      \ \___   / |
+            /- _  `-/  '
+           (/\/ \ \   /\
+           / /   | `    \
+           O O   ) /    |
+           `-^--'`<     '
+          (_.)  _  )   /
+           `.___/`    /
+             `-----' /
+<----.     __ / __   \
+<----|====O)))==) \) /====
+<----'    `--' `.__,' \
+             |        |
+              \       /
+        ______( (_  / \______
+      ,'  ,-----'   |        \
+      `--{__________)        \/
 ```
 
 Try running maven on the example java project: [cowsay-example](cowsay-example)

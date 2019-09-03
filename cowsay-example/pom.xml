@@ -7,7 +7,7 @@
 	<packaging>jar</packaging>
 
 	<properties>
-		<cowsay.version>1.1.0-SNAPSHOT</cowsay.version>
+		<cowsay.version>1.1.0</cowsay.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
@@ -27,7 +27,7 @@
 						</goals>
 						<configuration>
 							<message>What good is a maven build without cows?</message>
-							<cowfile>tux</cowfile>
+							<cowfile>stegosaurus</cowfile>
 						</configuration>
 					</execution>
 				</executions>
