@@ -63,7 +63,10 @@ public final class Cowsay {
 				} else if (commandLine.hasOption(CowsayCli.Opt.LIST_COWS.toString())) {
 					String[] files = Cowloader.listAllCowfiles();
 					if (files != null) {
-						return StringUtils.join(files, System.getProperty("line.separator"));
+						if (commandLine.hasOption(CowsayCli.Opt.LIST_COWS.toString())) {
+							return StringUtils.join(files, " ");
+						}
+						return StringUtils.join(files, System.lineSeparator());
 					}
 				} else {
 					String cowfileSpec = null;
