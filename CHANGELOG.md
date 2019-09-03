@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.1.0
+## [1.1.0]
 
 - Significantly more consistent with the output of original cowsay.
 
@@ -171,7 +171,7 @@ After:
 
 - Initial release.
 
-[1.1.0]: https://github.com/ricksbrown/cowsay/compare/cowsay-1.0.4...cowsay-1.1.0
+[1.1.0]: https://github.com/ricksbrown/cowsay/compare/cowsay-1.0.4...cowsay-parent-1.1.0
 [1.0.4]: https://github.com/ricksbrown/cowsay/compare/cowsay-1.0.3...cowsay-1.0.4
 [1.0.3]: https://github.com/ricksbrown/cowsay/compare/cowsay-1.0.2...cowsay-1.0.3
 [1.0.2]: https://github.com/ricksbrown/cowsay/compare/cowsay-1.0.1...cowsay-1.0.2

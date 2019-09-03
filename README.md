@@ -17,25 +17,34 @@ Moo!
                 ||     ||
 ```
 
-New in 1.0.4: you can now pipe input into cowsay, e.g. `ls | cowsay`
+## New Features and Changes
+
+Detailed information can be found in the [CHANGELOG](CHANGELOG.md)
+
+**Highlights**
+
+* 1.1.0 removes "offensive" cowfiles (but [provides a way](#Adding-more-cows) to add them back if you want)
+* 1.0.4 handles piped input
 
 # Download
 
-The JAR available on Maven Central is _The One JAR_ and can be used in any of the advertised ways:
+The JAR available on Maven Central is _The One Jar_ and can be used in any of the advertised ways:
  * Maven Plugin
  * Java library on the classpath
  * Ant Task
- * Self Executing JAR
+ * Self Executing Jar
 
-The last two scenarios in particular may require you to manually download _The One JAR_ from Maven.
+The last two scenarios in particular may require you to manually download _The One Jar_ from Maven.
 It will be named following the convention `cowsay-{version}.jar`. 
 
-For example if you want version `1.0.4` you would go [here](http://repo1.maven.org/maven2/com/github/ricksbrown/cowsay/1.0.4/) and download [cowsay-1.0.4.jar](http://repo1.maven.org/maven2/com/github/ricksbrown/cowsay/1.0.4/cowsay-1.0.4.jar).
+For example if you want version `1.1.0` you would go [here](http://repo1.maven.org/maven2/com/github/ricksbrown/cowsay/1.1.0/) and download [cowsay-1.1.0.jar](http://repo1.maven.org/maven2/com/github/ricksbrown/cowsay/1.1.0/cowsay-1.1.0.jar).
 
->One JAR to rule the cows, 
-One JAR to find them,
-One JAR to bring them all, 
+>One Jar to rule the cows,
+One Jar to find them,
+One Jar to bring them all, 
 and in the pasture bind them
+
+That said, there is also a minimal jar which can be [used as a Java library](#As-a-Java-library) but is not executable, it is about 33KB compared to 1.6MB.
 
 # Usage
 All the ways of using it support configuration consistent with the commandline flags of the original application, including full support for `COWPATH` environment variable.
@@ -54,8 +63,6 @@ Once installed you can execute cowsay and cowthink exactly like other versions:
 cowsay Moo!
 cowsay -f tux Moo!
 cowthink Moo!
-
-# Since 1.0.4 handles piped input
 echo Moo! | cowsay
 ```
 
@@ -65,8 +72,6 @@ echo Moo! | cowsay
 java -jar cowsay.jar "Moo!"
 java -jar cowsay.jar -f tux "Moo!"
 java -jar cowsay.jar --cowthink "Moo!"
-
-# Since 1.0.4 handles piped input
 echo Moo! | java -jar cowsay.jar
 ```
 
@@ -77,11 +82,13 @@ Include it as a dependency in your project, for example in your Maven pom.xml:
 <dependency>
 	<groupId>com.github.ricksbrown</groupId>
 	<artifactId>cowsay</artifactId>
-	<version>1.0.4</version>
+	<version>1.1.0</version>
+	<!-- The "lib" classifier is optional, but it gives you a MUCH smaller jar which is all you need as a Java library -->
+	<classifier>lib</classifier>
 </dependency>
 ```
 
-Then use the main methods [Cowsay.say](https://static.javadoc.io/com.github.ricksbrown/cowsay/1.0.4/index.html?com/github/ricksbrown/cowsay/Cowsay.html) and [Cowsay.think](https://static.javadoc.io/com.github.ricksbrown/cowsay/1.0.4/index.html?com/github/ricksbrown/cowsay/Cowsay.html).
+Then use the main methods [Cowsay.say](https://static.javadoc.io/com.github.ricksbrown/cowsay/1.1.0/index.html?com/github/ricksbrown/cowsay/Cowsay.html) and [Cowsay.think](https://static.javadoc.io/com.github.ricksbrown/cowsay/1.1.0/index.html?com/github/ricksbrown/cowsay/Cowsay.html).
 
 
 ```java
@@ -89,7 +96,7 @@ String[] args = new String[]{"-f", "tux", "Moo!"};
 String result = Cowsay.say(args);
 ```
 
-You may also use [CowExecutor](https://static.javadoc.io/com.github.ricksbrown/cowsay/1.0.4/index.html?com/github/ricksbrown/cowsay/plugin/CowExecutor.html) for more advanced scenarios.
+You may also use [CowExecutor](https://static.javadoc.io/com.github.ricksbrown/cowsay/1.1.0/index.html?com/github/ricksbrown/cowsay/plugin/CowExecutor.html) for more advanced scenarios.
 
 Try running the example java project: [cowsay-example](cowsay-example)
 
@@ -115,7 +122,7 @@ Try running Ant on the example java project: [cowsay-example](cowsay-example)
 <plugin>
 	<groupId>com.github.ricksbrown</groupId>
 	<artifactId>cowsay</artifactId>
-	<version>1.0.4</version>
+	<version>1.1.0</version>
 	<executions>
 		<execution>
 			<id>say-moo</id>
@@ -151,7 +158,14 @@ Try running Ant on the example java project: [cowsay-example](cowsay-example)
 
 Try running maven on the example java project: [cowsay-example](cowsay-example)
 
-## Additional flags not found in the original cowsay
+# Adding more cows
+As with original cowsay you can add cowfiles using the environment variable `COWPATH` and using the `-f` commandline flag.
+
+To facilitate adding cowfiles when used as a Maven plugin, Ant task or Java library you can use the provided "cowjars" (or create your own).
+
+The [cowsay-example](cowsay-example) project demonstrates how to use cowjars.
+
+# Additional flags not found in the original cowsay
 * `--html` HTML output mode, produces accessible HTML5
 * `--alt <arg>` Choose your own alt text for HTML output mode
 * `--lang <arg>` Switch language
