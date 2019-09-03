@@ -162,6 +162,6 @@ In the interests of absurd over-engineering this version of cowsay fully support
 New and/or improved translations welcome - the default (English) messages can be found in the file `src/main/resources/MessagesBundle.properties`
 
 # Building
-1. `git clone --recursive https://github.com/ricksbrown/cowsay.git`
+1. `git clone https://github.com/ricksbrown/cowsay.git`
 2. `cd cowsay`
 3. `mvn install`
