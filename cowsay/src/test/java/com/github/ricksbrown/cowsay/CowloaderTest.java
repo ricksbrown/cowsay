@@ -12,6 +12,7 @@ import java.util.Set;
 import org.hamcrest.CoreMatchers;
 import org.junit.After;
 import org.junit.Assert;
+import org.junit.Assume;
 import org.junit.Test;
 
 /**
@@ -92,6 +93,11 @@ public class CowloaderTest {
 			String jarpath = "cowjar-js-" + projectVersion + ".jar";
 			jarpath = String.join(File.separator, "..", "cowjar-js", "target", jarpath);
 			File jarfile = new File(jarpath);
+			/*
+				Tests are run as part of mvn install, mvn package etc and the JAR will be present and this test can run.
+				`mvn test` will run the tests but jars will not have been built so this test must be skipped.
+			*/
+			Assume.assumeTrue("jar required for this test " + jarfile.getAbsolutePath(), jarfile.exists());
 			ClassLoader cl = this.getClass().getClassLoader();
 			URLClassLoader classloader = new URLClassLoader(new URL[]{jarfile.toURI().toURL()}, cl);
 			String[] result = Cowloader.listAllCowfiles(classloader);

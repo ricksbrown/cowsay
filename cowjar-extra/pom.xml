@@ -3,18 +3,38 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<artifactId>cowjar-extra</artifactId>
-	<description>Additional cowfiles from https://github.com/bkendzior/cowfiles</description>
+	<description>Cowfiles from https://github.com/bkendzior/cowfiles</description>
 	<packaging>jar</packaging>
-
-	<properties>
-		<cowjar.name>${project.artifactId}</cowjar.name>
-		<cowfile.list.skip>false</cowfile.list.skip>
-	</properties>
 
 	<parent>
 		<groupId>com.github.ricksbrown</groupId>
 		<artifactId>cowsay-parent</artifactId>
 		<version>1.1.0-SNAPSHOT</version>
 	</parent>
+
+	<properties>
+		<cowzip.download.url>https://github.com/ricksbrown/cowfiles/archive/master.zip</cowzip.download.url>
+		<cowfiles.unzipped>cowfiles-master</cowfiles.unzipped>
+	</properties>
+
+	<build>
+		<resources>
+			<resource>
+				<directory>${project.build.directory}</directory>
+				<includes>
+					<include>cows/*.cow</include>
+				</includes>
+			</resource>
+		</resources>
+		<plugins>
+			<plugin>
+				<groupId>com.googlecode.maven-download-plugin</groupId>
+				<artifactId>download-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
 
 </project>

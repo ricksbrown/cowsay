@@ -2,7 +2,7 @@
 
 ## 1.1.0
 
-- Significantly more consistent with the output of native perl cowsay.
+- Significantly more consistent with the output of original cowsay.
 
     This is especially noticeable with the way backslash (character escape) is interpreted in cowfiles.
 
@@ -54,28 +54,11 @@ After:
      /_]_[_\
 ```
 
-    Missing escapes are now handled exactly like the original cowsay (not as well).
+- Missing escapes are now handled exactly like the original cowsay (not as well).
+
+    Fix the cowfiles not the cowsay.
 
 Before:
-
-```
- _____
-< Moo >
- -----
-         \
-          \
-                    ##        .
-              ## ## ##       ==
-           ## ## ## ##      ===
-       /""""""""""""""""___/ ===
-  ~~~ {~~ ~~~~ ~~~ ~~~~ ~~ ~ /  ===- ~~~
-       ______ o          __/
-                     __/
-          __________/
-
-```
-
-After:
 
 ```
  _____
@@ -93,8 +76,29 @@ After:
           \____\______/
 ```
 
+After:
 
-- Significantly better handling of a wide range of third-party cowfiles.
+```
+ _____
+< Moo >
+ -----
+         \
+          \
+                    ##        .
+              ## ## ##       ==
+           ## ## ## ##      ===
+       /""""""""""""""""___/ ===
+  ~~~ {~~ ~~~~ ~~~ ~~~~ ~~ ~ /  ===- ~~~
+       ______ o          __/
+                     __/
+          __________/
+```
+
+- `cowsay -list` now behaves like original cowsay in that cows are separated by spaces instead of newlines.
+
+- New minimal JAR `classifier=lib` for use as a java library if the "one jar" is too big.
+
+- Better handling of a wide range of third-party cowfiles.
 
 - Fix license (#18)
 
@@ -111,7 +115,6 @@ Before:
             (__)\       )\/\
                 ||----w |
                 ||     ||
-
 ```
 
 After:
@@ -125,12 +128,15 @@ After:
             (__)\       )\/\
                 ||----w |
                 ||     ||
-
 ```
 
 - Separate cowfile bundles into their own cowjars.
 
 - Move "offensive" cowfiles out of the default bundle `cowjar` into `cowjar-off`.
+
+- A working [example application](cowsay-example) showing use with Maven, Ant and Java.
+
+- A lot of tweaks under the hood including: no more git submodules, vastly better unit testing, etc.
 
 ## [1.0.4]
 

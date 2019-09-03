@@ -97,15 +97,22 @@
 									<tasks>
 										<exec executable="/bin/bash">
 											<arg value="${basedir}/cowgen.sh" />
-											<arg value="${basedir}/cowjar/src/main/resources/cows" />
+											<arg value="${basedir}/cowjar/target/classes/cows" />
 											<arg value="${basedir}/cowsay/src/test/resources/cowgen/cowjar" />
 										</exec>
 									</tasks>
 									<tasks>
 										<exec executable="/bin/bash">
 											<arg value="${basedir}/cowgen.sh" />
-											<arg value="${basedir}/cowjar-extra/src/main/resources/cows" />
+											<arg value="${basedir}/cowjar-extra/target/classes/cows" />
 											<arg value="${basedir}/cowsay/src/test/resources/cowgen/cowjar-extra" />
+										</exec>
+									</tasks>
+									<tasks>
+										<exec executable="/bin/bash">
+											<arg value="${basedir}/cowgen.sh" />
+											<arg value="${basedir}/cowjar-js/target/classes/cows" />
+											<arg value="${basedir}/cowsay/src/test/resources/cowgen/cowjar-js" />
 										</exec>
 									</tasks>
 								</configuration>
@@ -142,13 +149,13 @@
 					<mavenExecutorId>forked-path</mavenExecutorId>
 				</configuration>
 			</plugin>
-			<plugin>
+<!--			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
 				<version>1.4.0</version>
 				<executions>
 					<execution>
-						<!-- This is necessary for the maven-release-plugin since it does not handle git submodules -->
+						 This is necessary for the maven-release-plugin since it does not handle git submodules
 						<id>git submodule update</id>
 						<phase>initialize</phase>
 						<configuration>
@@ -156,8 +163,8 @@
 							<arguments>
 								<argument>submodule</argument>
 								<argument>update</argument>
-								<argument>--init</argument>
-								<argument>--recursive</argument>
+								<argument>- -init</argument>
+								<argument>- -recursive</argument>
 							</arguments>
 						</configuration>
 						<goals>
@@ -165,7 +172,7 @@
 						</goals>
 					</execution>
 				</executions>
-			</plugin>
+			</plugin>-->
 		</plugins>
 		<pluginManagement>
 			<plugins>
@@ -181,6 +188,27 @@
 				<plugin>
 					<artifactId>maven-resources-plugin</artifactId>
 					<version>2.7</version>
+					<executions>
+						<execution>
+							<id>copy-cowfiles</id>
+							<phase>generate-resources</phase>
+							<goals>
+								<goal>copy-resources</goal>
+							</goals>
+							<configuration>
+								<outputDirectory>${project.build.directory}/cows</outputDirectory>
+								<resources>
+									<resource>
+										<directory>${java.io.tmpdir}/${cowfiles.unzipped}</directory>
+										<filtering>false</filtering>
+										<includes>
+											<include>*.cow</include>
+										</includes>
+									</resource>
+								</resources>
+							</configuration>
+						</execution>
+					</executions>
 				</plugin>
 				<plugin>
 					<artifactId>maven-antrun-plugin</artifactId>
@@ -198,6 +226,25 @@
 							</property>
 						</systemProperties>
 					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>com.googlecode.maven-download-plugin</groupId>
+					<artifactId>download-maven-plugin</artifactId>
+					<version>1.4.2</version>
+					<executions>
+						<execution>
+							<id>download-cowfiles</id>
+							<phase>initialize</phase>
+							<goals>
+								<goal>wget</goal>
+							</goals>
+							<configuration>
+								<url>${cowzip.download.url}</url>
+								<unpack>true</unpack>
+								<outputDirectory>${java.io.tmpdir}</outputDirectory>
+							</configuration>
+						</execution>
+					</executions>
 				</plugin>
 			</plugins>
 		</pluginManagement>

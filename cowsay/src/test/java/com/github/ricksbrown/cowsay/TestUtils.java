@@ -52,7 +52,7 @@ public class TestUtils {
 	 * @return The path to the cows.
 	 */
 	public static File getPathToCows(final String cowjarName) {
-		String path = String.join(File.separator, "..", cowjarName, "src", "main", "resources", "cows");
+		String path = String.join(File.separator, "..", cowjarName, "target", "classes", "cows");
 		File result = new File(path);
 		return result;
 	}

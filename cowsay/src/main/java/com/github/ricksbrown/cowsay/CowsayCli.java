@@ -24,29 +24,36 @@ import org.apache.commons.cli.ParseException;
  *
  * @author Rick Brown
  */
-public class CowsayCli {
+public final class CowsayCli {
 
-	private static final Options options;
+	/**
+	 * Does not need instantiation.
+	 */
+	private CowsayCli() {
+
+	}
+
+	private static final Options OPTIONS;
 
 	static {
 		// Option descriptions are added later, if needed, in case the locale / language changes.
-		options = new Options();
-		options.addOption(Opt.NOWRAP.text, false, "");
-		options.addOption(Opt.WRAP_AT.text, true, "");
-		options.addOption(Opt.HELP.text, false, "");
-		options.addOption(Opt.LIST_COWS.text, false, "");
+		OPTIONS = new Options();
+		OPTIONS.addOption(Opt.NOWRAP.text, false, "");
+		OPTIONS.addOption(Opt.WRAP_AT.text, true, "");
+		OPTIONS.addOption(Opt.HELP.text, false, "");
+		OPTIONS.addOption(Opt.LIST_COWS.text, false, "");
 		Set<String> modes = CowFace.COW_MODES.keySet();
 		for (String mode : modes) {
-			options.addOption(mode, false, "");
+			OPTIONS.addOption(mode, false, "");
 		}
-		options.addOption(Opt.EYES.text, true, "");
-		options.addOption(Opt.TONGUE.text, true, "");
-		options.addOption(Opt.COWFILE.text, true, "");
-		options.addOption(null, Opt.LANG.text, true, "");
-		options.addOption(null, Opt.HTML.text, false, "");
-		options.addOption(null, Opt.ALT.text, true, "");
+		OPTIONS.addOption(Opt.EYES.text, true, "");
+		OPTIONS.addOption(Opt.TONGUE.text, true, "");
+		OPTIONS.addOption(Opt.COWFILE.text, true, "");
+		OPTIONS.addOption(null, Opt.LANG.text, true, "");
+		OPTIONS.addOption(null, Opt.HTML.text, false, "");
+		OPTIONS.addOption(null, Opt.ALT.text, true, "");
 
-		for (Option option : options.getOptions()) {
+		for (Option option : OPTIONS.getOptions()) {
 			option.setRequired(false);
 		}
 	}
@@ -55,22 +62,36 @@ public class CowsayCli {
 	 * Command line argument constants.
 	 */
 	public enum Opt {
+		/** The given message will not be word-wrapped. */
 		NOWRAP("n"),
+		/** Specifies roughly where the message should be wrapped. */
 		WRAP_AT("W"),
+		/** Display help. */
 		HELP("h"),
+		/** List all cowfiles on the current COWPATH. */
 		LIST_COWS("l"),
+		/** Select the appearance of the cow's eyes. */
 		EYES("e"),
+		/** Select the appearance of the cow's tongue. */
 		TONGUE("T"),
+		/** Specifies a particular cowfile to use. */
 		COWFILE("f"),
+		/** Specifies a language besides English for inbuilt messages. */
 		LANG("lang"),
+		/** cowthink instead of cowsay. */
 		THINK("cowthink"),
+		/** Alt text describing the cow picture for non-visual users (HTML mode only). */
 		ALT("alt"),
+		/** Mark up cow output in HTML. */
 		HTML("html");
 
-		final String text;
+		private final String text;
 
-		Opt(final String text) {
-			this.text = text;
+		/**
+		 * @param s What the cow will say or think.
+		 */
+		Opt(final String s) {
+			this.text = s;
 		}
 
 		@Override
@@ -85,8 +106,8 @@ public class CowsayCli {
 	 *    `cowsay` or a `cowthink` invocation.
 	 */
 	protected static void addCowthinkOption() {
-		if (!options.hasOption(null)) {
-			options.addOption(null, Opt.THINK.text, false, "");
+		if (!OPTIONS.hasOption(null)) {
+			OPTIONS.addOption(null, Opt.THINK.text, false, "");
 		}
 	}
 
@@ -99,7 +120,7 @@ public class CowsayCli {
 		final CommandLineParser cmdLineParser = new DefaultParser();
 
 		try {
-			CommandLine parsed = cmdLineParser.parse(options, argv, true);
+			CommandLine parsed = cmdLineParser.parse(OPTIONS, argv, true);
 			if (parsed.hasOption(Opt.LANG.text)) {
 				String language = parsed.getOptionValue(Opt.LANG.text);
 				if (language != null) {
@@ -107,27 +128,25 @@ public class CowsayCli {
 				}
 			}
 			return parsed;
-		}
-		catch (MissingArgumentException ex) {
+		} catch (MissingArgumentException ex) {
 			Option option = ex.getOption();
 			String flag = option.getOpt();
 			if (flag == null) {
 				flag = option.getLongOpt();
 			}
 			Logger.getLogger(CowsayCli.class.getName()).log(Level.INFO, I18n.getMessage("missingarg"), flag);
-		}
-		catch (ParseException ex) {
+		} catch (ParseException ex) {
 			Logger.getLogger(CowsayCli.class.getName()).log(Level.FINEST, null, ex);
 		}
 		return null;
 	}
 
 	/**
-	 * Call to add options descriptions to the command line options.
+	 * Call to add OPTIONS descriptions to the command line OPTIONS.
 	 * This is deferred so that language / locale changes will be reflected.
 	 */
 	private static void updateOptionDescriptions() {
-		Collection<Option> allOptions = options.getOptions();
+		Collection<Option> allOptions = OPTIONS.getOptions();
 		for (Option option : allOptions) {
 			String key = option.getOpt();
 			if (key == null) {
@@ -172,6 +191,6 @@ public class CowsayCli {
 	public static void showCmdLineHelp() {
 		HelpFormatter formatter = new HelpFormatter();
 		updateOptionDescriptions();
-		formatter.printHelp(I18n.getMessage("usage"), options);
+		formatter.printHelp(I18n.getMessage("usage"), OPTIONS);
 	}
 }

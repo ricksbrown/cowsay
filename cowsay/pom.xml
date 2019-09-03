@@ -45,7 +45,8 @@
 				<artifactId>maven-jar-plugin</artifactId>
 				<version>3.1.2</version>
 				<configuration>
-					<finalName>cowsay-lib-${project.version}</finalName>
+					<!-- Produce a minimal jar which is not executable but much smaller and works as a java library. -->
+					<classifier>lib</classifier>
 				</configuration>
 			</plugin>
 			<plugin>
