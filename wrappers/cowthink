@@ -9,4 +9,4 @@
 # You must obviously have java installed.
 
 BASEDIR=$(dirname "$0")
-java -jar $BASEDIR/cowsay-1.0.4.jar --cowthink $@
+java -jar $BASEDIR/cowsay-1.1.0.jar --cowthink $@
