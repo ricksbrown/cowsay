@@ -9,4 +9,5 @@
 # You must obviously have java installed.
 
 BASEDIR=$(dirname "$0")
-java -jar $BASEDIR/cowsay-1.1.0.jar $@
+JARFILE=$(ls -t $BASEDIR/*.jar | head -1)
+java -jar $JARFILE $@
