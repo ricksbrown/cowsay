@@ -99,6 +99,7 @@
 			<!-- Example cowsay java library usage -->
 			<groupId>com.github.ricksbrown</groupId>
 			<artifactId>cowsay</artifactId>
+			<classifier>lib</classifier><!-- This is a lightweight version you can use as a java library but is not executable -->
 			<version>${cowsay.version}</version>
 		</dependency>
 	</dependencies>
