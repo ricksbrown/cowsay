@@ -9,5 +9,5 @@
 # You must obviously have java installed.
 
 BASEDIR=$(dirname "$0")
-JARFILE=$(ls -t $BASEDIR/*.jar | head -1)
+JARFILE=$(ls -t $BASEDIR/cowsay*.jar | head -1)
 java -jar $JARFILE $@
