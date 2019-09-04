@@ -1,0 +1,22 @@
+# Based on: http://www.martinvickers.co.uk/procrastination/cowsay/
+$eye = chop($eyes);
+$the_cow = <<EOC;
+   $thoughts
+     $thoughts       ,~.
+       $thoughts  ,-'__ `-,
+          {,-'  `. }              ,')
+         ,( $eye )   `-.__         ,',')~,
+        <=.) (         `-.__,==' ' ' '}
+          (   )                      /
+           `-'\\   ,                  )
+               |  \\        `~.      /
+               \\   `._        \\    /
+                \\     `._____,'   /
+                 `-.            ,'
+                    `-.      ,-'
+                       `~~~~'
+                       //_||
+                    __//--'/`
+                  ,--'/`  '
+                     '
+EOC

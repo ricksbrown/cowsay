@@ -32,6 +32,9 @@
 					<exclude>cows/sodomized.cow</exclude>
 				</excludes>
 			</resource>
+			<resource>
+				<directory>src/main/resources</directory>
+			</resource>
 		</resources>
 		<plugins>
 			<plugin>
