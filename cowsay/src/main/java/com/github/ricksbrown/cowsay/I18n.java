@@ -10,7 +10,6 @@ import java.util.ResourceBundle;
  */
 public final class I18n {
 	private static final String DEFAULT_LANG = "en";
-	private static Locale currentLocale = null;
 	private static ResourceBundle messages = null;
 
 	/**
@@ -25,8 +24,7 @@ public final class I18n {
 	 * @param language A BCP47 language, e.g. "en", "fr".
 	 */
 	public static void setLanguage(final String language) {
-		currentLocale = new Locale(language);
-		messages = ResourceBundle.getBundle("MessagesBundle", currentLocale);
+		messages = ResourceBundle.getBundle("MessagesBundle", new Locale(language));
 	}
 
 	/**

@@ -61,13 +61,7 @@ public final class Cowsay {
 				if (commandLine.hasOption(CowsayCli.Opt.HELP.toString())) {
 					CowsayCli.showCmdLineHelp();
 				} else if (commandLine.hasOption(CowsayCli.Opt.LIST_COWS.toString())) {
-					String[] files = Cowloader.listAllCowfiles();
-					if (files != null) {
-						if (commandLine.hasOption(CowsayCli.Opt.LIST_COWS.toString())) {
-							return StringUtils.join(files, " ");
-						}
-						return StringUtils.join(files, System.lineSeparator());
-					}
+					return listCows(commandLine);
 				} else {
 					String cowfileSpec = null;
 					CowFace cowFace;
@@ -96,7 +90,7 @@ public final class Cowsay {
 
 					String cowTemplate = Cowloader.load(cowfileSpec);
 					if (cowTemplate != null) {
-						String moosages[] = commandLine.getArgs();
+						String[] moosages = commandLine.getArgs();
 						if (moosages.length == 0) {
 							moosages = CowsayCli.getPipedInput();
 						}
@@ -116,6 +110,22 @@ public final class Cowsay {
 			}
 		} catch (CowParseException ex) {
 			Logger.getLogger(Cowsay.class.getName()).log(Level.SEVERE, null, ex);
+		}
+		return "";
+	}
+
+	/**
+	 * Handles -list
+	 * @param commandLine The parsed args.
+	 * @return The list of cows.
+	 */
+	private static String listCows(final CommandLine commandLine) {
+		String[] files = Cowloader.listAllCowfiles();
+		if (files != null) {
+			if (commandLine.hasOption(CowsayCli.Opt.LIST_COWS.toString())) {
+				return StringUtils.join(files, " ");
+			}
+			return StringUtils.join(files, System.lineSeparator());
 		}
 		return "";
 	}

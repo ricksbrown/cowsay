@@ -87,6 +87,16 @@ public class CowloaderTest {
 	}
 
 	/**
+	 * Test loading empty cowfilespec.
+	 */
+	@Test
+	public void testLoadWithEmoptyPath() {
+		String cowName = "";
+		String actual = Cowloader.load(cowName);
+		Assert.assertNull(actual);
+	}
+
+	/**
 	 * Test core cowjar cowfiles are trumped by cowfiles  with the same name on the COWPATH.
 	 */
 	@Test
