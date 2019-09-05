@@ -1,3 +1,13 @@
 language: Java
 jdk:
-  - openjdk9
+- openjdk9
+env:
+  global:
+    secure:
+addons:
+  sonarcloud:
+    organization: "ricksbrown"
+    token:
+      secure: $SONAR_TOKEN
+script:
+   - ./travis.sh
