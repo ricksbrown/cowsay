@@ -1,7 +1,9 @@
-
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/c2ae0ae0cbc24295975e1f75bd111662)](https://www.codacy.com/app/ricksbrown/cowsay?utm_source=github.com&utm_medium=referral&utm_content=ricksbrown/cowsay&utm_campaign=badger)
 [![Build Status](https://travis-ci.org/ricksbrown/cowsay.svg?branch=master)](https://travis-ci.org/ricksbrown/cowsay)
 [![Javadocs](https://javadoc.io/badge/com.github.ricksbrown/cowsay.svg)](https://javadoc.io/doc/com.github.ricksbrown/cowsay)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=ricksbrown_cowsay&metric=security_rating)](https://sonarcloud.io/dashboard?id=ricksbrown_cowsay)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=ricksbrown_cowsay&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=ricksbrown_cowsay)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=ricksbrown_cowsay&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=ricksbrown_cowsay)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=ricksbrown_cowsay&metric=coverage)](https://sonarcloud.io/dashboard?id=ricksbrown_cowsay)
 
 # Cowsay
 
