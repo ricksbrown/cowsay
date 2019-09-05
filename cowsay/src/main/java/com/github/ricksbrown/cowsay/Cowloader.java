@@ -90,8 +90,7 @@ public final class Cowloader {
 				cowInputStream = getCowFromResources(DEFAULT_COW + COWFILE_EXT);
 			}
 			if (cowInputStream != null) {
-				String cow = cowInputStreamToString(cowInputStream);
-				return cow;
+				return cowInputStreamToString(cowInputStream);
 			}
 		}
 		return null;  // should never happen
@@ -143,12 +142,10 @@ public final class Cowloader {
 	 */
 	private static InputStream getCowFromPath(final String path) {
 		File cowfile = new File(path);
-		if (cowfile.isAbsolute()) {
-			if (isCowfile(cowfile)) {
-				return cowfileToCowInputStream(cowfile);
-			}
+		if (cowfile.isAbsolute() && isCowfile(cowfile)) {
+			return cowfileToCowInputStream(cowfile);
 		}
-		String cwd = System.getProperty("user.dir");  // TODO is this really CWD?
+		String cwd = System.getProperty("user.dir");
 		if (cwd != null) {
 			cowfile = new File(cwd, path);
 			if (isCowfile(cowfile)) {
@@ -203,13 +200,11 @@ public final class Cowloader {
 		String cowPath = cowEnvironment.getVariable("COWPATH");
 		if (cowPath != null) {
 			String[] paths = cowPath.split(File.pathSeparator);
-			if (paths != null) {
-				for (String path : paths) {
-					File[] cowfiles = getCowFiles(path);
-					if (cowfiles != null) {
-						for (File cowfile : cowfiles) {
-							result.add(cowfile.getName().replaceAll(COWFILE_EXT_RE, ""));
-						}
+			for (String path : paths) {
+				File[] cowfiles = getCowFiles(path);
+				if (cowfiles != null) {
+					for (File cowfile : cowfiles) {
+						result.add(cowfile.getName().replaceAll(COWFILE_EXT_RE, ""));
 					}
 				}
 			}

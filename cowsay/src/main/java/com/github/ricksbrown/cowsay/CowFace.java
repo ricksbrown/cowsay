@@ -12,7 +12,7 @@ public class CowFace {
 	/**
 	 * The various predefined modes built into cowsay, for example "borg" mode.
 	 */
-	public static final Map<String, CowFace> COW_MODES = new HashMap<String, CowFace>();
+	protected static final Map<String, CowFace> COW_MODES = new HashMap<>();
 
 	private static final String DEFAULT_EYES = "oo";
 	private static final String DEFAULT_TONGUE = "  ";

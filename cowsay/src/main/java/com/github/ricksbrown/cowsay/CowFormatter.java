@@ -31,8 +31,7 @@ public final class CowFormatter {
 
 		Matcher matcher = COWSTART_RE.matcher(cow);
 		if (matcher.find(0)) {
-			String result = matcher.replaceFirst("");
-			return result;
+			return matcher.replaceFirst("");
 		} else {
 			throw new CowParseException("Could not parse cow " + cow);
 		}

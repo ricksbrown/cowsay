@@ -116,8 +116,8 @@ public class CowExecutor {
 	 * @return commandline args
 	 */
 	protected String[] buildArgs() {
-		String result[] = new String[0];
-		List<String> args = new ArrayList<String>();
+		String[] result = new String[0];
+		List<String> args = new ArrayList<>();
 		if (lang != null && lang.length() > 0) {
 			args.add(flagify(CowsayCli.Opt.LANG.toString()));
 			args.add(lang);
