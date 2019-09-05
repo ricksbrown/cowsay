@@ -22,5 +22,9 @@ SOFTWARE.
 
 ---
 
-Note that the original cowsay is by Tony Monroe <tony@nog.net>
-Cowfiles used in this project are directly taken from https://github.com/schacon/cowsay and are covered by that project's copyright.
+Note that the cowsay concept and original implementation is by Tony Monroe <tony@nog.net>
+
+The default cowfiles bundled with this cowsay are from https://github.com/schacon/cowsay.
+
+Additional cowfiles which may be included as cowjars are from other open source projects 
+and are referenced in the relevant cowjar directories.
