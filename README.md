@@ -36,19 +36,23 @@ E.g. for version `1.1.0` you would go [here](http://repo1.maven.org/maven2/com/g
 
 ## Usage
 
-All the ways of using it support configuration consistent with the commandline flags of the original application, including full support for `COWPATH` environment variable.
+All the ways of using it support configuration consistent with the command line flags of the original application, including full support for `COWPATH` environment variable.
 
 Documentation can be found in various man pages on the web.
 
+It also introduces [cowjars](cowjar) which is a way of adding extra cows to the Java classpath.
+
 ### As a Command Line Utility
 
-#### Installation
+#### CLI Installation
 
-1. Download the executable Jar as [described above](#download).
+1. Download the executable jar as [described above](#download).
 2. Download the [wrapper scripts](wrappers).
 3. Update your PATH
 
-Once installed you can execute cowsay and cowthink from the commandline like so:
+#### CLI Usage
+
+Once installed you can execute cowsay and cowthink from the command line like so:
 
 ```bash
 # Simple cowsay CLI
@@ -64,9 +68,9 @@ echo "Piping to cowsay" | cowsay -f dragon
  ------------------
       \                    / \  //\
        \    |\___/|      /   \//  \\
-            /0  0  \__  /    //  | \ \    
-           /     /  \/_/    //   |  \  \  
-           @_^_@'/   \/_   //    |   \   \ 
+            /0  0  \__  /    //  | \ \
+           /     /  \/_/    //   |  \  \
+           @_^_@'/   \/_   //    |   \   \
            //_^_/     \/_ //     |    \    \
         ( //) |        \///      |     \     \
       ( / /) _|_ /   )  //       |      \     _\
@@ -81,6 +85,8 @@ echo "Piping to cowsay" | cowsay -f dragon
 ```
 
 ### As an executable jar
+
+Download the executable jar as [described above](#download) and run it like so:
 
 ```bash
 # Same args as cowsay CLI
@@ -121,17 +127,17 @@ System.out.println(result);
 < Hello from Java! >
  ------------------
 \                             .       .
- \                           / `.   .' " 
+ \                           / `.   .' "
   \                  .---.  <    > <    >  .---.
    \                 |    \  \ - ~ ~ - /  /    |
          _____          ..-~             ~-..-~
         |     |   \~~~\.'                    `./~~~/
        ---------   \__/                        \__/
-      .'  O    \     /               /       \  " 
+      .'  O    \     /               /       \  "
      (_____,    `._.'               |         }  \/~~~/
       `----.          /       }     |        /    \__/
             `-.      |       /      |       /      `. ,~~|
-                ~-.__|      /_ - ~ ^|      /- _      `..-'   
+                ~-.__|      /_ - ~ ^|      /- _      `..-'
                      |     /        |     /     ~-.     `-. _  _  _
                      |_____|        |_____|         ~ - . _ _ _ _ _>
 ```
@@ -187,6 +193,7 @@ For a working java example see [cowsay-example](cowsay-example)
 	</executions>
 </plugin>
 ```
+
 ```
  _________________________
 < Compiling with Maven... >
@@ -250,9 +257,9 @@ Try running Ant on the example java project: [cowsay-example](cowsay-example)
 
 ## Adding more cows
 
-As with original cowsay you can add cowfiles using the environment variable `COWPATH` and using the `-f` commandline flag.
+As with original cowsay you can add cowfiles using the environment variable `COWPATH` and using the `-f` command line flag.
 
-To facilitate adding cowfiles when used as a Maven plugin, Ant task or Java library you can use the provided "cowjars" (or create your own).
+To facilitate adding cowfiles when used as a Maven plugin, Ant task or Java library you can use the provided [cowjars](cowjar) (or create your own).
 
 The [cowsay-example](cowsay-example) project demonstrates how to use cowjars.
 
