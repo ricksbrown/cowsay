@@ -20,8 +20,8 @@ Cowjars are simply a jar file containing a `cows` directory with cowfiles that c
 
 Java cowsay will find them there and use them in commands like `cowsay -list` and `cowsay -f cheese`.
 
-A few are provided but you can also easily build your own.
+A few are provided but you can build your own.
 
 ## Cowjar Sources
 
-The actual cowfiles are fetched at build time which is why these modules have no source.
+The actual cowfiles are fetched at build time which is why you do not find most/any cowfiles in the source.
