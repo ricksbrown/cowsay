@@ -2,7 +2,9 @@ package com.github.ricksbrown.cowsay.plugin;
 
 import com.github.ricksbrown.cowsay.CowsayTest;
 import com.github.ricksbrown.cowsay.TestUtils;
+import java.util.Arrays;
 import java.util.Set;
+import org.hamcrest.CoreMatchers;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -123,4 +125,66 @@ public class CowExecutorTest {
 		}
 	}
 
+	/**
+	 * Test of setMode method, of class CowExecutor, with unknown mode.
+	 */
+	@Test
+	public void testSetModeUnknown() {
+		CowExecutor instance = new CowExecutor();
+		instance.setMessage("Hello");
+		String mode = "A";
+		System.out.println("setMode " + mode);
+		instance.setMode(mode);
+		String[] args = instance.buildArgs();
+		Assert.assertThat(Arrays.asList(args), CoreMatchers.not(CoreMatchers.hasItems("-" + mode)));
+	}
+
+	/**
+	 * Check that null message throws Exception.
+	 * @throws Exception
+	 */
+	@Test(expected = IllegalStateException.class)
+	public void testExecuteNullMessage() throws Exception {
+		System.out.println("testExecute null message");
+		CowExecutor instance = new CowExecutor();
+		instance.execute();
+	}
+
+	/**
+	 * Test of setLang method, of class CowExecutor.
+	 */
+	@Test
+	public void testSetLang() {
+		System.out.println("setLang");
+		String lang = "de";
+		CowExecutor instance = new CowExecutor();
+		instance.setLang(lang);
+		String[] args = instance.buildArgs();
+		Assert.assertThat(Arrays.asList(args), CoreMatchers.hasItems("--lang", lang));
+	}
+
+	/**
+	 * Test of setAlt method, of class CowExecutor.
+	 */
+	@Test
+	public void testSetAlt() {
+		System.out.println("setAlt");
+		String alt = "A cow saying 'alt text in cowsay, seriously?'";
+		CowExecutor instance = new CowExecutor();
+		instance.setAlt(alt);
+		String[] args = instance.buildArgs();
+		Assert.assertThat(Arrays.asList(args), CoreMatchers.hasItems("--alt", alt));
+	}
+
+	/**
+	 * Test of setHtml method, of class CowExecutor.
+	 */
+	@Test
+	public void testSetHtml() {
+		System.out.println("setHtml");
+		CowExecutor instance = new CowExecutor();
+		instance.setHtml(true);
+		String[] args = instance.buildArgs();
+		Assert.assertThat(Arrays.asList(args), CoreMatchers.hasItems("--html"));
+	}
 }

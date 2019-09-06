@@ -179,7 +179,7 @@ public class CowExecutor {
 	 * @return The formatted cow message.
 	 * @throws IllegalStateException If mandatory properties have not been set.
 	 */
-	public String execute() throws IllegalStateException {
+	public String execute() {
 		validate();
 		String[] args = buildArgs();
 		String result;
