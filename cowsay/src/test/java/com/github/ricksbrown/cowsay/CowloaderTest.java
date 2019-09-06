@@ -3,6 +3,7 @@ package com.github.ricksbrown.cowsay;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -143,6 +144,27 @@ public class CowloaderTest {
 			Assert.fail(ex.getMessage());
 		}
 	}
+
+	/**
+	 * Test of listAllCowfiles method with directory on classpath.
+	 */
+	@Test
+	public void testListWithDirectoryOnClasspath() {
+		String projectVersion = System.getProperty("project.version");
+		File cowdir = TestUtils.getPathToCows("cowjar-extra");
+		ClassLoader cl = this.getClass().getClassLoader();
+		URL dirUrl = null;
+		try {
+			dirUrl = cowdir.getParentFile().getCanonicalFile().toURI().toURL();
+		} catch (IOException ex) {
+			Assert.fail(ex.getMessage());
+		}
+		URLClassLoader classloader = new URLClassLoader(new URL[]{dirUrl}, cl);
+		String[] result = Cowloader.listAllCowfiles(classloader);
+		String[] expected = getCowjarCowNames(new String[]{"cowjar", "cowjar-extra"});
+		Assert.assertArrayEquals(expected, result);
+	}
+
 
 	/**
 	 * Gets all of the cowfile names from a cowjar or combined cowjars.
