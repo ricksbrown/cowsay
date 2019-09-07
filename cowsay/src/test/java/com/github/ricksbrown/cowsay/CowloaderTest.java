@@ -89,10 +89,32 @@ public class CowloaderTest {
 	 * Test loading empty cowfilespec.
 	 */
 	@Test
-	public void testLoadWithEmoptyPath() {
+	public void testLoadWithEmptyPath() {
 		String cowName = "";
 		String actual = Cowloader.load(cowName);
 		Assert.assertNull(actual);
+	}
+
+	/**
+	 * Test loading non-existent cowfilespec.
+	 */
+	@Test
+	public void testLoadWithBogusPath() {
+		String expected = loadRawCowfile("default.cow", "cowjar");
+		String cowName = "src/chicken.cow";
+		String actual = Cowloader.load(cowName);
+		Assert.assertThat(expected, CoreMatchers.is(actual));
+	}
+
+	/**
+	 * Test loading relative cowfilespec.
+	 */
+	@Test
+	public void testLoadWithRelativePath() {
+		String cowfileSpec = String.join(File.separator, "src", "test", "resources", "cattle", "cheese.cow");
+		Assume.assumeTrue("file required for this test " + cowfileSpec, new File(cowfileSpec).exists());
+		String actual = Cowloader.load(cowfileSpec);
+		Assert.assertNotNull(actual);
 	}
 
 	/**
