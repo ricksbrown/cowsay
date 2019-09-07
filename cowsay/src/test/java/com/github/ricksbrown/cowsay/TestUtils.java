@@ -3,6 +3,9 @@ package com.github.ricksbrown.cowsay;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.io.IOUtils;
@@ -13,7 +16,7 @@ import org.junit.Assert;
  * Utilities for the unit tests.
  * @author Rick Brown
  */
-public class TestUtils {
+public final class TestUtils {
 
 	/**
 	 * Private constructor for utility class.
@@ -85,5 +88,24 @@ public class TestUtils {
 			Logger.getLogger(CowsayTest.class.getName()).log(Level.SEVERE, null, ex);
 		}
 		return "";
+	}
+
+	/**
+	 * Gets all of the cowfile names from a cowjar or combined cowjars.
+	 * @param cowjarNames The name of cowjars to list.
+	 * @return List of combined cowfile names (without .cow).
+	 */
+	public static String[] getCowjarCowNames(final String[] cowjarNames) {
+		Set<String> cowfileNames = new HashSet<>();
+		for (String cowjarName : cowjarNames) {
+			File[] cowfiles = TestUtils.getCowjarCowFiles(cowjarName);
+			for (File cowfile : cowfiles) {
+				String name = cowfile.getName().replaceAll("\\.cow$", "");
+				cowfileNames.add(name);
+			}
+		}
+		String[] result = cowfileNames.toArray(new String[]{});
+		Arrays.sort(result);
+		return result;
 	}
 }

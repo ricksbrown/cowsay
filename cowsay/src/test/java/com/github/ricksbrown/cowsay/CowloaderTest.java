@@ -8,9 +8,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import org.hamcrest.CoreMatchers;
 import org.junit.After;
 import org.junit.Assert;
@@ -30,12 +28,12 @@ public class CowloaderTest {
 		Cowloader.setCowEnvironment(CowEnvironment.getInstance());
 	}
 
-	/**p
+	/**
 	 * Test of listAllCowfiles method, of class Cowloader.
 	 */
 	@Test
 	public void testList() {
-		String[] expected = getCowjarCowNames(new String[]{"cowjar"});
+		String[] expected = TestUtils.getCowjarCowNames(new String[]{"cowjar"});
 		String[] result = Cowloader.listAllCowfiles();
 		Assert.assertArrayEquals(expected, result);
 	}
@@ -46,7 +44,7 @@ public class CowloaderTest {
 	@Test
 	public void testListWithCowpath() {
 		String cowjarName = "cowjar-extra";
-		String[] expected = getCowjarCowNames(new String[]{"cowjar", cowjarName});
+		String[] expected = TestUtils.getCowjarCowNames(new String[]{"cowjar", cowjarName});
 		addCowjarCowsToCowpath(cowjarName);
 		String[] result = Cowloader.listAllCowfiles();
 		Assert.assertArrayEquals(expected, result);
@@ -138,7 +136,7 @@ public class CowloaderTest {
 			ClassLoader cl = this.getClass().getClassLoader();
 			URLClassLoader classloader = new URLClassLoader(new URL[]{jarfile.toURI().toURL()}, cl);
 			String[] result = Cowloader.listAllCowfiles(classloader);
-			String[] expected = getCowjarCowNames(new String[]{"cowjar", "cowjar-js"});
+			String[] expected = TestUtils.getCowjarCowNames(new String[]{"cowjar", "cowjar-js"});
 			Assert.assertArrayEquals(expected, result);
 		} catch (MalformedURLException ex) {
 			Assert.fail(ex.getMessage());
@@ -161,32 +159,12 @@ public class CowloaderTest {
 		}
 		URLClassLoader classloader = new URLClassLoader(new URL[]{dirUrl}, cl);
 		String[] result = Cowloader.listAllCowfiles(classloader);
-		String[] expected = getCowjarCowNames(new String[]{"cowjar", "cowjar-extra"});
+		String[] expected = TestUtils.getCowjarCowNames(new String[]{"cowjar", "cowjar-extra"});
 		Assert.assertArrayEquals(expected, result);
 	}
 
-
 	/**
-	 * Gets all of the cowfile names from a cowjar or combined cowjars.
-	 * @param cowjarNames The name of cowjars to list.
-	 * @return List of combined cowfile names (without .cow).
-	 */
-	public static String[] getCowjarCowNames(final String[] cowjarNames) {
-		Set<String> cowfileNames = new HashSet<>();
-		for (String cowjarName : cowjarNames) {
-			File[] cowfiles = TestUtils.getCowjarCowFiles(cowjarName);
-			for (File cowfile : cowfiles) {
-				String name = cowfile.getName().replaceAll("\\.cow$", "");
-				cowfileNames.add(name);
-			}
-		}
-		String[] result = cowfileNames.toArray(new String[]{});
-		Arrays.sort(result);
-		return result;
-	}
-
-	/**
-	 * Adds cows directory from a cowjar project to the COWPATH
+	 * Adds cows directory from a cowjar project to the COWPATH.
 	 * @param cowjarName The name of the cowjar project to use.
 	 * @return The mock environment.
 	 */
