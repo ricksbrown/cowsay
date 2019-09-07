@@ -255,6 +255,6 @@
 		<module>cowjar-off</module>
 		<module>cowjar-extra</module>
 		<module>cowjar-js</module>
-		<module>cowsay</module>
+		<module>Cowsay</module>
 	</modules>
 </project>
