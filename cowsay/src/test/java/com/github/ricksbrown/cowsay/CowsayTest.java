@@ -1,7 +1,9 @@
 package com.github.ricksbrown.cowsay;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.PrintStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -14,6 +16,10 @@ import org.junit.Test;
  * @author Rick Brown
  */
 public class CowsayTest {
+
+	private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+	private final PrintStream originalOut = System.out;
+
 
 	/**
 	 * Maps mode switches to test resources containing expected output.
@@ -34,6 +40,24 @@ public class CowsayTest {
 	}
 
 	/**
+	 * Test of main method, of class Cowsay.
+	 */
+	@Test
+	public void testMain() {
+		System.out.println("cowsay Hello");
+		String[] args = new String[]{"Hello"};
+		String expResult = TestUtils.loadExpected("cowsayHello.txt") + System.lineSeparator();  // extra linefeed because it's println;
+		try {
+			System.setOut(new PrintStream(outContent));
+			Cowsay.main(args);
+			String result = outContent.toString();
+			TestUtils.cowfileCompare(expResult, result);
+		} finally {
+			System.setOut(originalOut);
+		}
+	}
+
+	/**
 	 * Test of say method, of class Cowsay.
 	 */
 	@Test
@@ -43,6 +67,30 @@ public class CowsayTest {
 		String expResult = TestUtils.loadExpected("cowsayHello.txt");
 		String result = Cowsay.say(args);
 		TestUtils.cowfileCompare(expResult, result);
+	}
+
+	/**
+	 * Test of say method, of class Cowsay, as HTML.
+	 */
+	@Test
+	public void testSayHtml() {
+		System.out.println("cowsay --html --alt \"A cow saying 'Hello'\"");
+		String[] args = new String[]{"--html", "--alt", "A cow saying 'Hello'", "Hello"};
+		String expResult = TestUtils.loadExpected("cowsayHelloHtml.html");
+		String result = Cowsay.say(args);
+		TestUtils.cowfileCompare(expResult, result);
+	}
+
+	/**
+	 * Test of say method, of class Cowsay, with -list arg.
+	 */
+	@Test
+	public void testListCows() {
+		System.out.println("cowsay -list");
+		String[] args = new String[]{"-list"};
+		String[] expected = TestUtils.getCowjarCowNames(new String[]{"cowjar"});
+		String[] actual = Cowsay.say(args).split(" ");
+		Assert.assertArrayEquals(expected, actual);
 	}
 
 	/**
