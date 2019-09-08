@@ -4,9 +4,11 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.MissingResourceException;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -134,7 +136,13 @@ public final class CowsayCli {
 			if (flag == null) {
 				flag = option.getLongOpt();
 			}
-			Logger.getLogger(CowsayCli.class.getName()).log(Level.INFO, I18n.getMessage("missingarg"), flag);
+			String message;
+			try {
+				message = I18n.getMessage("missingarg." + flag);
+			} catch (MissingResourceException mre) {
+				message = MessageFormat.format(I18n.getMessage("missingarg"), flag);
+			}
+			System.err.println(message);
 		} catch (ParseException ex) {
 			Logger.getLogger(CowsayCli.class.getName()).log(Level.FINEST, null, ex);
 		}

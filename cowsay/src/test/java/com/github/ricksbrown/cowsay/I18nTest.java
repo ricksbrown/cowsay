@@ -14,9 +14,7 @@ import org.junit.Test;
 public class I18nTest {
 
 	private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-	private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
 	private final PrintStream originalOut = System.out;
-	private final PrintStream originalErr = System.err;
 
 	/**
 	 * Redirect the standard io streams so they can be read in test.
@@ -24,7 +22,6 @@ public class I18nTest {
 	@Before
 	public void setupStreams() {
 		System.setOut(new PrintStream(outContent));
-		System.setErr(new PrintStream(errContent));
 	}
 
 	/**
@@ -33,7 +30,6 @@ public class I18nTest {
 	@After
 	public void restoreStreams() {
 		System.setOut(originalOut);
-		System.setErr(originalErr);
 	}
 
 	/**
