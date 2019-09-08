@@ -52,60 +52,50 @@ public final class Cowsay {
 	 * @return A talking or thinking cow.
 	 */
 	private static String sayOrThink(final String[] args, final boolean think) {
+		CommandLine commandLine = CowsayCli.parseCmdArgs(args);
+		if (commandLine != null) {
+			if (commandLine.hasOption(CowsayCli.Opt.HELP.toString())) {
+				CowsayCli.showCmdLineHelp();
+				return "";
+			} else if (commandLine.hasOption(CowsayCli.Opt.LIST_COWS.toString())) {
+				return listCows(commandLine);
+			}
+			return getOutput(commandLine, think || commandLine.hasOption(CowsayCli.Opt.THINK.toString()));
+		}
+		return "";
+	}
+
+	/**
+	 * Gets the message fully formatted ready for output.
+	 * @param commandLine The parsed command line.
+	 * @param isThought true if the message should be thought rather than said.
+	 * @return The fully formatted message.
+	 */
+	private static String getOutput(final CommandLine commandLine, final boolean isThought) {
 		try {
-			boolean isThought = think;
-
-			String wordwrap = null;
-			CommandLine commandLine = CowsayCli.parseCmdArgs(args);
-			if (commandLine != null) {
-				if (commandLine.hasOption(CowsayCli.Opt.HELP.toString())) {
-					CowsayCli.showCmdLineHelp();
-				} else if (commandLine.hasOption(CowsayCli.Opt.LIST_COWS.toString())) {
-					return listCows(commandLine);
-				} else {
-					String cowfileSpec = null;
-					CowFace cowFace;
-
-					if (commandLine.hasOption(CowsayCli.Opt.WRAP_AT.toString())) {
-						wordwrap = commandLine.getOptionValue(CowsayCli.Opt.WRAP_AT.toString());
-					} else if (commandLine.hasOption(CowsayCli.Opt.NOWRAP.toString())) {
-						wordwrap = "0";
-					}
-					cowFace = getCowFaceByMode(commandLine);
-					if (cowFace == null) {
-						// if we are in here no modes were set
-						if (commandLine.hasOption(CowsayCli.Opt.COWFILE.toString())) {
-							cowfileSpec = commandLine.getOptionValue(CowsayCli.Opt.COWFILE.toString());
-						}
-						cowFace = getCowFace(commandLine);
-					}
-
-					if (commandLine.hasOption(CowsayCli.Opt.THINK.toString())) {
-						isThought = true;
-					}
-
-					if (cowfileSpec == null) {
-						cowfileSpec = Cowloader.DEFAULT_COW;
-					}
-
-					String cowTemplate = Cowloader.load(cowfileSpec);
-					if (cowTemplate != null) {
-						String[] moosages = commandLine.getArgs();
-						if (moosages.length == 0) {
-							moosages = CowsayCli.getPipedInput();
-						}
-						String moosage = StringUtils.join(moosages, " ");
-						if (moosage != null && moosage.length() > 0) {
-							moosage = normalizeSpace(moosage);
-							Message message = new Message(moosage, isThought);
-							if (wordwrap != null) {
-								message.setWordwrap(wordwrap);
-							}
-							String cow = CowFormatter.formatCow(cowTemplate, cowFace, message);
-							cow = formatHtml(commandLine, cow, moosage, isThought);
-							return cow;
-						}
-					}
+			String cowTemplate;
+			CowFace cowFace;
+			cowFace = getCowFaceByMode(commandLine);
+			if (cowFace == null) {
+				// if we are in here no modes were set
+				cowTemplate = Cowloader.load(commandLine);
+				cowFace = getCowFace(commandLine);
+			} else {
+				cowTemplate = Cowloader.load(Cowloader.DEFAULT_COW);
+			}
+			if (cowTemplate != null) {
+				String[] moosages = commandLine.getArgs();
+				if (moosages.length == 0) {
+					moosages = CowsayCli.getPipedInput();
+				}
+				String moosage = StringUtils.join(moosages, " ");
+				if (moosage != null && moosage.length() > 0) {
+					moosage = normalizeSpace(moosage);
+					Message message = new Message(moosage, isThought);
+					message.setWordwrap(commandLine);
+					String cow = CowFormatter.formatCow(cowTemplate, cowFace, message);
+					cow = formatHtml(commandLine, cow, moosage, isThought);
+					return cow;
 				}
 			}
 		} catch (CowParseException ex) {
@@ -115,7 +105,7 @@ public final class Cowsay {
 	}
 
 	/**
-	 * Handles -list
+	 * Handles -list cli arg.
 	 * @param commandLine The parsed args.
 	 * @return The list of cows.
 	 */

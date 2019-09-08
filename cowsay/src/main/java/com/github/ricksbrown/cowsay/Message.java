@@ -2,6 +2,7 @@ package com.github.ricksbrown.cowsay;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.commons.cli.CommandLine;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.WordUtils;
 
@@ -88,6 +89,22 @@ public class Message {
 			return result;
 		}
 		return "";
+	}
+
+	/**
+	 * Set the length of the wrapat, default is "40", zero disables line-wrap.
+	 * @param commandLine The parsed command line args.
+	 */
+	protected void setWordwrap(final CommandLine commandLine) {
+		String wordwrap = null;
+		if (commandLine.hasOption(CowsayCli.Opt.WRAP_AT.toString())) {
+			wordwrap = commandLine.getOptionValue(CowsayCli.Opt.WRAP_AT.toString());
+		} else if (commandLine.hasOption(CowsayCli.Opt.NOWRAP.toString())) {
+			wordwrap = "0";
+		}
+		if (wordwrap != null) {
+			this.setWordwrap(wordwrap);
+		}
 	}
 
 	/**

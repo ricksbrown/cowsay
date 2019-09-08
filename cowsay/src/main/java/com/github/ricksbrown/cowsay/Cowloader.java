@@ -20,6 +20,7 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.apache.commons.cli.CommandLine;
 
 /**
  * Loads a cow either from:
@@ -103,6 +104,22 @@ public final class Cowloader {
 	 */
 	public static void setCowEnvironment(final Environment env) {
 		cowEnvironment = env;
+	}
+
+	/**
+	 * Load the raw cowfile based on the CLI options.
+	 * @param commandLine The parsed command line.
+	 * @return The content of the specified cowfile (or default cowfile if cowfileSpec is null or empty).
+	 */
+	protected static String load(final CommandLine commandLine) {
+		String cowfileSpec = null;
+		if (commandLine.hasOption(CowsayCli.Opt.COWFILE.toString())) {
+			cowfileSpec = commandLine.getOptionValue(CowsayCli.Opt.COWFILE.toString());
+		}
+		if (cowfileSpec == null) {
+			cowfileSpec = Cowloader.DEFAULT_COW;
+		}
+		return load(cowfileSpec);
 	}
 
 	/**
