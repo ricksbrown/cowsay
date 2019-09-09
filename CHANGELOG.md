@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Improve feedback when a CLI arg is missing.
+
 ## [1.1.0]
 
 - Significantly more consistent with the output of original cowsay.
