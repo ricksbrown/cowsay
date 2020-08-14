@@ -107,6 +107,17 @@ public class CowloaderTest {
 	}
 
 	/**
+	 * Test loading null cowfilespec.
+	 */
+	@Test
+	public void testLoadWithNullPath() {
+		String expected = loadRawCowfile("default.cow", "cowjar");
+		String cowName = null;
+		String actual = Cowloader.load(cowName);
+		Assert.assertThat(expected, CoreMatchers.is(actual));
+	}
+
+	/**
 	 * Test loading relative cowfilespec.
 	 */
 	@Test
@@ -114,6 +125,18 @@ public class CowloaderTest {
 		String cowfileSpec = String.join(File.separator, "src", "test", "resources", "cattle", "cheese.cow");
 		Assume.assumeTrue("file required for this test " + cowfileSpec, new File(cowfileSpec).exists());
 		String actual = Cowloader.load(cowfileSpec);
+		Assert.assertNotNull(actual);
+	}
+
+	/**
+	 * Test loading absolute cowfilespec.
+	 */
+	@Test
+	public void testLoadWithAbsolutePath() {
+		String cowfileSpec = String.join(File.separator, "src", "test", "resources", "cattle", "cheese.cow");
+		File cowFile = new File(cowfileSpec);
+		Assume.assumeTrue("file required for this test " + cowfileSpec, cowFile.exists());
+		String actual = Cowloader.load(cowFile.getAbsolutePath());
 		Assert.assertNotNull(actual);
 	}
 
