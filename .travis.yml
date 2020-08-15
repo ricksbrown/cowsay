@@ -1,6 +1,6 @@
 language: Java
 jdk:
-- openjdk9
+- openjdk11
 addons:
   sonarcloud:
     organization: ricksbrown
