@@ -184,12 +184,10 @@ public final class Cowloader {
 		String cowPath = cowEnvironment.getVariable("COWPATH");
 		if (cowPath != null) {
 			String[] paths = cowPath.split(File.pathSeparator);
-			if (paths != null) {
-				for (String path : paths) {
-					File cowfile = getCowfile(path, cowName);
-					if (cowfile != null) {
-						return cowfileToCowInputStream(cowfile);
-					}
+			for (String path : paths) {
+				File cowfile = getCowfile(path, cowName);
+				if (cowfile != null) {
+					return cowfileToCowInputStream(cowfile);
 				}
 			}
 		}
@@ -277,9 +275,11 @@ public final class Cowloader {
 	 */
 	private static File getCowfile(final String folder, final String cowName) {
 		File[] cowfiles = getCowFiles(folder);
-		for (File cowfile : cowfiles) {
-			if (cowfile.getName().equals(cowName)) {
-				return cowfile;
+		if (cowfiles != null) {  // yes this can be null
+			for (File cowfile : cowfiles) {
+				if (cowfile.getName().equals(cowName)) {
+					return cowfile;
+				}
 			}
 		}
 		return null;
