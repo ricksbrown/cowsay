@@ -163,6 +163,25 @@ public class CowloaderTest {
 	}
 
 	/**
+	 * Test empty COWPATH.
+	 */
+	@Test
+	public void testEmptyCowpath() {
+		MockCowEnvironment env = new MockCowEnvironment();
+		try {
+			env.setOverride("COWPATH", "");
+			Cowloader.setCowEnvironment(env);
+			String cowName = "cheese.cow";
+			String expected = loadRawCowfile(cowName, "cowjar");
+			String actual = Cowloader.load(cowName);
+			Assert.assertThat(expected, CoreMatchers.is(actual));
+		} finally {
+			env.clearOverrides();  // just in case
+		}
+	}
+
+
+	/**
 	 * Test of listAllCowfiles method with cowjar on classpath.
 	 * This tests that cowjars actually work when they are on the classpath.
 	 */
