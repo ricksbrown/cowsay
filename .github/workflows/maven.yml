@@ -31,7 +31,7 @@ jobs:
           echo "Sonar secure variables NOT available"
         else
           echo "Sonar secure variables ARE available"
-          mvn -P coverage clean org.jacoco:jacoco-maven-plugin:prepare-agent verify sonar:sonar -Dsonar.projectKey=ricksbrown_cowsay -Dsonar.organization="ricksbrown" -Dsonar.sources=. -Dsonar.inclusions=src/main/** -Dsonar.host.url="https://sonarcloud.io"
+          mvn -P coverage clean org.jacoco:jacoco-maven-plugin:prepare-agent verify sonar:sonar -Dsonar.projectKey=ricksbrown_cowsay -Dsonar.organization="ricksbrown" -Dsonar.host.url="https://sonarcloud.io"
         fi
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
