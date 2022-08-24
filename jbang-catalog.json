@@ -1,0 +1,9 @@
+{
+  "catalogs": {},
+  "aliases": {
+    "cowsay": {
+      "script-ref": "com.github.ricksbrown:cowsay:LATEST"
+    }
+  },
+  "templates": {}
+}
