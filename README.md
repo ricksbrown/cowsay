@@ -272,6 +272,7 @@ The [cowsay-example](cowsay-example) project demonstrates how to use cowjars.
 * `--alt <arg>` Choose your own alt text for HTML output mode
 * `--lang <arg>` Switch language
 
+
 ## Internationalization
 
 In the interests of absurd over-engineering this version of cowsay fully supports i18n.
@@ -283,3 +284,9 @@ New and/or improved translations welcome - the default (English) messages can be
 1. `git clone https://github.com/ricksbrown/cowsay.git`
 2. `cd cowsay`
 3. `mvn install`
+
+## Confused?
+
+Watch this informative video:
+
+[![Cat Video](https://img.youtube.com/vi/_nQU_8Nm0Yk/1.jpg)](https://www.youtube.com/watch?v=_nQU_8Nm0Yk)
