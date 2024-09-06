@@ -3,11 +3,7 @@
 
 name: Java CI with Maven
 
-on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+on: [push, pull_request]
 
 jobs:
   build:
@@ -16,22 +12,12 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Set up JDK 11
+    - name: Set up JDK 
       uses: actions/setup-java@v2
       with:
-        java-version: '11'
+        java-version: '17'
         distribution: 'adopt'
         cache: maven
     - name: Build with Maven
       run: mvn -B package --file pom.xml
 
-    - name: SonarCloud Scan
-      run: |
-        if ["$SONAR_TOKEN" == ""]; then
-          echo "Sonar secure variables NOT available"
-        else
-          echo "Sonar secure variables ARE available"
-          mvn -P coverage clean org.jacoco:jacoco-maven-plugin:prepare-agent verify sonar:sonar -Dsonar.projectKey=ricksbrown_cowsay -Dsonar.organization="ricksbrown" -Dsonar.sources=. -Dsonar.inclusions=src/main/** -Dsonar.host.url="https://sonarcloud.io"
-        fi
-      env:
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
